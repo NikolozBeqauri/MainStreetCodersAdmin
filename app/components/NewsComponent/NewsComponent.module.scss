@@ -1,0 +1,40 @@
+@import "../../colors.scss";
+
+/* || cotainer layout */
+
+.container {
+    height: 393px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    background-color: $splashOfGrendine; // აქ ჩავსვავთ background-image - ს. ეს ფროფერთი დროებით იყოს
+}
+
+.componentHeader{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 32px;
+    gap: 16px;
+}
+
+.buttonElement{
+    margin-top: 16px;
+}
+
+
+/* || font styles */
+
+.h1Style{
+    color: #FFFFFF;
+    font-family: Plus Jakarta Sans;
+    font-size: 64px;
+    font-weight: 800;
+}
+
+.playCount{
+    color: $glacierGrey;
+    font-family: Plus Jakarta Sans;
+    font-size: 24px;
+    font-weight: 500;
+}

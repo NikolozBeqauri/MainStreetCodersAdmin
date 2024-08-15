@@ -1,0 +1,15 @@
+@import "/app/colors.scss";
+
+.contentOfHit {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    background-color: $reversedGrey;
+    margin-top: 40px;
+}
+
+.contentOfSongs {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}

@@ -1,0 +1,17 @@
+/* || component layout */
+
+.container {
+    max-width: 228px;
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    border-radius: 8px;
+    gap: 12px;
+}
+
+
+/* || component background */
+
+.background{
+    background-color: #29292E;
+}

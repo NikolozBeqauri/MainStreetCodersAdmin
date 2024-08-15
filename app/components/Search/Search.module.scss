@@ -1,0 +1,48 @@
+@import "/app/colors.scss";
+
+.searchform {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 548px;
+    width: 100%;
+}
+
+.searchform input {
+    color: $stoneCold;
+    border-radius: 8px;
+    border: 1px solid $hawksEye;
+    background: $background;
+    font-family: "Plus Jakarta Sans";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    padding: 16px 24px 16px 52px;
+    width: 100%;
+    transition: 0.3s;
+}
+
+.searchform input:hover {
+    border: 1px solid $hawksEye;
+    background: $darkVoid;
+}
+
+.searchImage {
+    position: absolute;
+    cursor: text;
+    left: 24px;
+}
+
+.searchform input:focus {
+    border-radius: 8px;
+    padding: 16px 24px;
+    border: 1px solid var(--Gradient-apolo, #F903D0);
+    outline: none;
+    background: #000;  
+}
+
+.searchform input:focus + .searchImage {
+    display: none;
+}

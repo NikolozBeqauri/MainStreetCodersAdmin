@@ -1,0 +1,121 @@
+@import "/app/colors.scss";
+
+.songName {
+    color: $defaultWhite;
+    display: flex;
+}
+
+.author {
+    color: $shadyLady;
+}
+
+.wrapper {
+    max-width: 1112px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.wrapper :global .ant-table-cell {
+    border: none !important;
+}
+
+.wrapper :global .ant-table-tbody>tr>:nth-child(2) {
+    width: 347px;
+}
+
+.wrapper :global .ant-table-tbody>tr>:nth-child(3) {
+    width: 307px;
+    vertical-align: middle;
+}
+
+.wrapper :global .ant-table-tbody>tr>:nth-child(4) {
+    width: 195px;
+    vertical-align: middle;
+}
+
+.wrapper :global .ant-table-tbody>tr>:nth-child(5) {
+    vertical-align: middle;
+}
+.wrapper :global .ant-table-thead>tr>th{
+    background-color: $blackMetal !important;
+    border: none;
+}
+
+.wrapper :global .Ant_key__R70Sb {
+    display: flex;
+    padding: 10px 8px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    align-self: stretch;
+}
+
+.wrapper :global .Ant_infoWrapper__Un8Ry {
+    border: 4px;
+}
+
+.wrapper :global .ant-table-cell {
+    color: $missionControl !important;
+    font-family: "Plus Jakarta Sans";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400 !important;
+    line-height: normal;
+    
+}
+.wrapper :global .ant-table-row{
+    background : $blackMetal !important;
+}
+.wrapper :global .ant-table-row-level-0:hover{
+    background : $dynamicBlack!important;
+    transition: 0.3s;
+}
+
+.wrapper :global .ant-table-cell-row-hover{
+    background: unset !important;   
+}
+.wrapper :global .ant-table-cell::before {
+    background-color: $blackMetal !important;
+}
+
+.wrapper :global .Ant_wrapper__gU72c {
+    padding: 0px !important;
+}
+
+.infoWrapper {
+    display: flex;
+    gap: 22px;
+    margin-top: 15px;
+    color: $defaultWhite;
+}
+
+.key {
+    color: $missionControl;
+    text-align: center;
+
+}
+
+.albumName {
+    color: $shadyLady;
+}
+
+.time {
+    color: $shadyLady;
+}
+
+.wrapper :global .ant-table-thead>tr> :nth-child(1) {
+    text-align: center; 
+}
+
+.wrapper :global .ant-table-tbody tr> :nth-child(1) {
+    vertical-align: middle;
+}
+
+.wrapper :global .ant-table-container .ant-table-tbody .ant-table-row-level-0:hover   td:first-child   {
+    transition: .3s;
+    border-left: 5px solid var(--Gradient-apolo, #F903D0) !important;
+}   

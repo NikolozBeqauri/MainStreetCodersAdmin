@@ -1,0 +1,32 @@
+@import "../../../colors.scss";
+
+/* || component layout */
+
+.container {
+    display: flex;
+    gap: 4px;
+    padding: 4px;
+}
+
+
+/* || font properties */
+
+.fontProps {
+    font-size: 16px;
+    font-family: Plus Jakarta Sans;
+    font-weight: 500;
+    color: $defaultWhite;
+
+}
+
+/* || clicked and hovered state */
+
+.container:hover{
+    background-color: #141414;
+    border-radius: 8px;
+}
+
+.container:active{
+    background-color: #141414;
+    border-radius: 8px;
+}

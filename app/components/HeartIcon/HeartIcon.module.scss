@@ -1,0 +1,11 @@
+@import "/app/colors.scss";
+
+.generalStyles {
+    border-radius: 50%;
+    padding: 4px;
+    cursor: pointer;
+}
+
+.whiteBackground {
+    background: $defaultWhite;
+}   
