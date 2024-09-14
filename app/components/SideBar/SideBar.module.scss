@@ -1,18 +1,21 @@
 @import "/app/colors.scss";
 
-.sideBarWrapper {
+.sideBarWrapper { 
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: start;
     max-width: 277px;
+    height: 100%;
     width: 100%;
-    min-height: 100vh; 
     background: $reversedGrey;
     padding: 40px 20px;
     gap: 56px;
+    z-index: 2;
 }
-
+.mainLogo {
+    cursor: pointer;
+}
 .sideBarNav {
     display: flex;
     flex-direction: column;
@@ -28,21 +31,22 @@
     gap: 8px;
 }
 
-.sideBarNav a {
+.navBarlink {
     display: flex;
     align-items: center;
+    min-width: 240px;
     gap: 8px;
     text-decoration: none;
     width: 100%;
-    padding: 12px 0px 12px 16px;
+    padding: 12px 16px;
     border-radius: 8px;
+    cursor: pointer;
 }
-
 
 
 .sideBarNav span {
     color: $missionControl;
-    font-family: "Plus Jakarta Sans";
+    font-family: var(--font-jakarta-sans);
     font-size: 16px;
     font-style: normal;
     font-weight: 500;
@@ -50,9 +54,12 @@
 }
 
 .sideBarNav h2 {
+    padding: 0px 16px;
     color: $defaultWhite;
-    font-family: "Plus Jakarta Sans";
+    font-family: var(--font-jakarta-sans);
     font-size: 16px;
+    margin-top: 22px;
+    margin-bottom: 8px;
     font-style: normal;
     font-weight: 500;
     line-height: normal;
@@ -70,4 +77,32 @@
 
 #active span {
     color: $defaultWhite;
+}
+
+.disableSidebar {
+    display: none;
+}
+
+.toDisableMenuDiv {
+    display: none;
+    position: fixed;
+    height: 100%;
+    top: 0;
+    width: 100%;
+    left: 0;
+    z-index: 1;
+    cursor: pointer;
+}
+
+@media (max-width: 1024px) {
+    .sideBarWrapper{
+        display: flex;
+        position: absolute;
+        height: 100%;
+        top: 0;
+        left: 0;
+    }
+    .toDisableMenuDiv {
+        display: flex;
+    }
 }

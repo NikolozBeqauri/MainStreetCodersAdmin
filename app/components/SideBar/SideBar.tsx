@@ -1,47 +1,85 @@
 'use client'
 import Image from 'next/image';
 import styles from './SideBar.module.scss';
-import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ReusableIcon } from '../ReusableIcon/ReusableIcon';
-import { links } from './SideBarLinks/SideBarLinks'
+import { GeneralLinks } from './SideBarLinks/GeneralLinks'
+import { useRouter } from 'next/navigation';
+import { Discoverlinks } from './SideBarLinks/Discover';
+import { activeSidebarState } from '../../states';
+import { useRecoilState } from 'recoil';
+
+
 export const SideBar = () => {
     const [active, setActive] = useState<string | null>(null);
+    const router = useRouter()
+    const [activeSidebar, setactiveSidebar] = useRecoilState(activeSidebarState);
 
-        
 
+    const sidebarGeneralStyles = [styles.sideBarWrapper]
     return (
-        <aside className={styles.sideBarWrapper}>
-            <Link href='#'>
-                <Image
-                    src={`/images/mainLogo.png`}
-                    alt="main logo"
-                    width={98}
-                    height={83}
-                    tabIndex={0}
-                />
-            </Link>
-            <nav className={styles.sideBarNav}>
-                <div className={styles.generalLinks}>
-                    {links.map(link => (
-                        <Link
-                            href={link.href}
-                            key={link.label}
-                            onClick={() => setActive(link.label)}
-                            onFocus={() => setActive(link.label)}
-                            onBlur={() => setActive(null)}
-                            id={active === link.label ? styles.active : ""}
-                        >
-                            <ReusableIcon
-                                imgName={link.imageName}
-                                active={active === link.label}
-                                onFocus={() => setActive(link.label)}
-                            />
-                            <span>{link.label}</span>
-                        </Link>
-                    ))}
+        <div>
+            <div className={styles.toDisableMenuDiv}
+                onClick={() => setactiveSidebar(false)}
+            ></div>
+            <aside className={sidebarGeneralStyles.join(" ").trim()} >
+                <div className={styles.mainLogo}
+                    onClick={() => router.push('/')}>
+                    <Image
+                        src={`/images/mainLogo.png`}
+                        alt="main logo"
+                        width={98}
+                        height={83}
+                        tabIndex={0}
+                    />
                 </div>
-            </nav>
-        </aside>
+                <nav className={styles.sideBarNav}>
+                    <div className={styles.generalLinks}>
+                        {GeneralLinks.map(link => (
+                            <div
+                                className={styles.navBarlink}
+                                key={link.label}
+                                onClick={() => {
+                                    setActive(link.label)
+                                    router.push(`${link.href}`)
+                                }}
+                                onFocus={() => setActive(link.label)}
+                                onBlur={() => setActive(null)}
+                                id={active === link.label ? styles.active : ""}
+                            >
+                                <ReusableIcon
+                                    imgName={link.imageName}
+                                    active={active === link.label}
+                                    onFocus={() => setActive(link.label)}
+                                />
+                                <span>{link.label}</span>
+                            </div>
+                        ))}
+                        <h2>Discover</h2>
+                        {Discoverlinks.map(link => (
+                            <div
+                                className={styles.navBarlink}
+                                key={link.label}
+                                onClick={() => {
+                                    setActive(link.label)
+                                    router.push(`${link.href}`)
+                                }}
+                                onFocus={() => setActive(link.label)}
+                                onBlur={() => setActive(null)}
+                                id={active === link.label ? styles.active : ""}
+                            >
+                                <ReusableIcon
+                                    imgName={link.imageName}
+                                    active={active === link.label}
+                                    onFocus={() => setActive(link.label)}
+                                />
+                                <span>{link.label}</span>
+                            </div>
+                        ))}
+                    </div>
+                </nav>
+            </aside >
+        </div>
+
     );
 };
