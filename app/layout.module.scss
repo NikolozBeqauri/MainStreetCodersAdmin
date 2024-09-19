@@ -1,0 +1,21 @@
+@import "/app/colors.scss";
+
+/* || layout structure */
+
+.container{
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    background-color: $background;
+}
+
+.body{
+    height: 100vh;
+}
+
+.containerWrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    flex-grow: 1;
+}
