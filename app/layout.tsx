@@ -27,7 +27,6 @@ export default function RootLayout({
             <SideBar />
             <div className={styles.containerWrapper}>
               <Header />
-              <InfoCard totalUsers={10} blockedUsers={20} />
               {children}
             </div>
           </RecoilWrapper>
