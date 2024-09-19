@@ -5,6 +5,7 @@ import { SideBar } from "./components/SideBar/SideBar";
 import { RecoilWrapper } from "./components/RecoilWrapper/RecoilWrapper";
 import styles from "./layout.module.scss"
 import { Header } from "./components/Header/Header";
+import { InfoCard } from "./components/InfoCard/InfoCard";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,6 +27,7 @@ export default function RootLayout({
             <SideBar />
             <div className={styles.containerWrapper}>
               <Header />
+              <InfoCard totalUsers={10} blockedUsers={20} />
               {children}
             </div>
           </RecoilWrapper>

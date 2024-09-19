@@ -1,0 +1,26 @@
+@import "/app/colors.scss";
+
+/* || container layout */
+
+.container{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-width: 158px;
+}
+
+.boxWrapper{
+    display: flex;
+    justify-content: flex-end;
+    gap: 5px;
+}
+
+/* || colors */
+
+.boxWrapperUsers{
+    color: $missionControl;
+}
+
+.boxWrapperCount{
+    color: $defaultWhite;
+}
