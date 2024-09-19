@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react';
 import { ReusableIcon } from '../ReusableIcon/ReusableIcon';
 import { GeneralLinks } from './SideBarLinks/GeneralLinks'
 import { useRouter } from 'next/navigation';
-import { Discoverlinks } from './SideBarLinks/Discover';
 import { activeSidebarState } from '../../states';
 import { useRecoilState } from 'recoil';
 
