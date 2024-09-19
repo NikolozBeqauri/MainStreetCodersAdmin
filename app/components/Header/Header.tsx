@@ -17,7 +17,7 @@ export const Header = (props: Props) => {
           height={24}
         />
       ) : (
-        <Search />
+        <Search placeHolder="UserName, Email"/>
       )}
       <UserProfileIcon src="userImage.png" />
     </div>
