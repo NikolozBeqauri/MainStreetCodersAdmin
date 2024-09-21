@@ -16,7 +16,7 @@ const ReusableButton = (props: Props) => {
     if(props.mode == "outline") classes.push(style.outline)
     
     return (
-        <button disabled={props.disabled} className={classes.join(" ").trim()}>
+        <button disabled={props.disabled} className={classes.join(" ").trim()} >
             {props.icon && <img src={`/icons/${props.icon}.svg`} alt="icon" />} 
             {props.title}
         </button>
