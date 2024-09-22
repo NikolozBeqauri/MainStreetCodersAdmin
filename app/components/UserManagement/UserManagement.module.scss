@@ -1,0 +1,25 @@
+@import "/app/colors.scss";
+
+/* || container layout */
+
+.container{
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+    margin: 24px;
+    padding: 10px;
+}
+
+/* || fonts */
+
+.container > h1 {
+    color: $defaultWhite;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.container > p {
+    color: $missionControl;
+    font-size: 14px;
+    font-weight: 500;
+}
