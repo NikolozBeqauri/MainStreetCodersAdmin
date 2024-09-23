@@ -1,9 +1,6 @@
-  "use client"
-
-import { HeartIcon } from "./components/HeartIcon/HeartIcon";
+"use client"
+import { ArtistInfoPopUp } from "./components/ArtistInfoPopUp/ArtistInfoPopUp";
 import ReusableButton from "./components/ReusableButton/ReusableButton";
-import { SideBar } from "./components/SideBar/SideBar";
-import TrackPopUp from "./components/TrackPopUp/TrackPopUp";
 
 
 export default function Home() {
@@ -11,7 +8,7 @@ export default function Home() {
     <main>
       <ReusableButton title={"Button"} mode={"outline"}/>
 
-      <TrackPopUp />
+      <ArtistInfoPopUp/>
     </main>
   );
 }
