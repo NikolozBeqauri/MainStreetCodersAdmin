@@ -16,7 +16,7 @@ export const UserInfoPopUp = () => {
 
                 <div className={styles.userInfo}>
                     <Image
-                        src={'/images/artistInfoimage.png'}
+                        src={'/images/userInfoImage.png'}
                         alt='icon'
                         width={152}
                         height={152}

@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <main>
       <ReusableButton title={"Button"} mode={"outline"}/>
-      <ArtistInfoPopUp/>
+      <UserInfoPopUp/>
     </main>
   );
 }
