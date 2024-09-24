@@ -126,7 +126,13 @@
     display: none;
 }
 
-.artistBiography {
+.artistBiography textarea {
+    width: 100%;
+    background: none;
+    border: none;
+    outline: none;
+    resize: none;
+    height: 200px;
     color: $shadyLady;
     text-align: justify;
     font-family: "Plus Jakarta Sans";
@@ -134,5 +140,30 @@
     font-style: normal;
     font-weight: 400;
     line-height: normal;
-    margin-top: 16px;
+    margin-top: 26px;
+
+    &:focus {
+    outline: none;
+    caret-color: $warning;
+    }
+}
+
+.biographyButton {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-radius: 8px;
+    border: 1px solid $hawksEye;
+    background: $darkVoid;
+    padding: 8px 16px 8px 8px ;
+    cursor: pointer;
+}
+
+.biographyButton span {
+    color: $defaultWhite;
+    font-family: "Plus Jakarta Sans";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 14px
 }
