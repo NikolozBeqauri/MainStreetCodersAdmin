@@ -1,5 +1,5 @@
 "use client"
-import { ForgetPassword } from "./components/ForgetPassword/ForgetPassword";
+import { ArtistInfoPopUp } from "./components/ArtistInfoPopUp/ArtistInfoPopUp";
 import ReusableButton from "./components/ReusableButton/ReusableButton";
 
 
@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <main>
       <ReusableButton title={"Button"} mode={"outline"}/>
-      <ForgetPassword/>
+      <ArtistInfoPopUp/>
     </main>
   );
 }
