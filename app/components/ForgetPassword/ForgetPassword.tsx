@@ -8,7 +8,7 @@ type FormData = {
 };
 
 export const ForgetPassword = () => {
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
   const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
 
   const onSubmit = (data: FormData) => {
@@ -25,7 +25,7 @@ export const ForgetPassword = () => {
 
   return (
     <div className={styles.background} onClick={handleBackgroundClick}>
-      <div className={styles.wrapper}>
+      <div className={styles.wrapper} onClick={e => e.stopPropagation()}>
         <h2>Forgot Password</h2>
         <form className={styles.formWrapper} onSubmit={handleSubmit(onSubmit)}>
           <label htmlFor="email">Enter your email address</label>
