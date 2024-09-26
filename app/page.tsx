@@ -1,13 +1,11 @@
-"use client"
-
-import ReusableButton from "./components/ReusableButton/ReusableButton";
+'use client'
+import { NewArtistPopUp } from "./components/NewArtistPopUp/NewArtistPopUp";
 
 
 export default function Home() {
   return (
     <main>
-      <ReusableButton title={"Button"} mode={"outline"}/>
-
+      <NewArtistPopUp/>
     </main>
   );
 }
