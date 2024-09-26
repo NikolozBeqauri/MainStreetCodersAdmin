@@ -1,11 +1,12 @@
 'use client'
-import { NewArtistPopUp } from "./components/NewArtistPopUp/NewArtistPopUp";
+
+import { NewAlbum } from "./components/NewAlbum/NewAlbum";
 
 
 export default function Home() {
   return (
     <main>
-      <NewArtistPopUp/>
+      <NewAlbum/>
     </main>
   );
 }
