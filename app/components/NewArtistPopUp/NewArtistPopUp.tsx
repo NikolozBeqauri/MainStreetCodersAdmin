@@ -57,7 +57,7 @@ export const NewArtistPopUp = () => {
                 <div className={styles.header}>
                     <ReusableIcon imgName={"rightArrow"} />
                     <h2>Peggy Gou</h2>
-                    <ReusableIcon imgName={"deleteCross"} />
+                    <div onClick={() => setIsPopupOpen(false)}><ReusableIcon imgName={"deleteCross"} /></div>
                 </div>
                 <form className={styles.formWrapper} onSubmit={handleSubmit(onSubmit)}>
                     <div className={styles.inputsWrapper}>
