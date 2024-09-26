@@ -80,7 +80,7 @@ export const NewArtistPopUp = () => {
                         </div>
                     </div>
 
-                    <ReusableButton title={"Save"} />
+                    <ReusableButton title={"Save"}  mode={'outline'} />
                 </form>
             </div>
         </div>
