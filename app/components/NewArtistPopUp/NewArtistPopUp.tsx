@@ -4,10 +4,13 @@ import Image from "next/image";
 import styles from './NewArtistPopUp.module.scss';
 import ReusableButton from "../ReusableButton/ReusableButton";
 import { useState } from "react";
+import axios from "axios";
+import { parseCookies } from "nookies";
+import { ReusableIcon } from "../ReusableIcon/ReusableIcon";
 
 type FormValues = {
-    artistName: string;
-    albumReleaseDate: string;
+    fullName: string;
+    biography: string;
     file: FileList;
 };
 
@@ -16,9 +19,30 @@ export const NewArtistPopUp = () => {
     const [isPopupOpen, setIsPopupOpen] = useState(true);
 
     const onSubmit = (data: FormValues) => {
-        console.log(data);
+        const cookies = parseCookies();
+        const token = cookies.token;
 
-        reset();
+        const formData = new FormData();
+        formData.append('fullName', data.fullName);
+        formData.append('biography', data.biography);
+        
+        if (data.file.length > 0) {
+            formData.append('file', data.file[0]);
+        }
+
+        axios.post("https://project-spotify-1.onrender.com/author", formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+                "Authorization": `Bearer ${token}`
+            },
+        })
+            .then((res) => {
+                console.log(res);
+                reset();
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     };
 
     const closePopup = () => {
@@ -30,37 +54,13 @@ export const NewArtistPopUp = () => {
     return (
         <div className={styles.background} onClick={closePopup}>
             <div className={styles.wrapper} onClick={e => e.stopPropagation()}>
-                <h2>Add New Artist</h2>
+                <div className={styles.header}>
+                    <ReusableIcon imgName={"rightArrow"} />
+                    <h2>Peggy Gou</h2>
+                    <ReusableIcon imgName={"deleteCross"} />
+                </div>
                 <form className={styles.formWrapper} onSubmit={handleSubmit(onSubmit)}>
                     <div className={styles.inputsWrapper}>
-                        <div className={styles.inputs}>
-                            <div>
-                            <label>Artist name</label>
-                            <input
-                                type="text"
-                                {...register("artistName", { required: "Artist name is required" })}
-                            />
-                            </div>
-                            {errors.artistName && <p className={styles.errorMessage}>{errors.artistName.message}</p>}
-
-                            <div>
-                            <label>Album release date</label>
-                            <input
-                                type="date"
-                                {...register("albumReleaseDate", {
-                                    required: "Album release date is required",
-                                    validate: value => {
-                                        const selectedDate = new Date(value);
-                                        const today = new Date();
-                                        if (selectedDate > today) {
-                                            return "The date cannot be in the future.";
-                                        }
-                                    }
-                                })}
-                            />
-                            </div>
-                            {errors.albumReleaseDate && <p className={styles.errorMessage}>{errors.albumReleaseDate.message}</p>}
-                        </div>
 
                         <div className={styles.dragAndDrop}>
                             <label htmlFor="forFile">
@@ -78,9 +78,28 @@ export const NewArtistPopUp = () => {
                             />
                             {errors.file && <p className={styles.errorMessage}>{errors.file.message}</p>}
                         </div>
+
+                        <div className={styles.inputs}>
+                            <div>
+                                <label>Artist name</label>
+                                <input
+                                    type="text"
+                                    {...register("fullName", { required: "Artist name is required" })}
+                                />
+                            </div>
+                            {errors.fullName && <p className={styles.errorMessage}>{errors.fullName.message}</p>}
+
+                            <div>
+                                <label>Biography</label>
+                                <textarea
+                                    {...register("biography", { required: "Biography is required" })}
+                                />
+                            </div>
+                            {errors.biography && <p className={styles.errorMessage}>{errors.biography.message}</p>}
+                        </div>
                     </div>
 
-                    <ReusableButton title={"Save"}  mode={'outline'} />
+                    <ReusableButton title={"Save"} mode={'outline'} />
                 </form>
             </div>
         </div>

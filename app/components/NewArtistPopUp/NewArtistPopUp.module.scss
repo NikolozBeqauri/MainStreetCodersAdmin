@@ -22,6 +22,13 @@
     box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.20);
     color: $defaultWhite;
 }
+.header {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    color: $defaultWhite;
+    justify-content: space-between;
+}
 .inputsWrapper {
     display: flex;
     align-items: center;
@@ -32,7 +39,8 @@
     flex-direction: column;
     gap: 16px;
 }
-.inputs input {
+.inputs input,
+.inputs textarea{
     border-radius: 8px;
     border: 0.5px solid $inputBorder;
     background: $formInputBackground;
@@ -40,17 +48,14 @@
     width: 335px;
     padding: 16px;
 }
-
+.inputs textarea{
+    height: 180px;
+    resize: none;
+}
 .inputs > div {
     display: flex;
     flex-direction: column;
     gap: 8px;
-}
-
-.inputs input[type="date"] {
-    &::-webkit-calendar-picker-indicator {
-        filter: invert(100%);
-    }
 }
 .formWrapper {
     display: flex;
@@ -67,6 +72,7 @@
     height: 196px;
     color: rgba(0, 0, 0, 0);
     cursor: pointer;
+    height: 300px;
 }
 .formWrapper input[type=file]::file-selector-button {
     display: none;
