@@ -1,12 +1,11 @@
 'use client'
 
-import { NewAlbum } from "./components/NewAlbum/NewAlbum";
-
+import { ManagmentCard } from "./components/ManagmentCard/ManagmentCard";
 
 export default function Home() {
   return (
     <main>
-      <NewAlbum/>
+      <ManagmentCard/>
     </main>
   );
 }
