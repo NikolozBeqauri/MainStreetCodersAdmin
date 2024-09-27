@@ -1,12 +1,12 @@
 'use client'
 
-import { NewAlbum } from "./components/NewAlbum/NewAlbum";
+import { DeletePopUp } from "./components/DeletePopUp/DeletePopUp";
 
 
 export default function Home() {
   return (
     <main>
-      <NewAlbum/>
+      <DeletePopUp/>
     </main>
   );
 }
