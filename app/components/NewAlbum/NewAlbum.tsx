@@ -11,7 +11,11 @@ type FormValues = {
     file: FileList;
 };
 
-export const NewAlbum = () => {
+type Props = {
+    setActiveNewAlbum: Function;
+}
+
+export const NewAlbum = (props: Props) => {
     const { register, handleSubmit, formState: { errors }, reset } = useForm<FormValues>();
     const [isPopupOpen, setIsPopupOpen] = useState(true);
 
@@ -22,6 +26,7 @@ export const NewAlbum = () => {
 
     const closePopup = () => {
         setIsPopupOpen(false);
+        props.setActiveNewAlbum(false)
     };
 
     if (!isPopupOpen) return null;

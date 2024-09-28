@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { SquareCard } from "../SquareCard/SquareCard"
 import { albumCardsData } from "./albumCardsData/albumCardsData"
 import { useForm } from 'react-hook-form';
+import { NewAlbum } from "../NewAlbum/NewAlbum"
 
 interface FormData {
     biography: string;
@@ -14,8 +15,9 @@ interface FormData {
 export const ArtistInfoPopUp = () => {
 
     const [activeTab, setActiveTab] = useState('Albums');
+    const [activeNewAlbum, setActiveNewAlbum] = useState(false);
     const [isEditable, setIsEditable] = useState(false);  
-    const { register, handleSubmit, setValue } = useForm<FormData>();
+    const { register, handleSubmit } = useForm<FormData>();
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
     const onSubmit = (data: FormData) => {
@@ -36,6 +38,14 @@ export const ArtistInfoPopUp = () => {
             textareaRef.current?.focus();
         }, 0);
     };
+
+
+
+    if(activeNewAlbum){
+        return (
+            <NewAlbum setActiveNewAlbum={setActiveNewAlbum}/>
+        )
+    }
 
     return (
         <div className={styles.background}>
@@ -86,7 +96,7 @@ export const ArtistInfoPopUp = () => {
                             </h3>
                         </div>
                         {activeTab === "Albums" ? 
-                            <ReusableButton icon={"whitePluse"} title={"New Album"} />
+                            <div onClick={() => setActiveNewAlbum(true)}><ReusableButton  icon={"whitePluse"} title={"New Album"} /></div>
                             :
                             <div 
                                 className={styles.biographyButton} 
