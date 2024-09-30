@@ -20,11 +20,10 @@ const TrackPopUp = () => {
     const onSubmit = (data: FormValues) => {
         const formData = new FormData();
         console.log(data);
-        
-        formData.append("trackName", data.trackName);
+
         if (data.musicFile.length > 0) {
+            formData.append("trackName", data.trackName);
             formData.append("musicFile", data.musicFile[0]);
-            formData.append("musicFile", data.musicFile[0])
         }
 
         axios.post("https://project-spotify-1.onrender.com/musics/addMusic", formData, {
@@ -32,13 +31,13 @@ const TrackPopUp = () => {
                 "Content-Type": "multipart/form-data",
             },
         })
-        .then((res) => {
-            console.log(res);
-            reset();
-        })
-        .catch((err) => {
-            console.log(err);
-        })
+            .then((res) => {
+                console.log(res);
+                reset();
+            })
+            .catch((err) => {
+                console.log(err);
+            })
 
     };
 
