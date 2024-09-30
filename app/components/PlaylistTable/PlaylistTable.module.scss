@@ -1,0 +1,180 @@
+@import '/app/colors.scss';
+
+.wrapper {
+    width: 100%;
+    max-width: 1112px;
+}
+
+.wrapper :global .ant-table-cell {
+    color: $hawksEye !important;
+    background-color: $blackMetal !important;
+    border: none !important;
+    padding: 10px !important;
+}
+
+.wrapper :global .ant-table-cell:first-child {
+    border-left: 4px solid $blackMetal !important;
+}
+
+.wrapper :global .ant-table-cell-row-hover:first-child {
+    border-left: 4px solid var(--Gradient-apolo, $fuchsiaFlame) !important;
+    border-radius: 4px 0px 0px 4px;
+}
+
+.wrapper :global .ant-table {
+    background-color: unset !important;
+    max-width: 1112px;
+    width: 100%;
+
+}
+
+.wrapper :global .ant-table-thead .ant-table-cell::before {
+    content: none !important;
+}
+
+.container {
+    color: $hawksEye !important;
+    background-color: $blackMetal !important;
+    border: none !important;
+    max-width: 1112px;
+    width: 100%;
+    border-radius: 8px !important;
+}
+
+.wrapper :global .ant-table-thead tr th {
+    text-align: start !important;
+    font-size: 14px !important;
+}
+
+.wrapper :global .ant-pagination li {
+    background-color: $background !important;
+    border-radius: 4px !important;
+    border: 1px solid $hawksEye !important;
+    color: $defaultWhite !important;
+
+}
+
+.wrapper :global .ant-pagination li a {
+    color: $missionControl !important;
+
+
+}
+
+.wrapper :global .ant-pagination .ant-pagination-item-active {
+    border-radius: 4px !important;
+    background: var(--apolo, linear-gradient(90deg, #F903D0 0%, #9A16F2 100%));
+    color: $defaultWhite !important;
+}
+
+.wrapper :global .ant-pagination .ant-pagination-item-active a {
+    color: $defaultWhite !important;
+    font-size: 14px;
+}
+
+.wrapper :global .ant-pagination-prev .ant-pagination-item-link {
+    color: $missionControl !important;
+
+}
+
+.wrapper :global .ant-pagination-next .ant-pagination-item-link {
+    color: $missionControl !important;
+
+}
+
+.wrapper :global .ant-pagination .ant-pagination-options .ant-select .ant-select-selector {
+    background-color: $background !important;
+    border-radius: 4px !important;
+    border: 1px solid $hawksEye !important;
+    color: $missionControl !important;
+
+}
+
+.wrapper :global .ant-pagination .ant-pagination-options .ant-select .ant-select-selector::after {
+    border-radius: 4px !important;
+    background: var(--apolo, linear-gradient(90deg, #F903D0 0%, #9A16F2 100%));
+    color: $defaultWhite !important;
+    border: 1px solid $hawksEye !important;
+
+
+}
+.wrapper :global .ant-pagination .ant-pagination-jump-prev .ant-pagination-item-link .ant-pagination-item-container img{
+    color: $missionControl !important;
+}
+
+.center {
+    display: flex;
+    padding-left: 15px;
+    cursor: pointer;
+}
+.cellId {
+    color: $hawksEye;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.cellName {
+    display: flex;
+    padding: 12px 10px;
+}
+
+.cellAlbumName {
+
+    display: flex;
+    align-items: center;
+    padding: 10px 0px;
+    color: $shadyLady;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.cellTimeName {
+    display: flex;
+    align-items: center;
+    margin-left: 0.7px;
+    color: $shadyLady;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.cellSongname {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.fontGap {
+    display: flex;
+    flex-direction: column;
+    // gap: 10px;
+}
+
+@media screen and (max-width: 350px) and (max-width: 767px) {
+    .fontGap {
+        display: flex;
+        flex-direction: column;
+        gap: 1px;
+    }
+
+
+}
+
+.songTitle {
+    color: $defaultWhite;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.songArtist {
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    color: $shadyLady;
+}
+
+.cellLike {
+    display: flex;
+    align-items: center;
+}
+.image {
+    border-radius: 8px;
+}
