@@ -1,12 +1,11 @@
 'use client'
 
-import { AlbumTracks } from "./components/AlbumTracks/AlbumTracks";
-
+import UserTable from "./components/UserManagmentTable/UserManagmentTable";
 
 export default function Home() {
   return (
     <main>
-      <AlbumTracks/>
+      <UserTable/>
     </main>
   );
 }
