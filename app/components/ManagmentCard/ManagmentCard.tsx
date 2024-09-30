@@ -1,5 +1,5 @@
+import PlaylistTable from "../PlaylistTable/PlaylistTable"
 import { ReusableIcon } from "../ReusableIcon/ReusableIcon"
-import { ReusableTable } from "../ReusableTable/Reusable"
 import styles from './ManagmentCard.module.scss'
 import Image from 'next/image'
 
@@ -37,7 +37,7 @@ export const ManagmentCard = () => {
                     </div>
                 </div>
                 <span>Playlist Tracks</span>
-                <ReusableTable/>
+                <PlaylistTable/>
             </div>
         </div>
         
