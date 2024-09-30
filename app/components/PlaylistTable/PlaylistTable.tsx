@@ -8,7 +8,7 @@ const PlaylistTable = () => {
   const [data, setData] = useState<any>([]);
   const [pagination, setPagination] = useState<{ current: number; pageSize: number }>({
     current: 1,
-    pageSize: 3, // Set default page size to 3 as in your example
+    pageSize: 3,
   });
 
   useEffect(() => {
@@ -79,9 +79,9 @@ const PlaylistTable = () => {
       key: "id",
       width: "1%",
       render: (text: any, item: any, index: number) => {
-        const page = pagination.current - 1; // Get the current page (default to 1)
-        const pageSize = pagination.pageSize; // Get the page size
-        const rowNumber = page * pageSize + index + 1; // Calculate correct row number
+        const page = pagination.current - 1; 
+        const pageSize = pagination.pageSize; 
+        const rowNumber = page * pageSize + index + 1; 
         return <div className={styles.cellId}>{rowNumber}</div>;
       },
     },
