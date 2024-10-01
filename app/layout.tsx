@@ -4,8 +4,8 @@ import "./globals.css";
 import { SideBar } from "./components/SideBar/SideBar";
 import { RecoilWrapper } from "./components/RecoilWrapper/RecoilWrapper";
 import styles from "./layout.module.scss"
-import { Header } from "./components/Header/Header";
-import { InfoCard } from "./components/InfoCard/InfoCard";
+import Image from 'next/image';
+
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,7 +26,14 @@ export default function RootLayout({
           <RecoilWrapper>
             <SideBar />
             <div className={styles.containerWrapper}>
-              <Header />
+              <div className={styles.header}>
+              <Image
+                    src={`/icons/profileIcon.svg`}
+                    alt="musician image"
+                    width={46}
+                    height={46}
+                />
+              </div>
               {children}
             </div>
           </RecoilWrapper>

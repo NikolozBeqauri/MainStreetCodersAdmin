@@ -22,7 +22,6 @@ export const SquareCard = (props: Props) => {
                 />
                 <div className={stylesClass.join(" ").trim()}>
                     <div className={styles.cardIconsWrapper}>
-                    <ReusableIcon imgName={'edit'} background />
                     <ReusableIcon imgName={'delete'} background />
                     </div>
                 </div>

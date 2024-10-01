@@ -1,111 +1,94 @@
-"use client";
 import React, { useMemo, useState } from "react";
 import { Table, Tabs } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import Image from "next/image";
 import styles from "./UserManagmentTable.module.scss";
+import { UserInfoPopUp } from "../UserInfoPopUp/UserInfoPopUp";
+import { NewPassword } from "../NewPassword/NewPassword";
 
 type User = {
   id: number;
   email: string;
   password: string;
   createdAt: string;
-  block: boolean;
+  active: boolean;
 };
 
-const UserTable: React.FC = () => {
+const UserManagmentTable: React.FC = () => {
   const [selectedRowKeysAll, setSelectedRowKeysAll] = useState<React.Key[]>([]);
-  const [selectedRowKeysBlocked, setSelectedRowKeysBlocked] = useState<
-    React.Key[]
-  >([]);
+  const [selectedRowKeysBlocked, setSelectedRowKeysBlocked] = useState<React.Key[]>([]);
   const [activePasswordId, setActivePasswordId] = useState<number | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
+
+  const [editUserPassword, setEditUserPassword] = useState<number | null>(null); 
+  const [deleteUser, setDeleteUser] = useState<number | null>(null); 
+  const [blockUnblockUser, setBlockUnblockUser] = useState<number | null>(null); 
+
   const users: User[] = [
     {
       id: 1,
       email: "user1@example.com",
       password: "password123",
       createdAt: "2023-09-30",
-      block: true,
+      active: true,
     },
     {
-      id: 2,
-      email: "blockeduser@example.com",
-      password: "password123",
-      createdAt: "2023-09-30",
-      block: true,
-    },{
-      id: 3,
-      email: "blockeduser@example.com",
-      password: "password123",
-      createdAt: "2023-09-30",
-      block: true,
-    },{
-      id: 4,
-      email: "blockeduser@example.com",
-      password: "password123",
-      createdAt: "2023-09-30",
-      block: true,
-    },{
       id: 5,
       email: "blockeduser@example.com",
       password: "password123",
       createdAt: "2023-09-30",
-      block: true,
-    },{
-      id: 6,
+      active: true,
+    },
+    {
+      id: 26,
       email: "blockeduser@example.com",
       password: "password123",
       createdAt: "2023-09-30",
-      block: true,
-    },{
-      id: 7,
-      email: "blockeduser@example.com",
-      password: "password123",
-      createdAt: "2023-09-30",
-      block: true,
+      active: true,
     },
   ];
 
   const memoizedUsers = useMemo(() => {
     return users
-      .filter((user) =>
-        user.email.toLowerCase().includes(searchQuery.toLowerCase())
-      )
+      .filter((user) => user.email.toLowerCase().includes(searchQuery.toLowerCase()))
       .map((user) => ({ ...user, key: user.id }));
   }, [users, searchQuery]);
 
   const memoizedBlockedUsers = useMemo(() => {
     return users
-      .filter((user) => user.block)
-      .filter((user) =>
-        user.email.toLowerCase().includes(searchQuery.toLowerCase())
-      )
+      .filter((user) => !user.active)
+      .filter((user) => user.email.toLowerCase().includes(searchQuery.toLowerCase()))
       .map((user) => ({ ...user, key: user.id }));
   }, [users, searchQuery]);
 
-  const handlePasswordToggle = (id: number) => {
+  const handlePasswordToggle = (id: number, e: React.MouseEvent) => {
+    e.stopPropagation();
     setActivePasswordId(activePasswordId === id ? null : id);
+  };
+
+  const handleRowClick = (user: User) => {
+    setSelectedUser(user);
+    setIsPopupVisible(true);
+  };
+
+  const closePopup = () => {
+    setIsPopupVisible(false);
   };
 
   const columns: ColumnsType<User> = [
     {
       title: "Registration Date",
       key: "createdAt",
-      render: (_, record) => (
-        <div className={styles.artistCell}>{record.createdAt}</div>
-      ),
+      render: (_, record) => <div className={styles.artistCell}>{record.createdAt}</div>,
       width: "20%",
     },
     {
       title: "Email",
       key: "email",
       width: "30%",
-      render: (_, record) => (
-        <div>
-          {record.email}
-        </div>
-      ),
+      render: (_, record) => <div>{record.email}</div>,
     },
     {
       title: "Password",
@@ -119,7 +102,7 @@ const UserTable: React.FC = () => {
             readOnly
             className={styles.inputPassword}
           />
-          <div onClick={() => handlePasswordToggle(record.id)}>
+          <div onClick={(e) => handlePasswordToggle(record.id, e)}>
             <Image
               src={`/icons/passwordAppeare.svg`}
               width={24}
@@ -136,7 +119,14 @@ const UserTable: React.FC = () => {
       width: "15%",
       render: (_, record) => (
         <div className={styles.actions}>
-          <button className={styles.unBorder}>
+          <button
+            className={styles.unBorder}
+            onClick={(e) => {
+              e.stopPropagation();
+              setEditUserPassword(record.id); 
+              console.log(editUserPassword, deleteUser, blockUnblockUser);
+            }}
+          >
             <Image
               className={styles.curImg}
               src={`/icons/whiteEdit.svg`}
@@ -145,7 +135,14 @@ const UserTable: React.FC = () => {
               alt="edit"
             />
           </button>
-          <button className={styles.unBorder}>
+          <button
+            className={styles.unBorder}
+            onClick={(e) => {
+              e.stopPropagation();
+              setDeleteUser(record.id); 
+              console.log(editUserPassword, deleteUser, blockUnblockUser);
+            }}
+          >
             <Image
               className={styles.curImg}
               src={`/icons/whiteTrash.svg`}
@@ -154,12 +151,17 @@ const UserTable: React.FC = () => {
               alt="delete"
             />
           </button>
-          <button className={styles.unBorder}>
+          <button
+            className={styles.unBorder}
+            onClick={(e) => {
+              e.stopPropagation();
+              setBlockUnblockUser(record.id);
+              console.log(editUserPassword, deleteUser, blockUnblockUser);
+            }}
+          >
             <Image
               className={styles.curImg}
-              src={
-                record.block ? "/icons/block.svg" : "/icons/unBlock.svg"
-              }
+              src={record.active ? "/icons/block.svg" : "/icons/unBlock.svg"}
               width={24}
               height={24}
               alt="block/unblock"
@@ -196,7 +198,7 @@ const UserTable: React.FC = () => {
               fontSize: "17px",
               color: "#fff",
               position: "absolute",
-              top: "-200px",
+              top: "-282px",
             }}
           />
           <Table
@@ -211,6 +213,9 @@ const UserTable: React.FC = () => {
               pageSize: 9,
               position: ["bottomCenter"],
             }}
+            onRow={(record) => ({
+              onClick: () => handleRowClick(record),
+            })}
           />
         </div>
       ),
@@ -239,7 +244,7 @@ const UserTable: React.FC = () => {
               fontSize: "17px",
               color: "#fff",
               position: "absolute",
-              top: "-190px",
+              top: "-282px",
             }}
           />
           <Table
@@ -254,6 +259,9 @@ const UserTable: React.FC = () => {
               pageSize: 9,
               position: ["bottomCenter"],
             }}
+            onRow={(record) => ({
+              onClick: () => handleRowClick(record),
+            })}
           />
         </div>
       ),
@@ -261,10 +269,33 @@ const UserTable: React.FC = () => {
   ];
 
   return (
-    <div className={styles.tableContainer}>
-      <Tabs defaultActiveKey="1" items={tabItems} style={{ width: "1100px" }} />
+    <div className={styles.container}>
+      <Tabs defaultActiveKey="1" items={tabItems} />
+      {isPopupVisible && selectedUser && (
+        <UserInfoPopUp user={selectedUser} onClose={closePopup} />
+      )}
+      {editUserPassword && (
+        <NewPassword
+          userId={editUserPassword}
+          onClose={() => setEditUserPassword(null)}
+        />
+      )}
+      {deleteUser && (
+        <div>
+          <p>Deleting User: {deleteUser}</p>
+        </div>
+      )}
+      {blockUnblockUser && (
+        <div>
+          <p>
+            {blockUnblockUser
+              ? `Blocking User: ${blockUnblockUser}`
+              : `Unblocking User: ${blockUnblockUser}`}
+          </p>
+        </div>
+      )}
     </div>
   );
 };
 
-export default UserTable;
+export default UserManagmentTable;
