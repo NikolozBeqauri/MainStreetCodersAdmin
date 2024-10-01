@@ -8,28 +8,26 @@ type FormData = {
   confirmPassword: string;
 };
 
-export const NewPassword = () => {
-  const [isVisible, setIsVisible] = useState(true);
-  const { register, handleSubmit, formState: { errors }, watch} = useForm<FormData>();
+type Props = {
+  userId: number; 
+  onClose: () => void; 
+};
+
+export const NewPassword = (props: Props) => {
+  const { register, handleSubmit, formState: { errors }, watch } = useForm<FormData>();
 
   const onSubmit = (data: FormData) => {
+    console.log(`Password changed for user with ID: ${props.userId}`);
     console.log(data);
+    props.onClose();
   };
-
-  const handleBackgroundClick = () => {
-    setIsVisible(false); 
-  };
-
-  if (!isVisible) {
-    return null;
-  }
 
   return (
-    <div className={styles.background} onClick={handleBackgroundClick}>
-      <div className={styles.wrapper} onClick={e => e.stopPropagation()}> 
-        <h2>New Password</h2>
+    <div className={styles.background} onClick={props.onClose}>
+      <div className={styles.wrapper} onClick={(e) => e.stopPropagation()}> 
+        <h2>Change Password for User ID: {props.userId}</h2>
         <form className={styles.formWrapper} onSubmit={handleSubmit(onSubmit)}>
-          <label htmlFor="newPassword">Create new Password</label>
+          <label htmlFor="newPassword">Create New Password</label>
           <input
             type="text"
             id="newPassword"
@@ -39,13 +37,13 @@ export const NewPassword = () => {
           />
           {errors.newPassword && <p className={styles.error}>{errors.newPassword.message}</p>}
 
-          <label htmlFor="confirmPassword">Confirm your Password</label>
+          <label htmlFor="confirmPassword">Confirm Your Password</label>
           <input
             type="text"
             id="confirmPassword"
             {...register('confirmPassword', {
               required: 'Please confirm your password',
-              validate: value => value === watch('newPassword') || 'Passwords do not match',
+              validate: (value) => value === watch('newPassword') || 'Passwords do not match',
             })}
           />
           {errors.confirmPassword && <p className={styles.error}>{errors.confirmPassword.message}</p>}

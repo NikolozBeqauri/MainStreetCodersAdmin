@@ -1,17 +1,36 @@
-import { ReusableIcon } from "../ReusableIcon/ReusableIcon"
-import styles from './UserInfoPopUp.module.scss'
-import Image from 'next/image'
-import { SquareCard } from "../SquareCard/SquareCard"
-import { playListCardsData } from "./playListCardsData/playListCardsData"
-export const UserInfoPopUp = () => {
+'use client'
+import { ReusableIcon } from "../ReusableIcon/ReusableIcon";
+import styles from './UserInfoPopUp.module.scss';
+import Image from 'next/image';
+import { SquareCard } from "../SquareCard/SquareCard";
+import { playListCardsData } from "./playListCardsData/playListCardsData";
+
+type User = {
+    email: string;
+    createdAt: string;
+};
+
+type Props = {
+    user: User | null;
+    onClose: () => void; 
+};
+
+export const UserInfoPopUp = (props: Props) => {
+    if (!props.user) {
+        return null;
+    }
 
     return (
-        <div className={styles.background}>
-            <div className={styles.wrapper}>
+        <div className={styles.background} onClick={props.onClose}>
+            <div className={styles.wrapper} onClick={(e) => e.stopPropagation()}>
                 <div className={styles.header}>
-                    <ReusableIcon imgName={"rightArrow"} />
-                    <h2>Peggy Gou</h2>
-                    <ReusableIcon imgName={"deleteCross"} />
+                    <div onClick={props.onClose}>
+                        <ReusableIcon imgName={"rightArrow"} />
+                    </div>
+                    <h2>{props.user.email}</h2>
+                    <div onClick={props.onClose}>
+                        <ReusableIcon imgName={"deleteCross"} />
+                    </div>
                 </div>
 
                 <div className={styles.userInfo}>
@@ -24,11 +43,11 @@ export const UserInfoPopUp = () => {
                     <div className={styles.userInfoContent}>
                         <div>
                             <h3>Email:</h3>
-                            <span>dolores.chambers@example.com</span>
+                            <span>{props.user.email}</span>
                         </div>
                         <div>
                             <h3>Registration Date:</h3>
-                            <span>September 17, 2024 11:22</span>
+                            <span>{props.user.createdAt}</span>
                         </div>
                         <div>
                             <h3>Playlists Created:</h3>
@@ -47,5 +66,5 @@ export const UserInfoPopUp = () => {
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
