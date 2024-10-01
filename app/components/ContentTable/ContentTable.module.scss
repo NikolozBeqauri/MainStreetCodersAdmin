@@ -1,0 +1,286 @@
+@import '/app/colors.scss';
+.wrapper {
+    max-width: 100%;
+    width: 100%;
+
+}
+
+.wrapper :global .ant-pagination {
+    display: flex;
+    justify-content: center;
+
+}
+
+
+.wrapper :global(.ant-table-pagination) {
+    display: flex;
+    align-items: center;
+}
+
+.wrapper :global tr .ant-table-cell {
+    text-align: center !important;
+    font-size: 14px !important;
+}
+
+.wrapper :global tr th {
+    font-size: 14px !important;
+}
+
+.wrapper :global .ant-table-cell {
+    color: $hawksEye !important;
+    background-color: $blackMetal !important;
+    border: none !important;
+    padding: 10px !important;
+    text-align: center;
+
+}
+
+.wrapper :global .ant-table-cell-row-hover {
+    background-color: $dynamicBlack !important;
+}
+
+.wrapper :global .ant-table-cell:first-child {
+    border-left: 4px solid #050506 !important;
+}
+
+.wrapper :global .ant-table-cell-row-hover:first-child {
+    border-left: 4px solid var(--Gradient-apolo, $fuchsiaFlame) !important;
+    border-radius: 4px 0px 0px 4px;
+}
+
+.wrapper :global .ant-table {
+    background-color: unset !important;
+}
+
+.wrapper :global .ant-table-thead .ant-table-cell::before {
+    content: none !important;
+}
+
+.container {
+    color: $hawksEye !important;
+    background-color: $blackMetal !important;
+    border: none !important;
+
+}
+
+
+.wrapper :global .ant-pagination li {
+    background-color: #000 !important;
+    border-radius: 4px !important;
+    border: 1px solid #35353B !important;
+    color: $defaultWhite !important;
+
+}
+
+.wrapper :global .ant-pagination li a {
+    color: #818385 !important;
+
+
+}
+
+.wrapper :global .ant-pagination .ant-pagination-item-active {
+    border-radius: 4px !important;
+    background: var(--apolo, linear-gradient(90deg, #F903D0 0%, #9A16F2 100%));
+    color: $defaultWhite !important;
+}
+
+.wrapper :global .ant-pagination .ant-pagination-item-active a {
+    color: $defaultWhite !important;
+    font-size: 14px;
+}
+
+.wrapper :global .ant-pagination-prev .ant-pagination-item-link {
+    color: #818385 !important;
+
+}
+
+.wrapper :global .ant-pagination-next .ant-pagination-item-link {
+    color: #818385 !important;
+
+}
+.changeSize {
+    font-size: 17px;
+    font-weight: 600;
+}
+
+//     border-left: unset !important;
+
+.wrapper :global .ant-table-thead tr th {
+    background-color: #151519 !important;
+    border-bottom: 1px solid var(--Gradient-apolo, #F903D0) !important;
+}
+
+.wrapper :global .ant-table-thead .ant-table-cell {
+    border-left: none !important;
+
+}
+
+
+// .wrapper :global .ant-table-thead .ant-table-cell {
+//     font-size: 14px !important;
+// }
+
+
+
+
+
+
+
+// =============== main rows styles ================= //
+
+.cellId {
+    color: $hawksEye;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.cellName {
+    display: flex;
+    padding: 12px 10px;
+}
+
+.cellAlbumName {
+    display: flex;
+    align-items: center;
+    padding: 10px 0px;
+    color: $shadyLady;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.cellTimeName {
+    display: flex;
+    align-items: center;
+    margin-left: 0.7px;
+    color: $shadyLady;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.cellSongname {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+}
+
+.fontGap {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.songTitle {
+    color: $defaultWhite;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.songArtist {
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    color: $shadyLady;
+}
+
+.cellLike {
+    display: flex;
+    align-items: center;
+}
+
+.font {
+    color: $defaultWhite !important;
+}
+
+.artistCell {
+    display: flex;
+    gap: 16px;
+}
+
+.unBorder {
+    border: none;
+    background-color: unset;
+    cursor: pointer;
+}
+
+.unBorderPen {
+    border: none;
+    background-color: unset;
+    cursor: pointer;
+
+}
+
+.actions {
+    display: flex;
+    gap: 40px;
+}
+
+
+.input {
+    width: 20px;
+    height: 20px;
+    border: 1px solid#818385;
+    border-radius: 2px;
+}
+
+.activeInput {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    background: var(--apolo, linear-gradient(90deg, #F903D0 0%, #9A16F2 100%));
+}
+
+
+.inp[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+}
+
+.inp[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    font-size: 2rem;
+    border: 0.5px solid $defaultWhite;
+    border-radius: 4px;
+}
+
+.inp:checked {
+    background: linear-gradient(90deg, #F903D0 0%, #9A16F2 100%);
+}
+
+.inp[type="checkbox"]::before {
+    content: "";
+    width: 22px;
+    height: 20px;
+    clip-path: polygon(22% 38%, 41% 53%, 75% 15%, 80% 38%, 40% 75%, 15% 50%);
+    transform: scale(0);
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.inp[type="checkbox"]:checked::before {
+    transform: scale(1);
+}
+
+.wrapperTwo {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.popup {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+.image {
+    border-radius: 4px;
+}
+   
