@@ -4,7 +4,7 @@ import { Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import Image from 'next/image';
 import styles from './contentTable.module.scss';
-import { useForm } from 'react-hook-form';
+import { DeletePopUp } from '../DeletePopUp/DeletePopUp';
 
 interface DataType {
     albums: any;
@@ -22,10 +22,9 @@ interface DataType {
 }
 
 const ContentTable: React.FC = () => {
-    const [selectedKeys, setSelectedKeys] = useState<Set<string>>(new Set());
     const [active, setActive] = useState(false);
-    const [showAlert, setShowAlert] = useState(false);
-    const { register, handleSubmit } = useForm();
+    const [showDeletePopup, setShowDeletePopup] = useState(false); 
+    const [currentDeleteId, setCurrentDeleteId] = useState<number | null>(null);  
 
     const tableData: DataType[] = [
         {
@@ -80,63 +79,25 @@ const ContentTable: React.FC = () => {
             id: 4,
             albums: undefined,
         },
-    ]
-           
-    
+    ];
 
-    const handleSelectAll = (checked: boolean) => {
-        if (checked) {
-            setSelectedKeys(new Set(tableData.map((item) => item.key)));
-        } else {
-            setSelectedKeys(new Set());
-        }
+    const handleDeleteClick = (id: number) => {
+        setCurrentDeleteId(id);
+        setShowDeletePopup(true); 
     };
 
-    const handleSelectOne = (key: string) => {
-        setSelectedKeys((prev) => {
-            const newSet = new Set(prev);
-            newSet.has(key) ? newSet.delete(key) : newSet.add(key);
-            return newSet;
-        });
+    const handleDeleteConfirm = () => {
+        console.log(`Record with ID ${currentDeleteId} deleted.`);
+        setShowDeletePopup(false);  
+        setCurrentDeleteId(null);  
     };
 
-    const onSubmit = (values: any) => {
-
+    const handleDeleteCancel = () => {
+        setShowDeletePopup(false);  
+        setCurrentDeleteId(null);   
     };
 
     const columns: ColumnsType<DataType> = [
-        {
-            title: () => (
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    <input
-                        type="checkbox"
-                        className={styles.inp}
-                        {...register('selectAll')}
-                        onChange={(e) => {
-                            handleSelectAll(e.target.checked);
-                            handleSubmit(onSubmit)();
-                        }}
-                    />
-                </form>
-            ),
-            dataIndex: 'checkbox',
-            key: 'checkbox',
-            render: (text, record) => (
-                <form className={styles.wrapperTwo} onSubmit={handleSubmit(onSubmit)}>
-                    <input
-                        type="checkbox"
-                        className={styles.inp}
-                        {...register(`select-${record.id}`)}
-                        checked={selectedKeys.has(record.key)}
-                        onChange={() => {
-                            handleSelectOne(record.key);
-                            handleSubmit(onSubmit)();
-                        }}
-                    />
-                </form>
-            ),
-            width: '5%',
-        },
         {
             title: 'Artist',
             dataIndex: 'artist',
@@ -178,7 +139,7 @@ const ContentTable: React.FC = () => {
                     <button onClick={() => setActive(true)} className={styles.unBorderPen}>
                         <Image src={`/icons/whiteEdit.svg`} width={24} height={24} alt="pen" />
                     </button>
-                    <button onClick={() => console.log(`Delete record with ID ${record.id}`)} className={styles.unBorder}>
+                    <button onClick={() => handleDeleteClick(record.id)} className={styles.unBorder}>
                         <Image src={`/icons/whiteTrash.svg`} width={24} height={24} alt="trash" />
                     </button>
                 </div>
@@ -194,9 +155,14 @@ const ContentTable: React.FC = () => {
                 columns={columns}
                 dataSource={tableData}
                 pagination={{ pageSize: 7, position: ['bottomCenter'] }}
-                rowKey="id" 
+                rowKey="id"
             />
-            {showAlert && <div>Alert Placeholder</div>}
+            {showDeletePopup && (
+                <DeletePopUp
+                    onClose={handleDeleteCancel}
+                    onDelete={handleDeleteConfirm}
+                />
+            )}
             {active && (
                 <div className={styles.popup}>
                     <div onClick={() => setActive(false)}>Popup Placeholder</div>
