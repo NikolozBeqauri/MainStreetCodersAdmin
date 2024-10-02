@@ -1,10 +1,11 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Table, Tabs } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import Image from "next/image";
 import styles from "./UserManagmentTable.module.scss";
 import { UserInfoPopUp } from "../UserInfoPopUp/UserInfoPopUp";
 import { NewPassword } from "../NewPassword/NewPassword";
+import axios from "axios";
 
 type User = {
   id: number;
@@ -15,16 +16,14 @@ type User = {
 };
 
 const UserManagmentTable: React.FC = () => {
-  const [selectedRowKeysAll, setSelectedRowKeysAll] = useState<React.Key[]>([]);
-  const [selectedRowKeysBlocked, setSelectedRowKeysBlocked] = useState<React.Key[]>([]);
   const [activePasswordId, setActivePasswordId] = useState<number | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [isPopupVisible, setIsPopupVisible] = useState(false);
 
-  const [editUserPassword, setEditUserPassword] = useState<number | null>(null); 
-  const [deleteUser, setDeleteUser] = useState<number | null>(null); 
-  const [blockUnblockUser, setBlockUnblockUser] = useState<number | null>(null); 
+  const [editUserPassword, setEditUserPassword] = useState<number | null>(null);
+  const [deleteUser, setDeleteUser] = useState<number | null>(null);
+  const [blockUnblockUser, setBlockUnblockUser] = useState<number | null>(null);
 
   const users: User[] = [
     {
@@ -123,8 +122,7 @@ const UserManagmentTable: React.FC = () => {
             className={styles.unBorder}
             onClick={(e) => {
               e.stopPropagation();
-              setEditUserPassword(record.id); 
-              console.log(editUserPassword, deleteUser, blockUnblockUser);
+              setEditUserPassword(record.id);
             }}
           >
             <Image
@@ -139,8 +137,7 @@ const UserManagmentTable: React.FC = () => {
             className={styles.unBorder}
             onClick={(e) => {
               e.stopPropagation();
-              setDeleteUser(record.id); 
-              console.log(editUserPassword, deleteUser, blockUnblockUser);
+              setDeleteUser(record.id);
             }}
           >
             <Image
@@ -156,7 +153,6 @@ const UserManagmentTable: React.FC = () => {
             onClick={(e) => {
               e.stopPropagation();
               setBlockUnblockUser(record.id);
-              console.log(editUserPassword, deleteUser, blockUnblockUser);
             }}
           >
             <Image
@@ -202,10 +198,6 @@ const UserManagmentTable: React.FC = () => {
             }}
           />
           <Table
-            rowSelection={{
-              selectedRowKeys: selectedRowKeysAll,
-              onChange: setSelectedRowKeysAll,
-            }}
             className={styles.wrapper}
             columns={columns}
             dataSource={memoizedUsers}
@@ -244,14 +236,10 @@ const UserManagmentTable: React.FC = () => {
               fontSize: "17px",
               color: "#fff",
               position: "absolute",
-              top: "-282px",
+              top: "-193px",
             }}
           />
           <Table
-            rowSelection={{
-              selectedRowKeys: selectedRowKeysBlocked,
-              onChange: setSelectedRowKeysBlocked,
-            }}
             className={styles.wrapper}
             columns={columns}
             dataSource={memoizedBlockedUsers}
