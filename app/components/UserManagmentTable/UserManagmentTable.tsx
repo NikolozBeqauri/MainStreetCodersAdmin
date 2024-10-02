@@ -32,7 +32,7 @@ const UserManagmentTable: React.FC = () => {
       email: "user1@example.com",
       password: "password123",
       createdAt: "2023-09-30",
-      active: true,
+      active: false,
     },
     {
       id: 5,
@@ -198,7 +198,7 @@ const UserManagmentTable: React.FC = () => {
               fontSize: "17px",
               color: "#fff",
               position: "absolute",
-              top: "-282px",
+              top: "-193px",
             }}
           />
           <Table

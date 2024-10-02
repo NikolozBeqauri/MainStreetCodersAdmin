@@ -283,4 +283,21 @@
 .image {
     border-radius: 4px;
 }
-   
+.artistAddButton {
+    margin: 34px 0px 24px 0px;
+}   
+.searchInput {
+    width: 500px;
+    margin-bottom: 20px;
+    height: 55px;
+    border-radius: 8px;
+    border: 1px solid gray;
+    outline: none;
+    background-color: unset;
+    padding: 0 18px;
+    font-size: 17px;
+    color: #fff;
+    position: absolute;
+    margin-top: -207px;
+}
+  

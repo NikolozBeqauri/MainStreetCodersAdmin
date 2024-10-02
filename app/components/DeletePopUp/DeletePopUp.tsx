@@ -1,31 +1,36 @@
-'use client'
-import { useState } from "react";
-import styles from './DeletePopUp.module.scss'
+'use client';
+import { useState } from 'react';
+import styles from './DeletePopUp.module.scss';
 
-export const DeletePopUp = () => {
+interface Props {
+    onClose: () => void;
+    onDelete: () => void;
+}
+
+export const DeletePopUp = (props:Props) => {
     const [showPopup, setShowPopup] = useState(true);
-    const [deleteMusic, setDeleteMusic] = useState(false);
+
     const handleConfirmDelete = () => {
-        console.log("Music deleted");
         setShowPopup(false);
-        setDeleteMusic(true)
+        props.onDelete();
     };
 
     const handleCancel = () => {
-        console.log("Music calcled");
         setShowPopup(false);
+        props.onClose();
     };
-    if(!showPopup) return ""
+
+    if (!showPopup) return null;
 
     return (
-        <div onClick={() => setShowPopup(false)} className={styles.background}>
-            <div className={styles.wrapper}>
+        <div className={styles.background} onClick={handleCancel}>
+            <div className={styles.wrapper} onClick={(e) => e.stopPropagation()}>
                 <p>Are you sure you want to delete?</p>
                 <div>
-                    <button className={styles.cancle} onClick={handleCancel}>Cancel</button>
+                    <button className={styles.cancle} onClick={handleCancel}>Cancle</button>
                     <button className={styles.delete} onClick={handleConfirmDelete}>Delete</button>
                 </div>
             </div>
         </div>
     );
-}
+};

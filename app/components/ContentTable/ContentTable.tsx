@@ -1,150 +1,135 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import Image from 'next/image';
 import styles from './contentTable.module.scss';
-import { useForm } from 'react-hook-form';
+import { DeletePopUp } from '../DeletePopUp/DeletePopUp';
+import ReusableButton from '../ReusableButton/ReusableButton';
+import { ArtistInfoPopUp } from '../ArtistInfoPopUp/ArtistInfoPopUp';
+import { NewArtistPopUp } from '../NewArtistPopUp/NewArtistPopUp';
 
 interface DataType {
     albums: any;
     key: string;
-    artist: string;
     totalStreams: number;
     totalAlbums: number;
     totalSongs: number;
     image: string;
-    name?: any;
+    fullName: string;
     id?: any;
     files?: any;
-    firstName?: any;
-    lastName?: any;
 }
 
 const ContentTable: React.FC = () => {
-    const [selectedKeys, setSelectedKeys] = useState<Set<string>>(new Set());
     const [active, setActive] = useState(false);
-    const [showAlert, setShowAlert] = useState(false);
-    const { register, handleSubmit } = useForm();
+    const [showDeletePopup, setShowDeletePopup] = useState(false);
+    const [currentDeleteId, setCurrentDeleteId] = useState<number | null>(null);
+    const [searchQuery, setSearchQuery] = useState("");
+    const [selectedArtist, setSelectedArtist] = useState<DataType | null>(null);
+    const [showNewArtistPopup, setShowNewArtistPopup] = useState(false);
 
     const tableData: DataType[] = [
         {
             key: '1',
-            artist: 'Artist 1',
             totalStreams: 12000,
             totalAlbums: 3,
             totalSongs: 30,
             image: '/images/artist1.png',
             files: [{ url: '/images/artist1.png' }],
-            firstName: 'John',
-            lastName: 'Doe',
+            fullName: 'John Doe',
             id: 1,
             albums: undefined,
         },
         {
             key: '2',
-            artist: 'Artist 2',
             totalStreams: 5000,
             totalAlbums: 2,
             totalSongs: 20,
             image: '/images/artist2.png',
             files: [{ url: '/images/artist2.png' }],
-            firstName: 'Jane',
-            lastName: 'Smith',
+            fullName: 'Jane Smith',
             id: 2,
             albums: undefined,
         },
         {
             key: '3',
-            artist: 'Artist 3',
             totalStreams: 20000,
             totalAlbums: 5,
             totalSongs: 50,
             image: '/images/artist3.png',
             files: [{ url: '/images/artist3.png' }],
-            firstName: 'Mike',
-            lastName: 'Johnson',
+            fullName: 'Mike Johnson',
             id: 3,
             albums: undefined,
         },
         {
             key: '4',
-            artist: 'Artist 4',
             totalStreams: 8000,
             totalAlbums: 1,
             totalSongs: 10,
             image: '/images/artist4.png',
             files: [{ url: '/images/artist4.png' }],
-            firstName: 'Sarah',
-            lastName: 'Lee',
+            fullName: 'Sarah Lee',
             id: 4,
             albums: undefined,
         },
-    ]
-           
-    
+    ];
 
-    const handleSelectAll = (checked: boolean) => {
-        if (checked) {
-            setSelectedKeys(new Set(tableData.map((item) => item.key)));
-        } else {
-            setSelectedKeys(new Set());
-        }
-    };
-
-    const handleSelectOne = (key: string) => {
-        setSelectedKeys((prev) => {
-            const newSet = new Set(prev);
-            newSet.has(key) ? newSet.delete(key) : newSet.add(key);
-            return newSet;
+    const filteredData = useMemo(() => {
+        const lowerSearchQuery = searchQuery.toLowerCase();
+        const filtered = tableData.filter((item) =>
+            item.fullName?.toLowerCase().includes(lowerSearchQuery)
+        );
+        return filtered.sort((a, b) => {
+            const isExactMatchA = a.fullName?.toLowerCase() === lowerSearchQuery;
+            const isExactMatchB = b.fullName?.toLowerCase() === lowerSearchQuery;
+            if (isExactMatchA && !isExactMatchB) {
+                return -1;
+            } else if (!isExactMatchA && isExactMatchB) {
+                return 1;
+            } else {
+                return 0;
+            }
         });
+    }, [searchQuery, tableData]);
+
+    const handleDeleteClick = (id: number, event: React.MouseEvent) => {
+        event.stopPropagation();
+        setCurrentDeleteId(id);
+        setShowDeletePopup(true);
     };
 
-    const onSubmit = (values: any) => {
+    const handleDeleteConfirm = () => {
+        setShowDeletePopup(false);
+        setCurrentDeleteId(null);
+    };
 
+    const handleDeleteCancel = () => {
+        setShowDeletePopup(false);
+        setCurrentDeleteId(null);
+    };
+
+    const closeArtistPopup = () => {
+        setSelectedArtist(null);
+    };
+
+    const closeNewArtistPopup = () => {
+        setShowNewArtistPopup(false);
     };
 
     const columns: ColumnsType<DataType> = [
         {
-            title: () => (
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    <input
-                        type="checkbox"
-                        className={styles.inp}
-                        {...register('selectAll')}
-                        onChange={(e) => {
-                            handleSelectAll(e.target.checked);
-                            handleSubmit(onSubmit)();
-                        }}
-                    />
-                </form>
-            ),
-            dataIndex: 'checkbox',
-            key: 'checkbox',
+            title: 'Full Name',
+            dataIndex: 'fullName',
+            key: 'fullName',
             render: (text, record) => (
-                <form className={styles.wrapperTwo} onSubmit={handleSubmit(onSubmit)}>
-                    <input
-                        type="checkbox"
-                        className={styles.inp}
-                        {...register(`select-${record.id}`)}
-                        checked={selectedKeys.has(record.key)}
-                        onChange={() => {
-                            handleSelectOne(record.key);
-                            handleSubmit(onSubmit)();
-                        }}
-                    />
-                </form>
-            ),
-            width: '5%',
-        },
-        {
-            title: 'Artist',
-            dataIndex: 'artist',
-            key: 'artist',
-            render: (text, record) => (
-                <div className={styles.artistCell}>
+                <div
+                    className={styles.artistCell}
+                    onClick={() => setSelectedArtist(record)}
+                >
                     <img className={styles.image} src={record.files[0]?.url} width={40} height={40} alt={text} />
-                    <span>{record.firstName}</span>
+                    <span>{record.fullName}</span>
                 </div>
             ),
             width: '30%',
@@ -154,31 +139,43 @@ const ContentTable: React.FC = () => {
             dataIndex: 'totalStreams',
             key: 'totalStreams',
             width: '10%',
-            render: (text, record) => <div>{record.totalStreams}</div>,
+            render: (text, record) => (
+                <div onClick={() => setSelectedArtist(record)}>
+                    {record.totalStreams}
+                </div>
+            ),
         },
         {
             title: 'Total Albums',
             dataIndex: 'totalAlbums',
             key: 'totalAlbums',
             width: '20%',
-            render: (text) => <div className={styles.changeSize}>{text}</div>,
+            render: (text, record) => (
+                <div onClick={() => setSelectedArtist(record)}>
+                    {record.totalAlbums}
+                </div>
+            ),
         },
         {
             title: 'Total Songs',
             dataIndex: 'totalSongs',
             key: 'totalSongs',
             width: '20%',
-            render: (text) => <div className={styles.changeSize}>{text}</div>,
+            render: (text, record) => (
+                <div onClick={() => setSelectedArtist(record)}>
+                    {record.totalSongs}
+                </div>
+            ),
         },
         {
             title: 'Actions',
             key: 'actions',
             render: (text, record) => (
                 <div className={styles.actions}>
-                    <button onClick={() => setActive(true)} className={styles.unBorderPen}>
+                    <button onClick={() => setSelectedArtist(record)} className={styles.unBorderPen}>
                         <Image src={`/icons/whiteEdit.svg`} width={24} height={24} alt="pen" />
                     </button>
-                    <button onClick={() => console.log(`Delete record with ID ${record.id}`)} className={styles.unBorder}>
+                    <button onClick={(event) => handleDeleteClick(record.id, event)} className={styles.unBorder}>
                         <Image src={`/icons/whiteTrash.svg`} width={24} height={24} alt="trash" />
                     </button>
                 </div>
@@ -189,19 +186,45 @@ const ContentTable: React.FC = () => {
 
     return (
         <>
-            <Table
-                className={styles.wrapper}
-                columns={columns}
-                dataSource={tableData}
-                pagination={{ pageSize: 7, position: ['bottomCenter'] }}
-                rowKey="id" 
-            />
-            {showAlert && <div>Alert Placeholder</div>}
-            {active && (
-                <div className={styles.popup}>
-                    <div onClick={() => setActive(false)}>Popup Placeholder</div>
+            <div className={styles.artistAddButton}>
+                <div onClick={() => setShowNewArtistPopup(true)}>
+                    <ReusableButton icon='addArtist' title='Add' />
                 </div>
-            )}
+            </div>
+
+            <input
+                placeholder="Search by full name"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className={styles.searchInput}
+            />
+
+            <div>
+                <Table
+                    className={styles.wrapper}
+                    columns={columns}
+                    dataSource={filteredData}
+                    pagination={{ pageSize: 7, position: ['bottomCenter'] }}
+                    rowKey="id"
+                />
+                {showDeletePopup && (
+                    <DeletePopUp
+                        onClose={handleDeleteCancel}
+                        onDelete={handleDeleteConfirm}
+                    />
+                )}
+                {selectedArtist && (
+                    <ArtistInfoPopUp
+                        artist={selectedArtist}
+                        onClose={closeArtistPopup}
+                    />
+                )}
+                {showNewArtistPopup && (
+                    <NewArtistPopUp
+                        onClose={closeNewArtistPopup}
+                    />
+                )}
+            </div>
         </>
     );
 };
