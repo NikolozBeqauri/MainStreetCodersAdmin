@@ -5,8 +5,9 @@ import styles from './NewArtistPopUp.module.scss';
 import ReusableButton from "../ReusableButton/ReusableButton";
 import { useState } from "react";
 import axios from "axios";
-import { parseCookies } from "nookies";
 import { ReusableIcon } from "../ReusableIcon/ReusableIcon";
+import { cookies } from "next/headers";
+import { getCookie } from "@/helpers/getCookie";
 
 type FormValues = {
     fullName: string;
@@ -14,23 +15,32 @@ type FormValues = {
     file: FileList;
 };
 
-export const NewArtistPopUp = () => {
+interface NewArtistPopUpProps {
+    onClose: () => void;
+}
+
+export const NewArtistPopUp: React.FC<NewArtistPopUpProps> = ({ onClose }) => {
     const { register, handleSubmit, formState: { errors }, reset } = useForm<FormValues>();
     const [isPopupOpen, setIsPopupOpen] = useState(true);
 
     const onSubmit = (data: FormValues) => {
-        const cookies = parseCookies();
-        const token = cookies.token;
+        
+        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJFbWFpbCI6InRvcm5pa2VzdWFyaXNodmlsaUBnbWFpbC5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3Mjc4NjMzMzAsImV4cCI6MTcyODQ2ODEzMH0.gaZdhVTCf9We87bZJwMYHvZMPbHzrbT2Exrz3l0eZu0';
+
+        if (!token) {
+            console.log('token Error');
+            return;
+        }
 
         const formData = new FormData();
         formData.append('fullName', data.fullName);
         formData.append('biography', data.biography);
-        
+
         if (data.file.length > 0) {
             formData.append('file', data.file[0]);
         }
 
-        axios.post("https://project-spotify-1.onrender.com/author", formData, {
+        axios.post("https://project-spotify-1.onrender.com/authors", formData, {
             headers: {
                 "Content-Type": "multipart/form-data",
                 "Authorization": `Bearer ${token}`
@@ -39,14 +49,17 @@ export const NewArtistPopUp = () => {
             .then((res) => {
                 console.log(res);
                 reset();
+                onClose();
             })
             .catch((err) => {
                 console.log(err);
+                reset();
             });
     };
 
     const closePopup = () => {
         setIsPopupOpen(false);
+        onClose();
     };
 
     if (!isPopupOpen) return null;
@@ -55,13 +68,16 @@ export const NewArtistPopUp = () => {
         <div className={styles.background} onClick={closePopup}>
             <div className={styles.wrapper} onClick={e => e.stopPropagation()}>
                 <div className={styles.header}>
-                    <ReusableIcon imgName={"rightArrow"} />
+                    <div onClick={closePopup}>
+                        <ReusableIcon imgName={"rightArrow"} />
+                    </div>
                     <h2>Peggy Gou</h2>
-                    <div onClick={() => setIsPopupOpen(false)}><ReusableIcon imgName={"deleteCross"} /></div>
+                    <div onClick={closePopup}>
+                        <ReusableIcon imgName={"deleteCross"} />
+                    </div>
                 </div>
                 <form className={styles.formWrapper} onSubmit={handleSubmit(onSubmit)}>
                     <div className={styles.inputsWrapper}>
-
                         <div className={styles.dragAndDrop}>
                             <label htmlFor="forFile">
                                 <Image
