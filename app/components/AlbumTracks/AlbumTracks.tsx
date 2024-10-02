@@ -2,6 +2,8 @@ import PlaylistTable from "../PlaylistTable/PlaylistTable"
 import { ReusableIcon } from "../ReusableIcon/ReusableIcon"
 import styles from './AlbumTracks.module.scss'
 import Image from 'next/image'
+
+
 export const AlbumTracks = () => {
     return (
         <div className={styles.background}>

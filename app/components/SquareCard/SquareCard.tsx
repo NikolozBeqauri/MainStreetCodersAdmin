@@ -1,28 +1,31 @@
-import { HeartIcon } from '../HeartIcon/HeartIcon';
 import { ReusableIcon } from '../ReusableIcon/ReusableIcon';
 import styles from './SquareCard.module.scss';
+import Image from 'next/image'; 
 
 type Props = {
     title: string;
     img: string;
-    onClick?: () => void;
+    onClick?: () => void; 
 };
 
 export const SquareCard = (props: Props) => {
-    const stylesClass = [styles.cardIconsBackground];    
+    const stylesClass = [styles.cardIconsBackground];
     const cardImageStyle = [styles.defaultCardStyles];
-        
+
     return (
         <div className={styles.cardWrapper} onClick={props.onClick}>
             <div className={styles.cardImageWrapper}>
-                <img className={cardImageStyle.join(" ").trim()}
+                <Image
+                    className={cardImageStyle.join(' ').trim()}
                     src={`/images/${props.img}.png`}
-                    alt="musician image"
-                    tabIndex={0}
+                    alt={`${props.title} image`}
+                    width={200}
+                    height={200} 
+                    objectFit="cover" 
                 />
-                <div className={stylesClass.join(" ").trim()}>
+                <div className={stylesClass.join(' ').trim()}>
                     <div className={styles.cardIconsWrapper}>
-                    <ReusableIcon imgName={'delete'} background />
+                        <ReusableIcon imgName={'delete'} background />
                     </div>
                 </div>
             </div>

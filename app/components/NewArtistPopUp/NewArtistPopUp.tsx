@@ -3,11 +3,10 @@ import { useForm } from "react-hook-form";
 import Image from "next/image";
 import styles from './NewArtistPopUp.module.scss';
 import ReusableButton from "../ReusableButton/ReusableButton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { ReusableIcon } from "../ReusableIcon/ReusableIcon";
-import { cookies } from "next/headers";
-import { getCookie } from "@/helpers/getCookie";
+import Cookies from 'js-cookie';
 
 type FormValues = {
     fullName: string;
@@ -24,14 +23,13 @@ export const NewArtistPopUp: React.FC<NewArtistPopUpProps> = ({ onClose }) => {
     const [isPopupOpen, setIsPopupOpen] = useState(true);
 
     const onSubmit = (data: FormValues) => {
-        
-        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJFbWFpbCI6InRvcm5pa2VzdWFyaXNodmlsaUBnbWFpbC5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3Mjc4NjMzMzAsImV4cCI6MTcyODQ2ODEzMH0.gaZdhVTCf9We87bZJwMYHvZMPbHzrbT2Exrz3l0eZu0';
-
+        const token = Cookies.get("token")
+       
         if (!token) {
             console.log('token Error');
             return;
         }
-
+        
         const formData = new FormData();
         formData.append('fullName', data.fullName);
         formData.append('biography', data.biography);

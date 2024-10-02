@@ -1,7 +1,7 @@
 'use client'
 import ContentTable from "@/app/components/ContentTable/ContentTable"
 import { UserManagement } from "@/app/components/UserManagement/UserManagement"
-
+    
 const contentManagement = () => {
     return (
         <div>
