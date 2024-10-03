@@ -1,49 +1,60 @@
-
-//BRAND
+// BRAND
 $gradientApolo: linear-gradient(90deg, rgba(249,3,208,1) 0%, rgba(154,22,242,1) 100%);
 $gradientApoloHover: linear-gradient(90deg, #E303BD 0%, #6909A9 100%);
+$gradientApoloButton: linear-gradient(90deg, #F903D0 0%, #9A16F2 100%);
 $defaultWhite: #FFF;
 $primaryGradient: #F903D0;
-$bonBon:#FFE6FB;
+$bonBon: #FFE6FB;
 $placeboFuchsia: #F5E7FE;
 $hermosaPink: #FEB3F2;
-$lavenderFragrance:#E0B7FB;
-$splashOfGrendine:#fd81e9;
-$grassPinkOrchid:#CB86F8;
-$purplePizzazz:#FD4FE0;
-$shotokuPurple:#CB86F8; 
-$fuchsiaFlame:#F903D0;
+$lavenderFragrance: #E0B7FB;
+$splashOfGrendine: #fd81e9;
+$grassPinkOrchid: #CB86F8;
+$purplePizzazz: #FD4FE0;
+$shotokuPurple: #CB86F8;
+$fuchsiaFlame: #F903D0;
 $signapureOrchid: #9A16F2;
 $passionatePink: #E303BD;
 $indiovioletSunset: #6909A9;
-$jealousJellyfish:#B00293;
-$invasiveIndigo:#4B0779;
-$pionPurple:#4C013F;
-$contingaPurple:#39055C;
-$globeThislte:#32012A;
+$jealousJellyfish: #B00293;
+$invasiveIndigo: #4B0779;
+$pionPurple: #4C013F;
+$contingaPurple: #39055C;
+$globeThislte: #32012A;
 $edgeOfSpace: #2D0448;
+
 // GREY
-$dynamicBlack:#1D1D1D;
-$lead:#202020;
-$codGrey:#2E3133;
-$hawksEye:#35353B;
-$stoneCold:#565657;
-$missionControl:#818385;
-$shadyLady:#9E9A9F;
-$palladium:#B1B1B1;
-$glacierGrey:#BCBCBE;
-$darkGrey:#29292E;
-$staticBlack:#141414;
-$borderGrey:#5A5A5A;
-//STATE
-$succes:#27AE60;
-$error:#EB5757;
-$info:#2F80ED;
-$warning:#E2B93B;
-//black
-$darkVoid:#151519;
-$reversedGrey:#080808;
-$blackMetal:#050506;
-$background:#000000;
+$dynamicBlack: #1D1D1D;
+$lead: #202020;
+$codGrey: #2E3133;
+$hawksEye: #35353B;
+$stoneCold: #565657;
+$missionControl: #818385;
+$shadyLady: #9E9A9F;
+$palladium: #B1B1B1;
+$glacierGrey: #BCBCBE;
+$darkGrey: #29292E;
+$staticBlack: #141414;
+$borderGrey: #5A5A5A;
+
+// STATE
+$succes: #27AE60;
+$error: #EB5757;
+$info: #2F80ED;
+$warning: #E2B93B;
+
+// BLACK
+$darkVoid: #151519;
+$reversedGrey: #080808;
+$blackMetal: #050506;
+$background: #000000;
 $transparent: #ff000000;
 $grayBlur: #2727274a;
+
+// FORM
+$formInputBackground: #141414;
+$formInputborder: #363636;
+$inputBorder: #5A5A5A;
+$uploadBackgrond: #29292E;
+$signBackground: #0C1015;
+$lightPurple: #C5B0C9;

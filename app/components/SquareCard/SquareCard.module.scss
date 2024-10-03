@@ -1,0 +1,68 @@
+@import '/app/colors.scss';
+
+.cardWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 202px;
+    height: 192px;
+    padding: 16px;
+    border-radius: 8px;
+    background: $darkVoid;
+    cursor: pointer;
+}
+
+.cardImageWrapper>img {
+    width: 170px;
+    height: 132px;
+}
+
+.cardTitles {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.cardTitles h3 {
+    color: $defaultWhite;
+    font-family: "Plus Jakarta Sans";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cardImageWrapper {
+    position: relative;
+}
+
+.cardIconsBackground {
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    background: linear-gradient(0deg, rgba(149, 146, 146, 0.20) 0%, rgba(149, 146, 146, 0.20) 100%);
+    transition: 1s;
+}
+
+.cardWrapper:hover .cardIconsBackground {
+    opacity: 1;
+}
+
+.cardIconsWrapper {
+    display: flex;
+    gap: 8px;
+    position: absolute;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.defaultCardStyles {
+    width: 100%;
+}
