@@ -114,7 +114,13 @@ const ContentTable: React.FC = () => {
                     className={styles.artistCell}
                     onClick={() => setSelectedArtist(record)}
                 >
-                    <img className={styles.image} src={record.files[0]?.url} width={40} height={40} alt={text} />
+                    <Image
+                    className={styles.image}
+                    src={record.files[0]?.url } 
+                    width={40}
+                    height={40}
+                    alt={text}
+                />
                     <span>{record.fullName}</span>
                 </div>
             ),
