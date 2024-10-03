@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import Image from 'next/image';
@@ -8,6 +8,8 @@ import { DeletePopUp } from '../DeletePopUp/DeletePopUp';
 import ReusableButton from '../ReusableButton/ReusableButton';
 import { ArtistInfoPopUp } from '../ArtistInfoPopUp/ArtistInfoPopUp';
 import { NewArtistPopUp } from '../NewArtistPopUp/NewArtistPopUp';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 
 interface DataType {
     albums: any;
@@ -28,53 +30,37 @@ const ContentTable: React.FC = () => {
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedArtist, setSelectedArtist] = useState<DataType | null>(null);
     const [showNewArtistPopup, setShowNewArtistPopup] = useState(false);
+    const [tableData, setTableData] = useState<DataType[]>([]); 
 
-    const tableData: DataType[] = [
-        {
-            key: '1',
-            totalStreams: 12000,
-            totalAlbums: 3,
-            totalSongs: 30,
-            image: '/images/artist1.png',
-            files: [{ url: '/images/artist1.png' }],
-            fullName: 'John Doe',
-            id: 1,
-            albums: undefined,
+    const token = Cookies.get("token");
+
+    useEffect(() => {
+      axios.get("https://project-spotify-1.onrender.com/authors", {
+        headers: {
+          "Authorization": `Bearer ${token}`,
         },
-        {
-            key: '2',
-            totalStreams: 5000,
-            totalAlbums: 2,
-            totalSongs: 20,
-            image: '/images/artist2.png',
-            files: [{ url: '/images/artist2.png' }],
-            fullName: 'Jane Smith',
-            id: 2,
-            albums: undefined,
-        },
-        {
-            key: '3',
-            totalStreams: 20000,
-            totalAlbums: 5,
-            totalSongs: 50,
-            image: '/images/artist3.png',
-            files: [{ url: '/images/artist3.png' }],
-            fullName: 'Mike Johnson',
-            id: 3,
-            albums: undefined,
-        },
-        {
-            key: '4',
-            totalStreams: 8000,
-            totalAlbums: 1,
-            totalSongs: 10,
-            image: '/images/artist4.png',
-            files: [{ url: '/images/artist4.png' }],
-            fullName: 'Sarah Lee',
-            id: 4,
-            albums: undefined,
-        },
-    ];
+      })
+      .then((res) => {
+        console.log(res);
+        
+        const fetchedData = res.data.map((author: any, index: number) => ({
+            key: index.toString(),
+            totalStreams: author.totalStreams || 0, 
+            totalAlbums: author.totalAlbumsOfAuthor || 0, 
+            totalSongs: author.totalSongsOfAuthor || 0, 
+            image: author.image || '/images/defaultArtist.png', 
+            files: [{ url: author.image || '/images/defaultArtist.png' }], 
+            fullName: author.fullName || 'Unknown Artist', 
+            id: author.id || null,
+            albums: author.albums || [],
+        }));
+
+        setTableData(fetchedData);
+      })
+      .catch((err) => {
+        console.log("Error fetching users:", err);
+      });
+    }, [token]);
 
     const filteredData = useMemo(() => {
         const lowerSearchQuery = searchQuery.toLowerCase();
@@ -128,7 +114,13 @@ const ContentTable: React.FC = () => {
                     className={styles.artistCell}
                     onClick={() => setSelectedArtist(record)}
                 >
-                    <img className={styles.image} src={record.files[0]?.url} width={40} height={40} alt={text} />
+                    <Image
+                    className={styles.image}
+                    src={record.files[0]?.url } 
+                    width={40}
+                    height={40}
+                    alt={text}
+                />
                     <span>{record.fullName}</span>
                 </div>
             ),

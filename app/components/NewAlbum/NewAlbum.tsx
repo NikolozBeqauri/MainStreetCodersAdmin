@@ -29,7 +29,7 @@ export const NewAlbum = () => {
     return (
         <div className={styles.background} onClick={closePopup}>
             <div className={styles.wrapper} onClick={e => e.stopPropagation()}>
-                <h2>Add New Artist</h2>
+                <h2>Add New Album</h2>
                 <form className={styles.formWrapper} onSubmit={handleSubmit(onSubmit)}>
                     <div className={styles.inputsWrapper}>
                     <div className={styles.dragAndDrop}>

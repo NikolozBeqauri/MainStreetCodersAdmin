@@ -6,6 +6,8 @@ import styles from "./UserManagmentTable.module.scss";
 import { UserInfoPopUp } from "../UserInfoPopUp/UserInfoPopUp";
 import { NewPassword } from "../NewPassword/NewPassword";
 import axios from "axios";
+import Cookies from 'js-cookie';
+import dayjs from 'dayjs';
 
 type User = {
   id: number;
@@ -20,34 +22,49 @@ const UserManagmentTable: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [isPopupVisible, setIsPopupVisible] = useState(false);
-
   const [editUserPassword, setEditUserPassword] = useState<number | null>(null);
-  const [deleteUser, setDeleteUser] = useState<number | null>(null);
   const [blockUnblockUser, setBlockUnblockUser] = useState<number | null>(null);
+  const [users, setUsers] = useState<User[]>([]);
 
-  const users: User[] = [
-    {
-      id: 1,
-      email: "user1@example.com",
-      password: "password123",
-      createdAt: "2023-09-30",
-      active: false,
-    },
-    {
-      id: 5,
-      email: "blockeduser@example.com",
-      password: "password123",
-      createdAt: "2023-09-30",
-      active: true,
-    },
-    {
-      id: 26,
-      email: "blockeduser@example.com",
-      password: "password123",
-      createdAt: "2023-09-30",
-      active: true,
-    },
-  ];
+  const token = Cookies.get("token");
+
+  useEffect(() => {
+    axios.get("https://project-spotify-1.onrender.com/users", {
+      headers: {
+        "Authorization": `Bearer ${token}`,
+      },
+    })
+    .then((res) => {
+      const fetchedUsers = res.data.map((user: any) => ({
+        id: user.id,
+        email: user.email,
+        password: user.password,
+        createdAt: dayjs(user.createAt).format("MMMM D, YYYY, h:mm A"),
+        active: true,
+      }));
+      setUsers(fetchedUsers);
+    })
+    .catch((err) => {
+      console.log("Error fetching users:", err);
+    });
+  }, [token]);
+
+  const handleDeleteUser = (id: number) => {
+    console.log(id);
+    
+    axios
+      .delete(`https://project-spotify-1.onrender.com/users/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(() => {
+        setUsers((prevUsers) => prevUsers.filter((user) => user.id !== id));
+      })
+      .catch((err) => {
+        console.log("Error deleting user:", err);
+      });
+  };
 
   const memoizedUsers = useMemo(() => {
     return users
@@ -137,7 +154,7 @@ const UserManagmentTable: React.FC = () => {
             className={styles.unBorder}
             onClick={(e) => {
               e.stopPropagation();
-              setDeleteUser(record.id);
+              handleDeleteUser(record.id);
             }}
           >
             <Image
@@ -267,11 +284,6 @@ const UserManagmentTable: React.FC = () => {
           userId={editUserPassword}
           onClose={() => setEditUserPassword(null)}
         />
-      )}
-      {deleteUser && (
-        <div>
-          <p>Deleting User: {deleteUser}</p>
-        </div>
       )}
       {blockUnblockUser && (
         <div>
