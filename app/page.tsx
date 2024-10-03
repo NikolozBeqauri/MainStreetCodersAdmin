@@ -1,17 +1,18 @@
-  "use client"
+"use client"
 
-import { HeartIcon } from "./components/HeartIcon/HeartIcon";
-import ReusableButton from "./components/ReusableButton/ReusableButton";
-import { SideBar } from "./components/SideBar/SideBar";
-import TrackPopUp from "./components/TrackPopUp/TrackPopUp";
+import { AdminTab } from "@/app/components/AdminTab/AdminTab"
+import { TableNavigation } from "@/app/components/TableNavigation/TableNavigation"
+import { UserManagement } from "@/app/components/UserManagement/UserManagement"
 
 
-export default function Home() {
-  return (
-    <main>
-      <ReusableButton title={"Button"} mode={"outline"}/>
+const userManagement = () => {
 
-      <TrackPopUp />
-    </main>
-  );
+    return(
+        <div>
+            <UserManagement content={"User Management"} count={175} />
+            <TableNavigation />
+        </div>
+    )
 }
+
+export default userManagement
