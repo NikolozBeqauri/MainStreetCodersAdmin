@@ -5,11 +5,11 @@ export default async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
   const token = request.cookies.get('token')?.value;
 
-  const publicRoutes = ['/login', '/register'];
+  const publicRoutes = ['/signin'];
   console.log('Token', token)
   
   if (!token && !publicRoutes.includes(path)) {
-    return NextResponse.redirect(new URL('/login', request.url));
+    return NextResponse.redirect(new URL('/signin', request.url));
   }
 
   return NextResponse.next();

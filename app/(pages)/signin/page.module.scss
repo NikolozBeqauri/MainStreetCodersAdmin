@@ -1,0 +1,197 @@
+@import "/app/colors.scss";
+
+.signUpWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+    width: 100%;
+    min-height: 100vh;
+    background-color: $signBackground;
+    padding: 30px 0px 30px 70px;
+    background-image: url('/images/signin.png'), url('/images/desktopBackground.png');
+    background-repeat: no-repeat;
+    background-position: bottom right, top left, top left;
+    background-size: contain;
+    background-size: 750px auto, auto, auto;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+    max-width: 610px;
+}
+
+.where {
+    color: $defaultWhite;
+    font-family: "SF Pro Display";
+    font-size: 50px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    text-transform: uppercase;
+}
+
+.harmony {
+    font-family: var(--agfutura);
+    font-size: 62px;
+    font-weight: 400;
+    line-height: 79.2px;
+}
+
+.meets {
+    background-image: $gradientApoloButton;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+    font-family: "SF Pro Display";
+    font-size: 62px;
+    font-style: normal;
+    font-weight: 800;
+    margin-top: -15px;
+    text-transform: uppercase;
+}
+
+.melody {
+    background: $gradientApoloButton;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: "SF Pro Display";
+    font-size: 50px;
+    font-style: normal;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.titles p {
+    color: $lightPurple;
+    font-family: "Plus Jakarta Sans";
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.getStarted {
+    cursor: pointer;
+    color: $defaultWhite;
+    width: 332px;
+    padding: 16px 40px;
+    border-radius: 8px;
+    border: none;
+    background: $gradientApoloButton;
+}
+
+.startedComponentWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20% 0px;
+    gap: 24px;
+    width: 100vw;
+    min-height: 100vh;
+    height: 100%;
+    background-image: url('/images/mainLogo.png'), url('/images/signTabletBackground.png');
+    background-repeat: no-repeat;
+    background-position: top 32px left 32px, center;
+    background-size: 98px 83px, 100% 100vh;
+}
+
+.startedComponentWrapper h2 {
+    color: $lightPurple;
+    text-align: center;
+    font-family: "Plus Jakarta Sans";
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+
+}
+@media (min-width:1700px) {
+    .signUpWrapper {
+        gap: 104px;
+        padding: 40px 0px 40px 70px;
+    }
+}
+@media (max-width: 1024px) {
+    .signUpWrapper {
+        padding: 32px;
+        gap: 72px;
+        background-image: url('/images/signin.png'), url('/images/signTabletBackground.png');
+        background-size: auto 60%, 100% 100%;
+    }
+
+    .where {
+        font-size: 50px;
+    }
+
+    .harmony {
+        font-size: 60px;
+        line-height: 38px;
+    }
+
+    .meets {
+        font-size: 60px;
+    }
+
+    .melody {
+        font-size: 50px;
+    }
+
+    .content {
+        align-self: center;
+        width: 100%;
+        align-items: center;
+    }
+
+    .titles {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 650px) {
+    .signUpWrapper {
+        padding: 12px;
+        gap: 62px;
+        background-image: url('/images/signin.png'), url('/images/signMobileBackground.png');
+        background-size: 440px auto, 100% 100%;
+    }
+
+    .signUpWrapper>img {
+        width: 48px;
+        height: 41px;
+    }
+
+    .where {
+        font-size: 36px;
+    }
+
+    .harmony {
+        font-size: 39px;
+    }
+
+    .meets {
+        font-size: 39px;
+    }
+
+    .melody {
+        font-size: 36px;
+    }
+
+    .titles p {
+        font-size: 14px;
+    }
+
+    .startedComponentWrapper {
+        
+        padding: 140px 24px 24px 24px;
+        background-image: url('/images/mainLogo.png'), url('/images/signMobileBackground.png');
+        background-position: top 24px left 24px, center;
+        background-size: 48px 41px, 100vw 100vh;
+    }
+}
