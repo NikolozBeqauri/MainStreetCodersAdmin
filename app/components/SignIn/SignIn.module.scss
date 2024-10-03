@@ -1,0 +1,94 @@
+@import "/app/colors.scss";
+.fromWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 368px;
+    width: 100%;
+}
+.fromWrapper input {
+    padding: 16px;
+    border-radius: 8px;
+    border: none;
+}
+
+.errorMessage{
+    color: red;
+}
+.fromWrapper input[type="email"],
+.fromWrapper input[type="Password"]  {
+    color: green;
+    background-color: white;
+    color: $lightPurple;
+    font-family: var(--Manrope);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 115%;
+    width: 100%;
+}
+.fromWrapper input[type="email"]::placeholder,
+.fromWrapper input[type="Password"]::placeholder {
+    color: $lightPurple;
+    font-family: Manrope;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 115%;
+}
+
+.fromWrapper input[type="submit"] {
+    background: $gradientApoloButton;
+    color: $defaultWhite;
+    font-family: Manrope;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height:  16px;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin: 8px 0px;
+    width: 100%;
+}
+.memoryWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.checkbox {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    color: $defaultWhite;
+    font-family: Manrope;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 19px
+}
+.checkbox label{
+    cursor: pointer;
+}
+.forgotPassword {
+    cursor: pointer;
+    color: $palladium;
+    font-family: Manrope;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 19px;
+    text-decoration-line: underline;
+}
+.haveAccount {
+    text-align: center;
+    color: $defaultWhite;
+    font-family: Manrope;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+.haveAccount span {
+    color: $signapureOrchid;
+    cursor: pointer;
+}

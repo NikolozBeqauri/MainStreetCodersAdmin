@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
-import { SideBar } from "./components/SideBar/SideBar";
-import { RecoilWrapper } from "./components/RecoilWrapper/RecoilWrapper";
 import styles from "./layout.module.scss"
 import Image from 'next/image';
+import { SideBar } from "@/app/components/SideBar/SideBar";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -20,14 +18,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={styles.body}>
-        <div className={styles.container}>
-          <RecoilWrapper>
-            {children}
-          </RecoilWrapper>
+    <>
+      <SideBar />
+      <div className={styles.containerWrapper}>
+        <div className={styles.header}>
+          <Image
+            src={`/icons/profileIcon.svg`}
+            alt="musician image"
+            width={46}
+            height={46}
+          />
         </div>
-      </body>
-    </html>
+        {children}
+      </div>
+    </>
   );
 }

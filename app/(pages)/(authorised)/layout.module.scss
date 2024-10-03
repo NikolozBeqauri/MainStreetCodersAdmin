@@ -1,0 +1,22 @@
+@import "/app/colors.scss";
+
+/* || layout structure */
+
+.container{
+    display: flex;
+    flex-direction: row;
+    min-height: 100vh;
+    background-color: $background;
+}
+.header {
+    display: flex;
+    justify-content: end;
+}
+.containerWrapper{
+    display: flex;
+    flex-direction: column;
+    padding: 40px 24px;
+    max-width: 1150px;
+    width: 100%;
+    margin: 0 auto;
+}

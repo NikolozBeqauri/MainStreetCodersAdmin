@@ -1,6 +1,7 @@
 'use client'
-import { UserManagement } from "./components/UserManagement/UserManagement";
-import UserManagmentTable from "./components/UserManagmentTable/UserManagmentTable";
+
+import { UserManagement } from "@/app/components/UserManagement/UserManagement";
+import UserManagmentTable from "@/app/components/UserManagmentTable/UserManagmentTable";
 
 export default function Home() {
 
