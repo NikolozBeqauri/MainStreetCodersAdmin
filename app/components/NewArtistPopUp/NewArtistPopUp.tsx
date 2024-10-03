@@ -45,6 +45,7 @@ export const NewArtistPopUp: React.FC<NewArtistPopUpProps> = ({ onClose }) => {
             },
         })
             .then((res) => {
+                
                 console.log(res);
                 reset();
                 onClose();
