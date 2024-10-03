@@ -5,12 +5,11 @@ import UserManagmentTable from "@/app/components/UserManagmentTable/UserManagmen
 
 export default function Home() {
 
-  
-   return (
+  return (
     <main>
       <UserManagement content={"User Management"} count={175} />
       <section>
-        <UserManagmentTable/>
+        <UserManagmentTable />
       </section>
     </main>
   );
