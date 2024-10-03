@@ -1,29 +1,38 @@
-import PlaylistTable from "../PlaylistTable/PlaylistTable"
-import { ReusableIcon } from "../ReusableIcon/ReusableIcon"
-import styles from './ManagmentCard.module.scss'
-import Image from 'next/image'
+import PlaylistTable from "../PlaylistTable/PlaylistTable";
+import { ReusableIcon } from "../ReusableIcon/ReusableIcon";
+import styles from './ManagmentCard.module.scss';
+import Image from 'next/image';
 
-export const ManagmentCard = () => {
+type Props = {
+    title: string;
+    img: string;
+    onClose: () => void;
+};
 
+export const ManagmentCard: React.FC<Props> = ({ title, img, onClose }) => {
     return (
-        <div className={styles.background}>
-            <div className={styles.wrapper}>
+        <div className={styles.background} onClick={onClose}>
+            <div className={styles.wrapper} onClick={(e) => e.stopPropagation()}>
                 <div className={styles.header}>
-                    <ReusableIcon imgName={"rightArrow"} />
-                    <h2>Dolores Chambers</h2>
-                    <ReusableIcon imgName={"deleteCross"} />
+                    <div onClick={onClose}>
+                        <ReusableIcon imgName={"rightArrow"} />
+                    </div>
+                    <h2>{title}</h2>
+                    <div onClick={onClose}>
+                        <ReusableIcon imgName={"deleteCross"} />
+                    </div>
                 </div>
 
                 <div className={styles.artistInfo}>
                     <Image
-                        src={'/images/managmentCard.png'}
+                        src={img}
                         alt='icon'
                         width={170}
                         height={152}
                     />
                     <div className={styles.artistInfoContent}>
                         <div className={styles.titles}>
-                            <h3>react-hook-form</h3>
+                            <h3>{title}</h3>
                             <span>Playlist name 4</span>
                         </div>
                         <div className={styles.titles}>
@@ -37,9 +46,8 @@ export const ManagmentCard = () => {
                     </div>
                 </div>
                 <span>Playlist Tracks</span>
-                <PlaylistTable/>
+                <PlaylistTable />
             </div>
         </div>
-        
-    )
-}
+    );
+};

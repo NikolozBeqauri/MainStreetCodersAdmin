@@ -64,7 +64,7 @@ export const SignIn = () => {
                 <span className={styles.forgotPassword}>Forgot your password?</span>
             </div>
 
-            <input type="submit" value="Sign Up" />
+            <input type="submit" value="Sign In" />
         </form>
     ); 
 };
