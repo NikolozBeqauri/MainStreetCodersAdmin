@@ -48,7 +48,7 @@
 
 .artistInfoContent h3 {
     color: $defaultWhite;
-    font-family: "Plus Jakarta Sans";
+    font-family: var(--font-jakarta-sans);
     font-size: 16px;
     font-style: normal;
     font-weight: 500;
@@ -62,7 +62,7 @@
 }
 .artistInfoContent span {
     color: $missionControl;
-    font-family: "Plus Jakarta Sans";
+    font-family: var(--font-jakarta-sans);
     font-size: 16px;
     font-style: normal;
     font-weight: 500;

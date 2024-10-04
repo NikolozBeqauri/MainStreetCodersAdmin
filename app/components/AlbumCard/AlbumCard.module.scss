@@ -20,7 +20,7 @@
 
 .cardTitles span {
     color: $shadyLady;
-    font-family: "Plus Jakarta Sans";
+    font-family: var(--font-jakarta-sans);
     font-size: 14px;
     font-style: normal;
     font-weight: 600;
@@ -29,7 +29,7 @@
 
 .cardTitles h3 {
     color: $defaultWhite;
-    font-family: "Plus Jakarta Sans";
+    font-family: var(--font-jakarta-sans);
     font-size: 16px;
     font-style: normal;
     font-weight: 600;
