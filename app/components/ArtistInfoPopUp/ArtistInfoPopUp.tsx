@@ -34,6 +34,7 @@ export const ArtistInfoPopUp = (props: Props) => {
     const [isNewAlbumPopupOpen, setIsNewAlbumPopupOpen] = useState(false);
     const [isManagementCardVisible, setIsManagementCardVisible] = useState(false);
     const [selectedAlbum, setSelectedAlbum] = useState<any>(null);    
+    
     const onSubmit = (data: FormData) => {
         setIsEditable(false);
     };
@@ -51,10 +52,6 @@ export const ArtistInfoPopUp = (props: Props) => {
 
     const openNewAlbumPopup = () => {
         setIsNewAlbumPopupOpen(true);
-    };
-
-    const closeNewAlbumPopup = () => {
-        setIsNewAlbumPopupOpen(false);
     };
 
     const openManagementCard = (album: any) => {
@@ -170,8 +167,8 @@ export const ArtistInfoPopUp = (props: Props) => {
 
             {isManagementCardVisible && selectedAlbum && (
                 <ManagmentCard
-                    title={'asd'}
-                    img={'/icons/whiteEdit.svg'}
+                    title={artist.fullName}
+                    img={artist.image}
                     onClose={closeManagementCard}
                 />
             )}

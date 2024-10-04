@@ -24,13 +24,14 @@ interface DataType {
 }
 
 const ContentTable: React.FC = () => {
-    const [active, setActive] = useState(false);
     const [showDeletePopup, setShowDeletePopup] = useState(false);
     const [currentDeleteId, setCurrentDeleteId] = useState<number | null>(null);
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedArtist, setSelectedArtist] = useState<DataType | null>(null);
     const [showNewArtistPopup, setShowNewArtistPopup] = useState(false);
     const [tableData, setTableData] = useState<DataType[]>([]); 
+    console.log(selectedArtist);
+    
 
     const token = Cookies.get("token");
 
@@ -41,8 +42,6 @@ const ContentTable: React.FC = () => {
         },
       })
       .then((res) => {
-        console.log(res);
-        
         const fetchedData = res.data.map((author: any, index: number) => ({
             key: index.toString(),
             totalStreams: author.totalStreams || 0, 
@@ -62,33 +61,40 @@ const ContentTable: React.FC = () => {
       });
     }, [token]);
 
+    const addArtist = (newArtist: DataType) => {
+        setTableData((prevData) => [...prevData, newArtist]);
+    };
+
     const filteredData = useMemo(() => {
         const lowerSearchQuery = searchQuery.toLowerCase();
-        const filtered = tableData.filter((item) =>
+        return tableData.filter((item) =>
             item.fullName?.toLowerCase().includes(lowerSearchQuery)
         );
-        return filtered.sort((a, b) => {
-            const isExactMatchA = a.fullName?.toLowerCase() === lowerSearchQuery;
-            const isExactMatchB = b.fullName?.toLowerCase() === lowerSearchQuery;
-            if (isExactMatchA && !isExactMatchB) {
-                return -1;
-            } else if (!isExactMatchA && isExactMatchB) {
-                return 1;
-            } else {
-                return 0;
-            }
-        });
     }, [searchQuery, tableData]);
 
     const handleDeleteClick = (id: number, event: React.MouseEvent) => {
         event.stopPropagation();
-        setCurrentDeleteId(id);
-        setShowDeletePopup(true);
+        setCurrentDeleteId(id); 
+        setShowDeletePopup(true); 
     };
 
     const handleDeleteConfirm = () => {
-        setShowDeletePopup(false);
-        setCurrentDeleteId(null);
+        if (currentDeleteId) {
+            axios
+                .delete(`https://project-spotify-1.onrender.com/authors/${currentDeleteId}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`, 
+                    },
+                })
+                .then(() => {
+                    setTableData((prevData) => prevData.filter((artist) => artist.id !== currentDeleteId));
+                    setShowDeletePopup(false);
+                    setCurrentDeleteId(null);
+                })
+                .catch((err) => {
+                    console.log("Error deleting the artist:", err);
+                });
+        }
     };
 
     const handleDeleteCancel = () => {
@@ -109,27 +115,23 @@ const ContentTable: React.FC = () => {
             title: 'Full Name',
             dataIndex: 'fullName',
             key: 'fullName',
-            render: (text, record) => {
-                console.log(record , 'record')
-                return (
-                    <div
-                        className={styles.artistCell}
-                        onClick={() => setSelectedArtist(record)}
-                    >
-                        <Image
-                            className={styles.image}
-                            src={`${record.image}`}
-                            width={40}
-                            height={40}
-                            alt={text}
-                        />
-                        <span>{record.fullName}</span>
-                    </div>
-                );
-            },
+            render: (text, record) => (
+                <div
+                    className={styles.artistCell}
+                    onClick={() => setSelectedArtist(record)}
+                >
+                    <Image
+                        className={styles.image}
+                        src={`${record.image}`}
+                        width={40}
+                        height={40}
+                        alt={text}
+                    />
+                    <span>{record.fullName}</span>
+                </div>
+            ),
             width: '30%',
         },
-        
         {
             title: 'Total Streams',
             dataIndex: 'totalStreams',
@@ -206,7 +208,7 @@ const ContentTable: React.FC = () => {
                 {showDeletePopup && (
                     <DeletePopUp
                         onClose={handleDeleteCancel}
-                        onDelete={handleDeleteConfirm}
+                        onDelete={handleDeleteConfirm} 
                     />
                 )}
                 {selectedArtist && (
@@ -218,6 +220,7 @@ const ContentTable: React.FC = () => {
                 {showNewArtistPopup && (
                     <NewArtistPopUp
                         onClose={closeNewArtistPopup}
+                        addArtist={addArtist} 
                     />
                 )}
             </div>
