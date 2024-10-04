@@ -6,8 +6,8 @@ import styles from "./UserManagmentTable.module.scss";
 import { UserInfoPopUp } from "../UserInfoPopUp/UserInfoPopUp";
 import { NewPassword } from "../NewPassword/NewPassword";
 import axios from "axios";
-import Cookies from 'js-cookie';
-import dayjs from 'dayjs';
+import Cookies from "js-cookie";
+import dayjs from "dayjs";
 
 type User = {
   id: number;
@@ -25,35 +25,55 @@ const UserManagmentTable: React.FC = () => {
   const [editUserPassword, setEditUserPassword] = useState<number | null>(null);
   const [blockUnblockUser, setBlockUnblockUser] = useState<number | null>(null);
   const [users, setUsers] = useState<User[]>([]);
-
+  const [allBlockedUsers, setAllBlockedUsers] = useState<User[]>([]);
   const token = Cookies.get("token");
 
   useEffect(() => {
-    axios.get("https://project-spotify-1.onrender.com/users", {
-      headers: {
-        "Authorization": `Bearer ${token}`,
-      },
-    })
-    .then((res) => {
-      const fetchedUsers = res.data.map((user: any) => ({
-        id: user.id,
-        email: user.email,
-        password: user.password,
-        createdAt: dayjs(user.createAt).format("MMMM D, YYYY, h:mm A"),
-        active: true,
-      }));
-      setUsers(fetchedUsers);
-    })
-    .catch((err) => {
-      console.log("Error fetching users:", err);
-    });
+    axios
+      .get("https://project-spotify-1.onrender.com/users/blocked", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        const blockedUsers = res.data.map((user: any) => ({
+          id: user.id,
+          email: user.email,
+          password: user.password,
+          createdAt: dayjs(user.createAt).format("MMMM D, YYYY, h:mm A"),
+          active: user.isBlocked ? false : true, 
+        }));
+        setAllBlockedUsers(blockedUsers);
+      })
+      .catch((err) => {
+        console.log("Error fetching blocked users:", err);
+      });
+  }, [token]);
+
+  useEffect(() => {
+    axios
+      .get("https://project-spotify-1.onrender.com/users", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        const fetchedUsers = res.data.map((user: any) => ({
+          id: user.id,
+          email: user.email,
+          password: user.password,
+          createdAt: dayjs(user.createAt).format("MMMM D, YYYY, h:mm A"),
+          active: user.isBlocked ? false : true, 
+        }));
+        setUsers(fetchedUsers);
+      })
+      .catch((err) => {
+        console.log("Error fetching users:", err);
+      });
   }, [token]);
 
   const handleDeleteUser = (id: number) => {
-    console.log(id);
-    
-    axios
-      .delete(`https://project-spotify-1.onrender.com/users/${id}`, {
+    axios.delete(`https://project-spotify-1.onrender.com/users/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -68,16 +88,20 @@ const UserManagmentTable: React.FC = () => {
 
   const memoizedUsers = useMemo(() => {
     return users
-      .filter((user) => user.email.toLowerCase().includes(searchQuery.toLowerCase()))
+      .filter((user) => user.active) 
+      .filter((user) =>
+        user.email.toLowerCase().includes(searchQuery.toLowerCase())
+      )
       .map((user) => ({ ...user, key: user.id }));
   }, [users, searchQuery]);
 
   const memoizedBlockedUsers = useMemo(() => {
-    return users
-      .filter((user) => !user.active)
-      .filter((user) => user.email.toLowerCase().includes(searchQuery.toLowerCase()))
-      .map((user) => ({ ...user, key: user.id }));
-  }, [users, searchQuery]);
+    return allBlockedUsers
+      ?.filter((user) =>
+        user.email.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+      .map((user) => ({ ...user, key: user.id })) || [];
+  }, [allBlockedUsers, searchQuery]);
 
   const handlePasswordToggle = (id: number, e: React.MouseEvent) => {
     e.stopPropagation();
@@ -97,7 +121,9 @@ const UserManagmentTable: React.FC = () => {
     {
       title: "Registration Date",
       key: "createdAt",
-      render: (_, record) => <div className={styles.artistCell}>{record.createdAt}</div>,
+      render: (_, record) => (
+        <div className={styles.artistCell}>{record.createdAt}</div>
+      ),
       width: "20%",
     },
     {
@@ -174,10 +200,10 @@ const UserManagmentTable: React.FC = () => {
           >
             <Image
               className={styles.curImg}
-              src={record.active ? "/icons/block.svg" : "/icons/unBlock.svg"}
+              src={record.active ? "/icons/block.svg" : "/icons/unBlock.svg"} 
               width={24}
               height={24}
-              alt="block/unblock"
+              alt={record.active ? "block" : "unblock"}
             />
           </button>
         </div>

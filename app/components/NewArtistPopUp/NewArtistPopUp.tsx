@@ -13,17 +13,28 @@ type FormValues = {
     biography: string;
     file: FileList;
 };
-
+interface DataType {
+    albums: any;
+    key: string;
+    totalStreams: number;
+    totalAlbums: number;
+    totalSongs: number;
+    image: string;
+    fullName: string;
+    id?: any;
+    files?: any;
+}
 interface NewArtistPopUpProps {
     onClose: () => void;
+    addArtist: (newArtist: DataType) => void; 
 }
 
-export const NewArtistPopUp: React.FC<NewArtistPopUpProps> = ({ onClose }) => {
+export const NewArtistPopUp: React.FC<NewArtistPopUpProps> = ({ onClose, addArtist }) => {
     const { register, handleSubmit, formState: { errors }, reset } = useForm<FormValues>();
     const [isPopupOpen, setIsPopupOpen] = useState(true);
 
     const onSubmit = (data: FormValues) => {
-        const token = Cookies.get("token")
+        const token = Cookies.get("token");
 
         if (!token) {
             console.log('token Error');
@@ -45,7 +56,18 @@ export const NewArtistPopUp: React.FC<NewArtistPopUpProps> = ({ onClose }) => {
             },
         })
             .then((res) => {
-                console.log(res);
+                const newArtist = {
+                    key: res.data.id.toString(), 
+                    totalStreams: res.data.totalStreams || 0, 
+                    totalAlbums: res.data.totalAlbumsOfAuthor || 0, 
+                    totalSongs: res.data.totalSongsOfAuthor || 0, 
+                    image: res.data.image || '/images/defaultArtist.png',
+                    fullName: res.data.fullName || 'Unknown Artist',
+                    id: res.data.id,
+                    albums: res.data.albums || [],
+                };
+
+                addArtist(newArtist); 
                 reset();
                 onClose();
             })
