@@ -26,7 +26,7 @@
 
 .wrapper p {
     color: $background;
-    font-family: "Plus Jakarta Sans";
+    font-family: var(--font-jakarta-sans);
     font-size: 16px;
     font-style: normal;
     font-weight: 500;
@@ -45,7 +45,7 @@
     background: #1677FF;
     color: $defaultWhite;
     transition: all 0.3s ease;
-    font-family: "Plus Jakarta Sans";
+    font-family: var(--font-jakarta-sans);
     font-weight: 500;
 
     &:hover {
@@ -70,7 +70,7 @@
     border-radius: 12px;
     color: $background;
     transition: all 0.3s ease;
-    font-family: "Plus Jakarta Sans";
+    font-family: var(--font-jakarta-sans);
     font-weight: 500;
 
     &:hover {

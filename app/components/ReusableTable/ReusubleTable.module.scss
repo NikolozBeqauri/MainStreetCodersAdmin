@@ -60,7 +60,7 @@
 
 .wrapper :global .ant-table-cell {
     color: $missionControl !important;
-    font-family: "Plus Jakarta Sans";
+    font-family: var(--font-jakarta-sans);
     font-size: 14px;
     font-style: normal;
     font-weight: 400 !important;

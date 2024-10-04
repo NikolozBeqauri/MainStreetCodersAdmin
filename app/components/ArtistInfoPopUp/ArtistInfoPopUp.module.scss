@@ -59,7 +59,7 @@
 
 .artistInfoContent span {
     color: $missionControl;
-    font-family: "Plus Jakarta Sans";
+    font-family: var(--font-jakarta-sans);
     font-size: 16px;
     font-style: normal;
     font-weight: 500;
@@ -135,7 +135,7 @@
     height: 200px;
     color: $shadyLady;
     text-align: justify;
-    font-family: "Plus Jakarta Sans";
+    font-family: var(--font-jakarta-sans);
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
@@ -161,7 +161,7 @@
 
 .biographyButton span {
     color: $defaultWhite;
-    font-family: "Plus Jakarta Sans";
+    font-family: var(--font-jakarta-sans);
     font-size: 14px;
     font-style: normal;
     font-weight: 500;

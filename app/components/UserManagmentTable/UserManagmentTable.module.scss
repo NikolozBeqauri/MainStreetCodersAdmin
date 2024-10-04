@@ -20,12 +20,15 @@
 
 .wrapper :global  .ant-table-cell {
     text-align: center !important;
+    font-family: var(--font-jakarta-sans);
     font-size: 14px !important;
     cursor: pointer !important;
 }
 
 .wrapper :global tr th {
     font-size: 14px !important;
+    font-family: var(--font-jakarta-sans);
+
 }
 
 .wrapper :global .ant-table-cell {
@@ -34,6 +37,8 @@
     border: none !important;
     padding: 10px !important;
     text-align: center;
+    font-family: var(--font-jakarta-sans);
+
 
 }
 
@@ -76,6 +81,8 @@
 
 .wrapper :global .ant-pagination li a {
     color: #818385 !important;
+    font-family: var(--font-jakarta-sans);
+
 
 
 }
@@ -89,6 +96,8 @@
 .wrapper :global .ant-pagination .ant-pagination-item-active a {
     color: $defaultWhite !important;
     font-size: 14px;
+    font-family: var(--font-jakarta-sans);
+
 }
 
 .wrapper :global .ant-pagination-prev .ant-pagination-item-link {
@@ -157,11 +166,15 @@
     color: $hawksEye;
     font-size: 14px;
     font-weight: 400;
+    font-family: var(--font-jakarta-sans);
+
 }
 
 .cellName {
     display: flex;
     padding: 12px 10px;
+    font-family: var(--font-jakarta-sans);
+
 }
 
 .cellAlbumName {
@@ -171,6 +184,8 @@
     color: $shadyLady;
     font-size: 14px;
     font-weight: 500;
+    font-family: var(--font-jakarta-sans);
+
 }
 
 .cellTimeName {
@@ -180,6 +195,8 @@
     color: $shadyLady;
     font-size: 14px;
     font-weight: 500;
+    font-family: var(--font-jakarta-sans);
+
 }
 
 .cellSongname {
@@ -187,7 +204,10 @@
     gap: 20px;
     align-items: center;
     justify-content: center;
+    font-family: var(--font-jakarta-sans);
+
 }
+
 
 .fontGap {
     display: flex;
@@ -199,6 +219,8 @@
     color: $defaultWhite;
     font-size: 14px;
     font-weight: 500;
+    font-family: var(--font-jakarta-sans);
+
 }
 
 .songArtist {
@@ -206,6 +228,8 @@
     font-style: normal;
     font-weight: 500;
     color: $shadyLady;
+    font-family: var(--font-jakarta-sans);
+
 }
 
 .cellLike {
@@ -258,6 +282,8 @@
     font-size: 2rem;
     border: 0.5px solid $defaultWhite;
     border-radius: 4px;
+    font-family: var(--font-jakarta-sans);
+
 }
 
 .inp:checked {
@@ -295,9 +321,11 @@
 
 .tableContainer :global .ant-select-selector {
     background-color: #000 !important;
+    
 } 
 
 .wrapper :global .ant-select-selection-item {
     color: #fff !important;
+    font-family: var(--font-jakarta-sans);
 }
 
