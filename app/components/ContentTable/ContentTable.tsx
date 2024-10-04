@@ -109,23 +109,27 @@ const ContentTable: React.FC = () => {
             title: 'Full Name',
             dataIndex: 'fullName',
             key: 'fullName',
-            render: (text, record) => (
-                <div
-                    className={styles.artistCell}
-                    onClick={() => setSelectedArtist(record)}
-                >
-                    <Image
-                    className={styles.image}
-                    src={record.files[0]?.url } 
-                    width={40}
-                    height={40}
-                    alt={text}
-                />
-                    <span>{record.fullName}</span>
-                </div>
-            ),
+            render: (text, record) => {
+                console.log(record , 'record')
+                return (
+                    <div
+                        className={styles.artistCell}
+                        onClick={() => setSelectedArtist(record)}
+                    >
+                        <Image
+                            className={styles.image}
+                            src={`${record.image}`}
+                            width={40}
+                            height={40}
+                            alt={text}
+                        />
+                        <span>{record.fullName}</span>
+                    </div>
+                );
+            },
             width: '30%',
         },
+        
         {
             title: 'Total Streams',
             dataIndex: 'totalStreams',
