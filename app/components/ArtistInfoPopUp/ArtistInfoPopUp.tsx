@@ -1,3 +1,5 @@
+'use client'; // Add this at the top
+
 import { useState, useRef, useEffect } from "react";
 import ReusableButton from "../ReusableButton/ReusableButton";
 import { ReusableIcon } from "../ReusableIcon/ReusableIcon";
@@ -35,9 +37,8 @@ export const ArtistInfoPopUp = (props: Props) => {
     const [isNewAlbumPopupOpen, setIsNewAlbumPopupOpen] = useState(false);
     const [isManagementCardVisible, setIsManagementCardVisible] = useState(false);
     const [selectedArtistsInfo, setselectedArtistsInfo] = useState<any>(null);
-
+    
     const token = Cookies.get("token");
-    console.log(selectedArtistsInfo);
     
     const fetchArtistAlbums = () => {
         axios.get(`https://project-spotify-1.onrender.com/authors/${props.selectedArtist.id}`, {
@@ -90,10 +91,7 @@ export const ArtistInfoPopUp = (props: Props) => {
         setIsManagementCardVisible(true);
     };
 
-    const closeManagementCard = () => {
-        setIsManagementCardVisible(false);
-    };
-
+    
     return (
         <>
             <div className={styles.background} onClick={onClose}>
@@ -169,13 +167,16 @@ export const ArtistInfoPopUp = (props: Props) => {
 
                         {activeTab === "Albums" ? (
                             <div className={styles.artistCards}>
-                                {selectedArtistsInfo?.albums?.map((album: any, index: number) => (
+                                {selectedArtistsInfo?.albums?.map((album: any) => (
                                     <SquareCard
-                                        key={index}
+                                        key={album.id}
                                         title={album.title || 'No Title Available'}
                                         img={album.coverImage || '/icons/whiteTrash.svg'}
                                         onClick={() => openManagementCard(album)}
                                         deleteAlbum={() => deleteAlbum(album.id)} 
+                                        isManagementCardVisible = {isManagementCardVisible}
+                                        setIsManagementCardVisible = {setIsManagementCardVisible}
+                                        selectedArtistsInfo = {selectedArtistsInfo}
                                     />
                                 ))}
                             </div>
@@ -202,13 +203,6 @@ export const ArtistInfoPopUp = (props: Props) => {
                 />
             )}
 
-            {isManagementCardVisible && (
-                <ManagmentCard
-                    title={artist.fullName}
-                    img={artist.image}
-                    onClose={closeManagementCard}
-                />
-            )}
         </>
     );
 };

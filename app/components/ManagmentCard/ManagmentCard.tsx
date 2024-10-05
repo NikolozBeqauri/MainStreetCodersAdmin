@@ -10,6 +10,9 @@ type Props = {
 };
 
 export const ManagmentCard: React.FC<Props> = ({ title, img, onClose }) => {
+
+    
+
     return (
         <div className={styles.background} onClick={onClose}>
             <div className={styles.wrapper} onClick={(e) => e.stopPropagation()}>
@@ -32,8 +35,8 @@ export const ManagmentCard: React.FC<Props> = ({ title, img, onClose }) => {
                     />
                     <div className={styles.artistInfoContent}>
                         <div className={styles.titles}>
-                            <h3>{title}</h3>
-                            <span>Playlist name 4</span>
+                            <h3>Album Name:</h3>
+                            <span>{title}</span>
                         </div>
                         <div className={styles.titles}>
                             <h3>created:</h3>
