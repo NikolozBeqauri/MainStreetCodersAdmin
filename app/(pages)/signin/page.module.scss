@@ -10,7 +10,7 @@
     padding: 30px 0px 30px 70px;
     background-image: url('/images/signin.png'), url('/images/desktopBackground.png');
     background-repeat: no-repeat;
-    background-position: bottom right, top left, top left;
+    background-position: bottom right, middle;
     background-size: contain;
     background-size: 750px auto, auto, auto;
 }
@@ -88,7 +88,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20% 0px;
+    justify-content: center;
     gap: 24px;
     width: 100vw;
     min-height: 100vh;
@@ -96,7 +96,7 @@
     background-image: url('/images/mainLogo.png'), url('/images/signTabletBackground.png');
     background-repeat: no-repeat;
     background-position: top 32px left 32px, center;
-    background-size: 98px 83px, 100% 100vh;
+    background-size: 98px 83px, 100% 100%;
 }
 
 .startedComponentWrapper h2 {
