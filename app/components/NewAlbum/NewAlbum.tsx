@@ -1,23 +1,50 @@
-'use client'
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Image from "next/image";
 import styles from './NewAlbum.module.scss';
 import ReusableButton from "../ReusableButton/ReusableButton";
-import { useState } from "react";
+import axios from "axios";
+import Cookies from 'js-cookie';
 
 type FormValues = {
-    artistName: string;
-    albumReleaseDate: string;
+    title: string;
+    releaseDate: string;
     file: FileList;
 };
 
-export const NewAlbum = () => {
+type Props = {
+    artistId: number; 
+    setselectedArtistsInfo: Function;
+    refreshAlbums: () => void;
+}
+
+export const NewAlbum = (props: Props) => {
     const { register, handleSubmit, formState: { errors }, reset } = useForm<FormValues>();
     const [isPopupOpen, setIsPopupOpen] = useState(true);
+    const token = Cookies.get("token");
 
     const onSubmit = (data: FormValues) => {
-        console.log(data);
-        reset();
+        const newData = new FormData();
+        newData.append("title", data.title);
+        newData.append("releaseDate", data.releaseDate);
+        newData.append("file", data.file[0]);
+
+        axios.post(`https://project-spotify-1.onrender.com/albums/${props.artistId}`, newData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+                "Authorization": `Bearer ${token}`,
+            },
+        })
+        .then((res) => {
+            props.refreshAlbums();
+            setIsPopupOpen(false);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+        .finally(() => {
+            reset();
+        });
     };
 
     const closePopup = () => {
@@ -32,8 +59,8 @@ export const NewAlbum = () => {
                 <h2>Add New Album</h2>
                 <form className={styles.formWrapper} onSubmit={handleSubmit(onSubmit)}>
                     <div className={styles.inputsWrapper}>
-                    <div className={styles.dragAndDrop}>
-                        <h3>Album  Cover  Photo</h3>
+                        <div className={styles.dragAndDrop}>
+                            <h3>Album Cover Photo</h3>
                             <label htmlFor="forFile">
                                 <Image
                                     src={"/icons/dragAndDrop.svg"}
@@ -52,32 +79,30 @@ export const NewAlbum = () => {
 
                         <div className={styles.inputs}>
                             <div>
-                            <label>Add New Album</label>
-                            <input
-                                type="text"
-                                {...register("artistName", { required: "Artist name is required" })}
-                            />
-                            {errors.artistName && <p className={styles.errorMessage}>{errors.artistName.message}</p>}
-
+                                <label>Add New Album</label>
+                                <input
+                                    type="text"
+                                    {...register("title", { required: "album name is required" })}
+                                />
+                                {errors.title && <p className={styles.errorMessage}>{errors.title.message}</p>}
                             </div>
 
                             <div>
-                            <label>Album release date</label>
-                            <input
-                                type="date"
-                                {...register("albumReleaseDate", {
-                                    required: "Album release date is required",
-                                    validate: value => {
-                                        const selectedDate = new Date(value);
-                                        const today = new Date();
-                                        if (selectedDate > today) {
-                                            return "The date cannot be in the future.";
-                                        }
-                                    }
-                                })}
-                                
-                            />
-                            {errors.albumReleaseDate && <p className={styles.errorMessage}>{errors.albumReleaseDate.message}</p>}
+                                <label>Album release date</label>
+                                <input
+                                    type="date"
+                                    {...register("releaseDate", {
+                                        required: "Album release date is required",
+                                        validate: value => {
+                                            const selectedDate = new Date(value);
+                                            const today = new Date();
+                                            if (selectedDate > today) {
+                                                return "The date cannot be in the future.";
+                                            }
+                                        },
+                                    })}
+                                />
+                                {errors.releaseDate && <p className={styles.errorMessage}>{errors.releaseDate.message}</p>}
                             </div>
                         </div>
                     </div>

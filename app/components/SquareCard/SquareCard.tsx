@@ -1,30 +1,38 @@
 import { ReusableIcon } from '../ReusableIcon/ReusableIcon';
 import styles from './SquareCard.module.scss';
-import Image from 'next/image'; 
+import Image from 'next/image';
 
 type Props = {
     title: string;
     img: string;
-    onClick?: () => void; 
+    onClick?: () => void;
+    deleteAlbum?: () => void; 
 };
 
 export const SquareCard = (props: Props) => {
     const stylesClass = [styles.cardIconsBackground];
     const cardImageStyle = [styles.defaultCardStyles];
 
+    const handleDeleteClick = (event: React.MouseEvent<HTMLDivElement>) => {
+        event.stopPropagation();
+        if (props.deleteAlbum) {
+            props.deleteAlbum(); 
+        }
+    };
+
     return (
         <div className={styles.cardWrapper} onClick={props.onClick}>
             <div className={styles.cardImageWrapper}>
                 <Image
                     className={cardImageStyle.join(' ').trim()}
-                    src={`/images/${props.img}.png`}
+                    src={`${props.img}`}
                     alt={`${props.title} image`}
                     width={200}
-                    height={200} 
-                    objectFit="cover" 
+                    height={200}
+                    objectFit="cover"
                 />
                 <div className={stylesClass.join(' ').trim()}>
-                    <div className={styles.cardIconsWrapper}>
+                    <div className={styles.cardIconsWrapper} onClick={handleDeleteClick}>
                         <ReusableIcon imgName={'delete'} background />
                     </div>
                 </div>
