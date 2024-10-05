@@ -4,12 +4,12 @@ import { ReusableIcon } from "../ReusableIcon/ReusableIcon";
 import styles from './ArtistInfoPopUp.module.scss';
 import Image from 'next/image';
 import { SquareCard } from "../SquareCard/SquareCard";
-import { albumCardsData } from "./albumCardsData/albumCardsData";
 import { useForm } from 'react-hook-form';
 import { NewAlbum } from '../NewAlbum/NewAlbum';
 import { ManagmentCard } from '../ManagmentCard/ManagmentCard';
 import Cookies from 'js-cookie';
 import axios from "axios";
+
 interface FormData {
     biography: string;
 }
@@ -23,6 +23,7 @@ interface Props {
         fullName: string;
     };
     onClose: () => void;
+    selectedArtist: any;
 }
 
 export const ArtistInfoPopUp = (props: Props) => {
@@ -33,8 +34,43 @@ export const ArtistInfoPopUp = (props: Props) => {
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     const [isNewAlbumPopupOpen, setIsNewAlbumPopupOpen] = useState(false);
     const [isManagementCardVisible, setIsManagementCardVisible] = useState(false);
-    const [selectedAlbum, setSelectedAlbum] = useState<any>(null);    
+    const [selectedArtistsInfo, setselectedArtistsInfo] = useState<any>(null);
+
+    const token = Cookies.get("token");
+    console.log(selectedArtistsInfo);
     
+    const fetchArtistAlbums = () => {
+        axios.get(`https://project-spotify-1.onrender.com/authors/${props.selectedArtist.id}`, {
+            headers: {
+                "Authorization": `Bearer ${token}`,
+            },
+        })
+        .then((res) => {
+            setselectedArtistsInfo(res.data);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+    };
+
+    const deleteAlbum = (albumId: number) => {
+        axios.delete(`https://project-spotify-1.onrender.com/albums/${albumId}`, {
+            headers: {
+                "Authorization": `Bearer ${token}`,
+            },
+        })
+        .then(() => {
+            fetchArtistAlbums();
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+    };
+
+    useEffect(() => {
+        fetchArtistAlbums();
+    }, [props.selectedArtist.id, token]);
+
     const onSubmit = (data: FormData) => {
         setIsEditable(false);
     };
@@ -46,16 +82,11 @@ export const ArtistInfoPopUp = (props: Props) => {
         }, 0);
     };
 
-    const handlePopupClick = (event: React.MouseEvent<HTMLDivElement>) => {
-        event.stopPropagation();
-    };
-
     const openNewAlbumPopup = () => {
         setIsNewAlbumPopupOpen(true);
     };
 
     const openManagementCard = (album: any) => {
-        setSelectedAlbum(album);
         setIsManagementCardVisible(true);
     };
 
@@ -63,11 +94,10 @@ export const ArtistInfoPopUp = (props: Props) => {
         setIsManagementCardVisible(false);
     };
 
-    const token = Cookies.get("token");
     return (
         <>
             <div className={styles.background} onClick={onClose}>
-                <div className={styles.wrapper} onClick={handlePopupClick}>
+                <div className={styles.wrapper} onClick={e => e.stopPropagation()}>
                     <div className={styles.header}>
                         <div onClick={onClose}>
                             <ReusableIcon imgName={"rightArrow"} />
@@ -117,11 +147,11 @@ export const ArtistInfoPopUp = (props: Props) => {
                                     Biography
                                 </h3>
                             </div>
-                            {activeTab === "Albums" ?
+                            {activeTab === "Albums" ? (
                                 <div onClick={openNewAlbumPopup}>
                                     <ReusableButton icon={"whitePluse"} title={"New Album"} />
                                 </div>
-                                :
+                            ) : (
                                 <div
                                     className={styles.biographyButton}
                                     onClick={activateTextarea}
@@ -134,17 +164,18 @@ export const ArtistInfoPopUp = (props: Props) => {
                                     />
                                     <span>Edit</span>
                                 </div>
-                            }
+                            )}
                         </div>
 
                         {activeTab === "Albums" ? (
                             <div className={styles.artistCards}>
-                                {albumCardsData.map((album, index) => (
+                                {selectedArtistsInfo?.albums?.map((album: any, index: number) => (
                                     <SquareCard
                                         key={index}
-                                        title={album.title}
-                                        img={album.image}
+                                        title={album.title || 'No Title Available'}
+                                        img={album.coverImage || '/icons/whiteTrash.svg'}
                                         onClick={() => openManagementCard(album)}
+                                        deleteAlbum={() => deleteAlbum(album.id)} 
                                     />
                                 ))}
                             </div>
@@ -154,7 +185,7 @@ export const ArtistInfoPopUp = (props: Props) => {
                                     className={styles.textarea}
                                     {...register('biography')}
                                     ref={textareaRef}
-                                    defaultValue={`Biography of ${artist.fullName}`}
+                                    defaultValue={selectedArtistsInfo?.biography}
                                     readOnly={!isEditable}
                                 />
                             </form>
@@ -163,9 +194,15 @@ export const ArtistInfoPopUp = (props: Props) => {
                 </div>
             </div>
 
-            {isNewAlbumPopupOpen && <NewAlbum />}
+            {isNewAlbumPopupOpen && (
+                <NewAlbum
+                    artistId={props.selectedArtist.id}
+                    setselectedArtistsInfo={setselectedArtistsInfo}
+                    refreshAlbums={fetchArtistAlbums}
+                />
+            )}
 
-            {isManagementCardVisible && selectedAlbum && (
+            {isManagementCardVisible && (
                 <ManagmentCard
                     title={artist.fullName}
                     img={artist.image}
