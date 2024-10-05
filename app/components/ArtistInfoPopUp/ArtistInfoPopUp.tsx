@@ -1,4 +1,4 @@
-'use client'; // Add this at the top
+'use client'; 
 
 import { useState, useRef, useEffect } from "react";
 import ReusableButton from "../ReusableButton/ReusableButton";
@@ -8,9 +8,10 @@ import Image from 'next/image';
 import { SquareCard } from "../SquareCard/SquareCard";
 import { useForm } from 'react-hook-form';
 import { NewAlbum } from '../NewAlbum/NewAlbum';
-import { ManagmentCard } from '../ManagmentCard/ManagmentCard';
 import Cookies from 'js-cookie';
 import axios from "axios";
+import { useRecoilState } from "recoil";
+import { currentAlbumState } from "@/app/states";
 
 interface FormData {
     biography: string;
@@ -37,21 +38,24 @@ export const ArtistInfoPopUp = (props: Props) => {
     const [isNewAlbumPopupOpen, setIsNewAlbumPopupOpen] = useState(false);
     const [isManagementCardVisible, setIsManagementCardVisible] = useState(false);
     const [selectedArtistsInfo, setselectedArtistsInfo] = useState<any>(null);
+
+    const [currentAlbum, setCurrentAlbum] = useRecoilState(currentAlbumState);
     
+
     const token = Cookies.get("token");
-    
+
     const fetchArtistAlbums = () => {
         axios.get(`https://project-spotify-1.onrender.com/authors/${props.selectedArtist.id}`, {
             headers: {
                 "Authorization": `Bearer ${token}`,
             },
         })
-        .then((res) => {
-            setselectedArtistsInfo(res.data);
-        })
-        .catch((err) => {
-            console.log(err);
-        });
+            .then((res) => {
+                setselectedArtistsInfo(res.data);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     };
 
     const deleteAlbum = (albumId: number) => {
@@ -60,12 +64,12 @@ export const ArtistInfoPopUp = (props: Props) => {
                 "Authorization": `Bearer ${token}`,
             },
         })
-        .then(() => {
-            fetchArtistAlbums();
-        })
-        .catch((err) => {
-            console.log(err);
-        });
+            .then(() => {
+                fetchArtistAlbums();
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     };
 
     useEffect(() => {
@@ -89,9 +93,16 @@ export const ArtistInfoPopUp = (props: Props) => {
 
     const openManagementCard = (album: any) => {
         setIsManagementCardVisible(true);
+        setCurrentAlbum(album); 
     };
 
-    
+    useEffect(() => {
+        if (currentAlbum) {
+            console.log("Clicked album:", currentAlbum);
+        }
+    }, [currentAlbum]); 
+
+
     return (
         <>
             <div className={styles.background} onClick={onClose}>
@@ -169,16 +180,18 @@ export const ArtistInfoPopUp = (props: Props) => {
                             <div className={styles.artistCards}>
                                 {selectedArtistsInfo?.albums?.map((album: any) => (
                                     <SquareCard
-                                        key={album.id}
+                                        key={album.id} 
+                                        albumId={album.id}
                                         title={album.title || 'No Title Available'}
                                         img={album.coverImage || '/icons/whiteTrash.svg'}
                                         onClick={() => openManagementCard(album)}
-                                        deleteAlbum={() => deleteAlbum(album.id)} 
-                                        isManagementCardVisible = {isManagementCardVisible}
-                                        setIsManagementCardVisible = {setIsManagementCardVisible}
-                                        selectedArtistsInfo = {selectedArtistsInfo}
+                                        deleteAlbum={() => deleteAlbum(album.id)}
+                                        isManagementCardVisible={isManagementCardVisible}
+                                        setIsManagementCardVisible={setIsManagementCardVisible}
+                                        selectedArtistsInfo={selectedArtistsInfo}
                                     />
                                 ))}
+
                             </div>
                         ) : (
                             <form className={styles.artistBiography} onSubmit={handleSubmit(onSubmit)}>
