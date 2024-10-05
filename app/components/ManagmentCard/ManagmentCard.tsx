@@ -1,7 +1,9 @@
+import { useRecoilState } from "recoil";
 import PlaylistTable from "../PlaylistTable/PlaylistTable";
 import { ReusableIcon } from "../ReusableIcon/ReusableIcon";
 import styles from './ManagmentCard.module.scss';
 import Image from 'next/image';
+import { currentAlbumState } from "@/app/states";
 
 type Props = {
     title: string;
@@ -10,9 +12,8 @@ type Props = {
 };
 
 export const ManagmentCard: React.FC<Props> = ({ title, img, onClose }) => {
-
-    
-
+    const [currentAlbum, ] = useRecoilState(currentAlbumState);
+    console.log(currentAlbum, 'sadfasdfasdfasdfasdfasfd');
     return (
         <div className={styles.background} onClick={onClose}>
             <div className={styles.wrapper} onClick={(e) => e.stopPropagation()}>
@@ -36,11 +37,11 @@ export const ManagmentCard: React.FC<Props> = ({ title, img, onClose }) => {
                     <div className={styles.artistInfoContent}>
                         <div className={styles.titles}>
                             <h3>Album Name:</h3>
-                            <span>{title}</span>
+                            <span>{currentAlbum.title}</span>
                         </div>
                         <div className={styles.titles}>
                             <h3>created:</h3>
-                            <span>September 17, 2024 11:22</span>
+                            <span>{currentAlbum.releaseDate}</span>
                         </div>
                         <div className={styles.titles}>
                             <h3>Number of Tracks:</h3>

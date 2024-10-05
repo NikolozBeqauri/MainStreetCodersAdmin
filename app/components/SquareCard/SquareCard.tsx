@@ -1,12 +1,13 @@
 'use client'; 
 
+import { useRecoilState } from 'recoil';
 import { ManagmentCard } from '../ManagmentCard/ManagmentCard';
 import { ReusableIcon } from '../ReusableIcon/ReusableIcon';
 import styles from './SquareCard.module.scss';
 import Image from 'next/image';
 
 type Props = {
-    key: number;
+    albumId: number;
     title: string;
     img: string;
     onClick?: () => void;
@@ -19,6 +20,8 @@ type Props = {
 export const SquareCard = (props: Props) => {
     const stylesClass = [styles.cardIconsBackground];
     const cardImageStyle = [styles.defaultCardStyles];
+
+    
     
     const closeManagementCard = () => {
         if (props.setIsManagementCardVisible) {
@@ -32,7 +35,7 @@ export const SquareCard = (props: Props) => {
             props.deleteAlbum();
         }
     };
-    
+        
     return (
         <>
             <div className={styles.cardWrapper} onClick={props.onClick}>
