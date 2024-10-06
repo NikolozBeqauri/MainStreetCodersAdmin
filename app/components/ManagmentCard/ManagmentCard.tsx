@@ -13,7 +13,7 @@ type Props = {
 
 export const ManagmentCard: React.FC<Props> = ({ title, img, onClose }) => {
     const [currentAlbum, ] = useRecoilState(currentAlbumState);
-    console.log(currentAlbum, 'sadfasdfasdfasdfasdfasfd');
+
     return (
         <div className={styles.background} onClick={onClose}>
             <div className={styles.wrapper} onClick={(e) => e.stopPropagation()}>
@@ -50,7 +50,7 @@ export const ManagmentCard: React.FC<Props> = ({ title, img, onClose }) => {
                     </div>
                 </div>
                 <span>Playlist Tracks</span>
-                <PlaylistTable />
+                <PlaylistTable data={currentAlbum.musics} img={img} />
             </div>
         </div>
     );
