@@ -8,6 +8,7 @@ export const activeSidebarState = atom({
 type currentAlbumType = {
     title: string;
     releaseDate: string;
+    musics: any;
 }
 
 export const currentAlbumState = atom<currentAlbumType>({

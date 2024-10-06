@@ -21,9 +21,9 @@ export const SignIn = () => {
                 const dataString = response.config.data;
                 const parsedData = JSON.parse(dataString);
                 const email = parsedData.email;
-                setCookie("token", response.data.access_token, 60)
+                setCookie("token", response.data.access_token, 60);
                 localStorage.setItem("email", email);
-                router.push("/")
+                router.push("/");
             })
             .catch(error => {
                 console.error(error);
