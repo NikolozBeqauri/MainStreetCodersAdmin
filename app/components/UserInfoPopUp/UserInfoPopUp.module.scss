@@ -106,7 +106,7 @@
 
 .userInfoContent h3 {
     color: #9E9A9F;
-    font-family: "Plus Jakarta Sans";
+    font-family: var(--font-jakarta-sans);
     font-size: 14px;
     font-style: normal;
     font-weight: 600;
@@ -115,7 +115,7 @@
 
 .userInfoContent span {
     color: $missionControl;
-    font-family: "Plus Jakarta Sans";
+    font-family: var(--font-jakarta-sans);
     font-size: 16px;
     font-weight: 500;
     line-height: 16px;
@@ -135,7 +135,7 @@
 
 .navigationWholeWrapper h3 {
     color: #FFF;
-    font-family: "Plus Jakarta Sans";
+    font-family: var(--font-jakarta-sans);
     font-size: 20px;
     font-weight: 500;
     line-height: 20px;
@@ -144,7 +144,7 @@
 
 .userInfoContent h3 {
     color: $defaultWhite;
-    font-family: "Plus Jakarta Sans";
+    font-family: var(--font-jakarta-sans);
     font-size: 16px;
     font-style: normal;
     font-weight: 500;
@@ -154,7 +154,7 @@
 
 .userInfoContent span {
     color: $missionControl;
-    font-family: "Plus Jakarta Sans";
+    font-family: var(--font-jakarta-sans);
     font-size: 16px;
     font-style: normal;
     font-weight: 500;
