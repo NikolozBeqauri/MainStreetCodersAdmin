@@ -3,6 +3,7 @@ import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import styles from "./layout.module.scss"
 import Image from 'next/image';
 import { SideBar } from "@/app/components/SideBar/SideBar";
+import { UserProfileIcon } from "@/app/components/UserProfileIcon/UserPrifileIcon";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -24,12 +25,7 @@ export default function RootLayout({
       <SideBar />
       <div className={styles.containerWrapper}>
         <div className={styles.header}>
-          <Image
-            src={`/icons/profileIcon.svg`}
-            alt="musician image"
-            width={46}
-            height={46}
-          />
+          <UserProfileIcon/>
         </div>
         {children}
       </div>
