@@ -19,7 +19,7 @@ export const Header = (props: Props) => {
       ) : (
         <Search placeHolder="UserName, Email"/>
       )}
-      <UserProfileIcon src="userImage.png" />
+      <UserProfileIcon/>
     </div>
   );
 };
