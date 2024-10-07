@@ -16,6 +16,7 @@ type Props = {
     artistId: number; 
     setselectedArtistsInfo: Function;
     refreshAlbums: () => void;
+    closePopup: () => void;  
 }
 
 export const NewAlbum = (props: Props) => {
@@ -36,8 +37,10 @@ export const NewAlbum = (props: Props) => {
             },
         })
         .then((res) => {
+            console.log(res);
             props.refreshAlbums();
             setIsPopupOpen(false);
+            props.closePopup();  
         })
         .catch((err) => {
             console.log(err);
@@ -49,6 +52,7 @@ export const NewAlbum = (props: Props) => {
 
     const closePopup = () => {
         setIsPopupOpen(false);
+        props.closePopup(); 
     };
 
     if (!isPopupOpen) return null;

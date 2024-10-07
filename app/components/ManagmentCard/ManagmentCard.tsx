@@ -4,6 +4,9 @@ import { ReusableIcon } from "../ReusableIcon/ReusableIcon";
 import styles from './ManagmentCard.module.scss';
 import Image from 'next/image';
 import { currentAlbumState } from "@/app/states";
+import ReusableButton from "../ReusableButton/ReusableButton";
+import TrackPopUp from "../TrackPopUp/TrackPopUp"; 
+import { useState } from "react";
 
 type Props = {
     title: string;
@@ -12,7 +15,12 @@ type Props = {
 };
 
 export const ManagmentCard: React.FC<Props> = ({ title, img, onClose }) => {
-    const [currentAlbum, ] = useRecoilState(currentAlbumState);
+    const [currentAlbum,] = useRecoilState(currentAlbumState);
+    const [isTrackPopUpVisible, setTrackPopUpVisible] = useState(false); 
+    
+    const toggleTrackPopUp = () => {
+        setTrackPopUpVisible(!isTrackPopUpVisible); 
+    };
 
     return (
         <div className={styles.background} onClick={onClose}>
@@ -49,8 +57,21 @@ export const ManagmentCard: React.FC<Props> = ({ title, img, onClose }) => {
                         </div>
                     </div>
                 </div>
-                <span>Playlist Tracks</span>
-                <PlaylistTable data={currentAlbum.musics} img={img} />
+
+                <div className={styles.headerOfAlbums}>
+                    <span>Playlist Tracks</span>
+                    <div onClick={toggleTrackPopUp} >
+                        <ReusableButton
+                            icon="whitePluse"
+                            title="New Track"
+                        />
+                    </div>
+                </div>
+                <PlaylistTable img={img} />
+
+                {isTrackPopUpVisible && (
+                    <TrackPopUp />
+                )}
             </div>
         </div>
     );

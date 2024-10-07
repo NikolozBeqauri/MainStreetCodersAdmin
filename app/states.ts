@@ -9,6 +9,7 @@ type currentAlbumType = {
     title: string;
     releaseDate: string;
     musics: any;
+    id: number;
 }
 
 export const currentAlbumState = atom<currentAlbumType>({

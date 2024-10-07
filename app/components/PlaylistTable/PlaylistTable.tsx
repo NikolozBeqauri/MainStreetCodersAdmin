@@ -6,18 +6,17 @@ import { useState } from "react";
 import axios from "axios";
 
 type Props = {
-  data: any;
-  img: string;
+  data?: any;
+  img?: string;
 };
 
 const PlaylistTable = (props: Props) => {
   const [data, setData] = useState(props.data);
+  
   const [pagination, setPagination] = useState<{ current: number; pageSize: number }>({
     current: 1,
     pageSize: 3,
   });
-
-  console.log(data);
 
   const formatDuration = (seconds: number) => {
     const minutes = Math.floor(seconds / 60);
@@ -31,7 +30,7 @@ const PlaylistTable = (props: Props) => {
     const seconds = parseInt(parts[1], 10);
     return minutes * 60 + seconds;
   };
-
+  
   const handleDelete = async (musicId: number) => {
     try {
       await axios.get(`https://project-spotify-1.onrender.com/musics/${musicId}`);
