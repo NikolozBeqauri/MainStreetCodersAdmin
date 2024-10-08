@@ -1,4 +1,4 @@
-'use client'; 
+'use client';
 
 import { useState, useRef, useEffect } from "react";
 import ReusableButton from "../ReusableButton/ReusableButton";
@@ -40,8 +40,6 @@ export const ArtistInfoPopUp = (props: Props) => {
     const [selectedArtistsInfo, setselectedArtistsInfo] = useState<any>(null);
 
     const [currentAlbum, setCurrentAlbum] = useRecoilState(currentAlbumState);
-    
-
     const token = Cookies.get("token");
 
     const fetchArtistAlbums = () => {
@@ -50,12 +48,12 @@ export const ArtistInfoPopUp = (props: Props) => {
                 "Authorization": `Bearer ${token}`,
             },
         })
-            .then((res) => {
-                setselectedArtistsInfo(res.data);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+        .then((res) => {
+            setselectedArtistsInfo(res.data);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
     };
 
     const deleteAlbum = (albumId: number) => {
@@ -64,16 +62,17 @@ export const ArtistInfoPopUp = (props: Props) => {
                 "Authorization": `Bearer ${token}`,
             },
         })
-            .then(() => {
-                fetchArtistAlbums();
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+        .then((res) => {
+            console.log(res);
+            fetchArtistAlbums(); 
+        })
+        .catch((err) => {
+            console.log(err);
+        });
     };
 
     useEffect(() => {
-        fetchArtistAlbums();
+        fetchArtistAlbums(); 
     }, [props.selectedArtist.id, token]);
 
     const onSubmit = (data: FormData) => {
@@ -91,6 +90,10 @@ export const ArtistInfoPopUp = (props: Props) => {
         setIsNewAlbumPopupOpen(true);
     };
 
+    const closeNewAlbumPopup = () => {
+        setIsNewAlbumPopupOpen(false);
+    };
+
     const openManagementCard = (album: any) => {
         setIsManagementCardVisible(true);
         setCurrentAlbum(album); 
@@ -100,8 +103,7 @@ export const ArtistInfoPopUp = (props: Props) => {
         if (currentAlbum) {
             console.log("Clicked album:", currentAlbum);
         }
-    }, [currentAlbum]); 
-
+    }, [currentAlbum]);
 
     return (
         <>
@@ -131,11 +133,11 @@ export const ArtistInfoPopUp = (props: Props) => {
                             </div>
                             <div>
                                 <h3>Total Albums</h3>
-                                <span>{artist.totalAlbums}</span>
+                                <span>{selectedArtistsInfo?.totalAlbumsOfAuthor ?? 'Loading...'}</span>
                             </div>
                             <div>
                                 <h3>Total Songs</h3>
-                                <span>{artist.totalSongs}</span>
+                                <span>{selectedArtistsInfo?.totalSongsOfAuthor ?? 'Loading...'}</span>
                             </div>
                         </div>
                     </div>
@@ -180,7 +182,7 @@ export const ArtistInfoPopUp = (props: Props) => {
                             <div className={styles.artistCards}>
                                 {selectedArtistsInfo?.albums?.map((album: any) => (
                                     <SquareCard
-                                        key={album.id} 
+                                        key={album.id}
                                         albumId={album.id}
                                         title={album.title || 'No Title Available'}
                                         img={album.coverImage || '/icons/whiteTrash.svg'}
@@ -189,6 +191,7 @@ export const ArtistInfoPopUp = (props: Props) => {
                                         isManagementCardVisible={isManagementCardVisible}
                                         setIsManagementCardVisible={setIsManagementCardVisible}
                                         selectedArtistsInfo={selectedArtistsInfo}
+                                        refreshAlbums={fetchArtistAlbums}
                                     />
                                 ))}
 
@@ -213,9 +216,9 @@ export const ArtistInfoPopUp = (props: Props) => {
                     artistId={props.selectedArtist.id}
                     setselectedArtistsInfo={setselectedArtistsInfo}
                     refreshAlbums={fetchArtistAlbums}
+                    closePopup={closeNewAlbumPopup}
                 />
             )}
-
         </>
     );
 };

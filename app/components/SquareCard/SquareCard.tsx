@@ -1,6 +1,4 @@
 'use client'; 
-
-import { useRecoilState } from 'recoil';
 import { ManagmentCard } from '../ManagmentCard/ManagmentCard';
 import { ReusableIcon } from '../ReusableIcon/ReusableIcon';
 import styles from './SquareCard.module.scss';
@@ -15,6 +13,7 @@ type Props = {
     isManagementCardVisible?: any;
     setIsManagementCardVisible?: Function | undefined;
     selectedArtistsInfo?: any;
+    refreshAlbums?: () => void;
 };
 
 export const SquareCard = (props: Props) => {
@@ -31,6 +30,9 @@ export const SquareCard = (props: Props) => {
 
     const handleDeleteClick = (event: React.MouseEvent<HTMLDivElement>) => {
         event.stopPropagation();
+        if (props.refreshAlbums) {
+            props.refreshAlbums();
+        }        
         if (props.deleteAlbum) {
             props.deleteAlbum();
         }

@@ -76,4 +76,9 @@ font-size: 16px;
 .titles h3 {
     color: $defaultWhite;
     font-size: 16px;
-    }
+}
+.headerOfAlbums {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

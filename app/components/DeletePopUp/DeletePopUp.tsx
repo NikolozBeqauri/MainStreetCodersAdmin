@@ -8,12 +8,10 @@ interface Props {
 
 export const DeletePopUp = (props: Props) => {
 
-    // Handle delete confirmation
     const handleConfirmDelete = () => {
         props.onDelete();
     };
 
-    // Handle cancel action
     const handleCancel = () => {
         props.onClose();
     };
