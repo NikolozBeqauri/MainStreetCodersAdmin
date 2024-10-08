@@ -12,19 +12,13 @@ type FormValues = {
     file: FileList;
 };
 
-const TrackPopUp = () => {
-    const [modalState, setModalState] = useState(true);
+const TrackPopUp = ({ onClose }: { onClose: () => void }) => {
     const { register, handleSubmit, formState: { errors }, reset } = useForm<FormValues>();
     const [currentAlbum,] = useRecoilState(currentAlbumState);
     
-    const toggleChange = () => {
-        setModalState(!modalState);
-    };
     const token = Cookies.get("token");
 
     const onSubmit = (data: FormValues) => {
-        console.log(data,'asdfasfasdf');
-        
         const formData = new FormData();
         if (data.file.length > 0) {
             formData.append("trackTitle", data.trackTitle);
@@ -39,63 +33,59 @@ const TrackPopUp = () => {
         })
             .then((res) => {
                 console.log(res);
-                reset();
+                reset();  
+                onClose(); 
             })
             .catch((err) => {
                 console.log(err);
-            })
+            });
     };
 
-
     return (
-        <>
-
-            {modalState && (
-                <div className={styles.main}>
-                    <div className={styles.overlay} onClick={toggleChange}></div>
-                    <div className={styles.miniContainer}>
-                        <h3 className={styles.title}>Add New Track</h3>
-                        <form className={styles.addingBox} onSubmit={handleSubmit(onSubmit)}>
-                            <div className={styles.addingMiniBox}>
-                                <label htmlFor="trackTitle">Track name</label>
-                                <input
-                                    type="text"
-                                    id="trackTitle"
-                                    {...register("trackTitle", { required: "Track name is required" })}
-                                />
-                            </div>
-                            {errors.trackTitle && <span className={styles.error}>{errors.trackTitle.message}</span>}
-                            <div className={styles.addingMiniBox}>
-                                <label htmlFor="upload">Add music file</label>
-                                <input
-                                    type="file"
-                                    id="upload"
-                                    accept="audio/*"
-                                    {...register("file", {
-                                        required: "Music file is required",
-                                        validate: {
-                                            checkFileType: (value) => {
-                                                if (value.length === 0) return "Music file is required";
-                                                const file = value[0];
-                                                const fileType = file.type;
-                                                return fileType.startsWith("audio/")
-                                                    ? true
-                                                    : "Only audio files are allowed";
-                                            }
-                                        }
-                                    })}
-                                />
-                                <label htmlFor="upload" id="uploadLabel">
-                                    <img src="/images/uploaderIcon.svg" alt="Upload icon" />
-                                </label>
-                            </div>
-                            {errors.file && <span className={styles.error}>{errors.file.message}</span>}
-                            <ReusableButton title="Save" />
-                        </form>
+        <div className={styles.main}>
+            <div className={styles.overlay} onClick={onClose}></div>
+            <div className={styles.miniContainer}>
+                <h3 className={styles.title}>Add New Track</h3>
+                <form className={styles.addingBox} onSubmit={handleSubmit(onSubmit)}>
+                    <div className={styles.addingMiniBox}>
+                        <label htmlFor="trackTitle">Track name</label>
+                        <input
+                            type="text"
+                            id="trackTitle"
+                            {...register("trackTitle", { required: "Track name is required" })}
+                        />
                     </div>
-                </div>
-            )}
-        </>
+                    {errors.trackTitle && <span className={styles.error}>{errors.trackTitle.message}</span>}
+                    
+                    <div className={styles.addingMiniBox}>
+                        <label htmlFor="upload">Add music file</label>
+                        <input
+                            type="file"
+                            id="upload"
+                            accept="audio/*"
+                            {...register("file", {
+                                required: "Music file is required",
+                                validate: {
+                                    checkFileType: (value) => {
+                                        if (value.length === 0) return "Music file is required";
+                                        const file = value[0];
+                                        const fileType = file.type;
+                                        return fileType.startsWith("audio/")
+                                            ? true
+                                            : "Only audio files are allowed";
+                                    }
+                                }
+                            })}
+                        />
+                        <label htmlFor="upload" id="uploadLabel">
+                            <img src="/images/uploaderIcon.svg" alt="Upload icon" />
+                        </label>
+                    </div>
+                    {errors.file && <span className={styles.error}>{errors.file.message}</span>}
+                    <ReusableButton title="Save" />
+                </form>
+            </div>
+        </div>
     );
 };
 

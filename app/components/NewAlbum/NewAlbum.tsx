@@ -76,7 +76,23 @@ export const NewAlbum = (props: Props) => {
                             <input
                                 id="forFile"
                                 type="file"
-                                {...register("file", { required: "File is required" })}
+                                accept="image/jpeg, image/png, image/gif" 
+                                {...register("file", {
+                                    required: "File is required",
+                                    validate: {
+                                        isImage: (files) => {
+                                            const file = files[0];
+                                            if (!file) return "File is required";
+                                            const fileType = file.type;
+                                            return (
+                                                fileType === "image/jpeg" ||
+                                                fileType === "image/png" ||
+                                                fileType === "image/gif" ||
+                                                "Only image files are allowed"
+                                            );
+                                        },
+                                    },
+                                })}
                             />
                             {errors.file && <p className={styles.errorMessage}>{errors.file.message}</p>}
                         </div>

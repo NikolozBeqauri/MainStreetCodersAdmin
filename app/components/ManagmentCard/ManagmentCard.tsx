@@ -18,10 +18,14 @@ export const ManagmentCard: React.FC<Props> = ({ title, img, onClose }) => {
     const [currentAlbum,] = useRecoilState(currentAlbumState);
     const [isTrackPopUpVisible, setTrackPopUpVisible] = useState(false); 
     
-    const toggleTrackPopUp = () => {
-        setTrackPopUpVisible(!isTrackPopUpVisible); 
+    const openTrackPopUp = () => {
+        setTrackPopUpVisible(true);
     };
 
+    const closeTrackPopUp = () => {
+        setTrackPopUpVisible(false);
+    };
+    
     return (
         <div className={styles.background} onClick={onClose}>
             <div className={styles.wrapper} onClick={(e) => e.stopPropagation()}>
@@ -60,17 +64,17 @@ export const ManagmentCard: React.FC<Props> = ({ title, img, onClose }) => {
 
                 <div className={styles.headerOfAlbums}>
                     <span>Playlist Tracks</span>
-                    <div onClick={toggleTrackPopUp} >
+                    <div onClick={openTrackPopUp}>
                         <ReusableButton
                             icon="whitePluse"
                             title="New Track"
                         />
                     </div>
                 </div>
-                <PlaylistTable img={img} />
+                <PlaylistTable img={img} albumId={currentAlbum.id} />
 
                 {isTrackPopUpVisible && (
-                    <TrackPopUp />
+                    <TrackPopUp onClose={closeTrackPopUp} />
                 )}
             </div>
         </div>

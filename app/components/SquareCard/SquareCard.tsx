@@ -1,6 +1,4 @@
 'use client'; 
-
-import { useRecoilState } from 'recoil';
 import { ManagmentCard } from '../ManagmentCard/ManagmentCard';
 import { ReusableIcon } from '../ReusableIcon/ReusableIcon';
 import styles from './SquareCard.module.scss';
