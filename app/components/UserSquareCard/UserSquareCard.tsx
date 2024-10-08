@@ -16,7 +16,7 @@ type Props = {
     refreshAlbums?: () => void;
 };
 
-export const SquareCard = (props: Props) => {
+const UserSquareCard = (props: Props) => {
     const stylesClass = [styles.cardIconsBackground];
     const cardImageStyle = [styles.defaultCardStyles];
 
@@ -72,3 +72,4 @@ export const SquareCard = (props: Props) => {
         </>
     );
 };
+export default UserSquareCard;
