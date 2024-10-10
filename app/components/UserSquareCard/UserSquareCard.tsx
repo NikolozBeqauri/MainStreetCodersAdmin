@@ -1,4 +1,8 @@
 'use client'; 
+import { ReusableIcon } from '../ReusableIcon/ReusableIcon';
+import styles from './UserSquareCard.module.scss';
+import Image from 'next/image';
+
 import { ManagmentCard } from '../ManagmentCard/ManagmentCard';
 import { ReusableIcon } from '../ReusableIcon/ReusableIcon';
 import styles from './SquareCard.module.scss';
@@ -13,6 +17,19 @@ type Props = {
     isManagementCardVisible?: any;
     setIsManagementCardVisible?: Function | undefined;
     selectedArtistsInfo?: any;
+    refreshPlaylist?: () => void;
+};
+
+export const UserSquareCard = (props: Props) => {
+    const stylesClass = [styles.cardIconsBackground];
+    const cardImageStyle = [styles.defaultCardStyles];
+
+
+    
+    const handleDeleteClick = (event: React.MouseEvent<HTMLDivElement>) => {
+        event.stopPropagation();
+        if (props.refreshPlaylist) {
+            props.refreshPlaylist();
     refreshAlbums?: () => void;
 };
 
@@ -61,15 +78,7 @@ const UserSquareCard = (props: Props) => {
                     <h3>{props.title}</h3>
                 </div>
             </div>
-
-            {props.isManagementCardVisible && (
-                <ManagmentCard
-                    title={props.selectedArtistsInfo.fullName}
-                    img={props.selectedArtistsInfo.image}
-                    onClose={closeManagementCard}
-                />
-            )}
         </>
     );
 };
-export default UserSquareCard;
+
