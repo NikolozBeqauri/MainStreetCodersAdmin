@@ -3,7 +3,13 @@ import { ReusableIcon } from '../ReusableIcon/ReusableIcon';
 import styles from './UserSquareCard.module.scss';
 import Image from 'next/image';
 
+import { ManagmentCard } from '../ManagmentCard/ManagmentCard';
+import { ReusableIcon } from '../ReusableIcon/ReusableIcon';
+import styles from './SquareCard.module.scss';
+import Image from 'next/image';
+
 type Props = {
+    albumId?: number;
     title: string;
     img: string;
     onClick?: () => void;
@@ -24,6 +30,25 @@ export const UserSquareCard = (props: Props) => {
         event.stopPropagation();
         if (props.refreshPlaylist) {
             props.refreshPlaylist();
+    refreshAlbums?: () => void;
+};
+
+const UserSquareCard = (props: Props) => {
+    const stylesClass = [styles.cardIconsBackground];
+    const cardImageStyle = [styles.defaultCardStyles];
+
+    
+    
+    const closeManagementCard = () => {
+        if (props.setIsManagementCardVisible) {
+            props.setIsManagementCardVisible(false);
+        }
+    };
+
+    const handleDeleteClick = (event: React.MouseEvent<HTMLDivElement>) => {
+        event.stopPropagation();
+        if (props.refreshAlbums) {
+            props.refreshAlbums();
         }        
         if (props.deleteAlbum) {
             props.deleteAlbum();
@@ -56,3 +81,4 @@ export const UserSquareCard = (props: Props) => {
         </>
     );
 };
+

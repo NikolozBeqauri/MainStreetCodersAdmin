@@ -5,7 +5,7 @@ import styles from './SquareCard.module.scss';
 import Image from 'next/image';
 
 type Props = {
-    albumId: number;
+    albumId?: number;
     title: string;
     img: string;
     onClick?: () => void;

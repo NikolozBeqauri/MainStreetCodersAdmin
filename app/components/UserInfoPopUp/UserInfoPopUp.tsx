@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { ReusableIcon } from "../ReusableIcon/ReusableIcon";
 import styles from './UserInfoPopUp.module.scss';
 import Image from 'next/image';
-import { SquareCard } from "../SquareCard/SquareCard";
 import { playListCardsData } from "./playListCardsData/playListCardsData";
 import Cookies from 'js-cookie';
 import axios from 'axios';
+import { ManagmentCard } from '../ManagmentCard/ManagmentCard';
+import { SquareCard } from '../SquareCard/SquareCard';
 
 type User = {
     email: string;
@@ -42,7 +43,8 @@ export const UserInfoPopUp = (props: Props) => {
         return null;
     }
     return (
-        <>
+        <>  
+        
             <div className={styles.background} onClick={props.onClose}>
                 <div className={styles.wrapper} onClick={(e) => e.stopPropagation()}>
                     <div className={styles.header}>
