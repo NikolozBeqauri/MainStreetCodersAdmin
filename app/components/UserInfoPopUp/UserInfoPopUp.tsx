@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ReusableIcon } from "../ReusableIcon/ReusableIcon";
 import styles from './UserInfoPopUp.module.scss';
 import Image from 'next/image';
 import { SquareCard } from "../SquareCard/SquareCard";
 import { playListCardsData } from "./playListCardsData/playListCardsData";
-import { ManagmentCard } from '../ManagmentCard/ManagmentCard';
+import Cookies from 'js-cookie';
+import axios from 'axios';
 
 type User = {
     email: string;
@@ -17,22 +18,29 @@ type Props = {
 };
 
 export const UserInfoPopUp = (props: Props) => {
-    const [isManagementCardVisible, setIsManagementCardVisible] = useState(false);
-    const [selectedPlaylist, setSelectedPlaylist] = useState(null);
+    const token = Cookies.get("token");
 
+    const fetchArtistPlaylists = () => {
+        axios.get(`https://project-spotify-1.onrender.com/playlist`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        })
+        .then((res) => {
+            console.log(res.data);
+        })
+        .catch((err) => {
+            console.error(err);
+        });
+    };
+
+    useEffect(() => {
+        fetchArtistPlaylists()
+    },[])
+    
     if (!props.user) {
         return null;
     }
-
-    const handleSquareCardClick = (playlist: any) => {
-        setSelectedPlaylist(playlist);
-        setIsManagementCardVisible(true); 
-    };
-
-    const handleManagementCardClose = () => {
-        setIsManagementCardVisible(false); 
-    };
-
     return (
         <>
             <div className={styles.background} onClick={props.onClose}>
@@ -78,21 +86,13 @@ export const UserInfoPopUp = (props: Props) => {
                                     key={index}
                                     title={album.title}
                                     img={album.image}
-                                    onClick={() => handleSquareCardClick(album)}
+                                    albumId={0}
                                 />
                             ))}
                         </div>
                     </div>
                 </div>
             </div>
-
-            {isManagementCardVisible && selectedPlaylist && (
-                <ManagmentCard
-                    title={'/images/userInfoImage.png'}
-                    img={'/images/userInfoImage.png'}
-                    onClose={handleManagementCardClose}
-                />
-            )}
         </>
     );
 };
