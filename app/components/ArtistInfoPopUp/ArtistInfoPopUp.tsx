@@ -38,12 +38,11 @@ export const ArtistInfoPopUp = (props: Props) => {
     const [isNewAlbumPopupOpen, setIsNewAlbumPopupOpen] = useState(false);
     const [isManagementCardVisible, setIsManagementCardVisible] = useState(false);
     const [selectedArtistsInfo, setselectedArtistsInfo] = useState<any>(null);
-
     const [currentAlbum, setCurrentAlbum] = useRecoilState(currentAlbumState);
     const token = Cookies.get("token");
 
     const fetchArtistAlbums = () => {
-        axios.get(`https://project-spotify-1.onrender.com/authors/${props.selectedArtist.id}`, {
+        axios.get(`https://project-spotify-1.onrender.com/authors/withAlbums/${props.selectedArtist.id}`, {
             headers: {
                 "Authorization": `Bearer ${token}`,
             },
