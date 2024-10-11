@@ -1,7 +1,12 @@
+import { useRecoilState } from "recoil";
 import PlaylistTable from "../PlaylistTable/PlaylistTable";
 import { ReusableIcon } from "../ReusableIcon/ReusableIcon";
 import styles from './ManagmentCard.module.scss';
 import Image from 'next/image';
+import { currentAlbumState } from "@/app/states";
+import ReusableButton from "../ReusableButton/ReusableButton";
+import TrackPopUp from "../TrackPopUp/TrackPopUp"; 
+import { useState } from "react";
 
 type Props = {
     title: string;
@@ -10,6 +15,17 @@ type Props = {
 };
 
 export const ManagmentCard: React.FC<Props> = ({ title, img, onClose }) => {
+    const [currentAlbum,] = useRecoilState(currentAlbumState);
+    const [isTrackPopUpVisible, setTrackPopUpVisible] = useState(false); 
+    
+    const openTrackPopUp = () => {
+        setTrackPopUpVisible(true);
+    };
+
+    const closeTrackPopUp = () => {
+        setTrackPopUpVisible(false);
+    };
+    
     return (
         <div className={styles.background} onClick={onClose}>
             <div className={styles.wrapper} onClick={(e) => e.stopPropagation()}>
@@ -32,12 +48,12 @@ export const ManagmentCard: React.FC<Props> = ({ title, img, onClose }) => {
                     />
                     <div className={styles.artistInfoContent}>
                         <div className={styles.titles}>
-                            <h3>{title}</h3>
-                            <span>Playlist name 4</span>
+                            <h3>Album Name:</h3>
+                            <span>{currentAlbum.title}</span>
                         </div>
                         <div className={styles.titles}>
                             <h3>created:</h3>
-                            <span>September 17, 2024 11:22</span>
+                            <span>{currentAlbum.releaseDate}</span>
                         </div>
                         <div className={styles.titles}>
                             <h3>Number of Tracks:</h3>
@@ -45,8 +61,21 @@ export const ManagmentCard: React.FC<Props> = ({ title, img, onClose }) => {
                         </div>
                     </div>
                 </div>
-                <span>Playlist Tracks</span>
-                <PlaylistTable />
+
+                <div className={styles.headerOfAlbums}>
+                    <span>Playlist Tracks</span>
+                    <div onClick={openTrackPopUp}>
+                        <ReusableButton
+                            icon="whitePluse"
+                            title="New Track"
+                        />
+                    </div>
+                </div>
+                <PlaylistTable img={img} albumId={currentAlbum.id} />
+
+                {isTrackPopUpVisible && (
+                    <TrackPopUp onClose={closeTrackPopUp} albumId={currentAlbum.id}/>
+                )}
             </div>
         </div>
     );

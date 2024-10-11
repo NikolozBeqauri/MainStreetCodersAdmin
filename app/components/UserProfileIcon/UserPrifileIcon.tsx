@@ -1,17 +1,26 @@
+'use client'
 import Image from 'next/image';
-import style from './UserProfileIcon.module.scss'
-type Props = {
-    src: string;
-}
+import style from './UserProfileIcon.module.scss';
+import { PersonalInfoPopUp } from '../PersonalInfoPopUp/PersonalInfoPopUp';
+import { useState } from 'react';
 
-export const UserProfileIcon = (props:Props) => {
+
+export const UserProfileIcon = () => {
+    const [isActive, setIsActive] = useState(false);
+
     return (
-        <Image
-            className={style.userImage}
-            src={`/images/${props.src}`}
-            alt="user image"
-            width={56}
-            height={56}
-        />
-    )
-}
+        <div>
+            <Image
+                className={style.userImage}
+                src={`/icons/profileIcon.svg`}
+                alt="user image"
+                width={36}
+                height={36}
+                onClick={() => setIsActive(true)}
+            />
+            {isActive && (
+                <PersonalInfoPopUp isActive={isActive} setIsActive={setIsActive} />
+            )}
+        </div>
+    );
+};

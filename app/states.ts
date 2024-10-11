@@ -5,3 +5,19 @@ export const activeSidebarState = atom({
     default: false,
 });
 
+type currentAlbumType = {
+    title: string;
+    releaseDate: string;
+    musics: any;
+    id: number;
+}
+
+export const currentAlbumState = atom<currentAlbumType>({
+    key: 'currentAlbumState', 
+    default: undefined,
+});
+
+export const artistDataState = atom({
+    key: 'artistDataState', 
+    default: [],
+  });

@@ -1,15 +1,18 @@
+'use client';
+
 import { useState, useRef, useEffect } from "react";
 import ReusableButton from "../ReusableButton/ReusableButton";
 import { ReusableIcon } from "../ReusableIcon/ReusableIcon";
 import styles from './ArtistInfoPopUp.module.scss';
 import Image from 'next/image';
 import { SquareCard } from "../SquareCard/SquareCard";
-import { albumCardsData } from "./albumCardsData/albumCardsData";
 import { useForm } from 'react-hook-form';
 import { NewAlbum } from '../NewAlbum/NewAlbum';
-import { ManagmentCard } from '../ManagmentCard/ManagmentCard';
 import Cookies from 'js-cookie';
 import axios from "axios";
+import { useRecoilState } from "recoil";
+import { currentAlbumState } from "@/app/states";
+
 interface FormData {
     biography: string;
 }
@@ -23,6 +26,7 @@ interface Props {
         fullName: string;
     };
     onClose: () => void;
+    selectedArtist: any;
 }
 
 export const ArtistInfoPopUp = (props: Props) => {
@@ -33,8 +37,28 @@ export const ArtistInfoPopUp = (props: Props) => {
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     const [isNewAlbumPopupOpen, setIsNewAlbumPopupOpen] = useState(false);
     const [isManagementCardVisible, setIsManagementCardVisible] = useState(false);
-    const [selectedAlbum, setSelectedAlbum] = useState<any>(null);    
-    
+    const [selectedArtistsInfo, setselectedArtistsInfo] = useState<any>(null);
+    const [currentAlbum, setCurrentAlbum] = useRecoilState(currentAlbumState);
+    const token = Cookies.get("token");
+
+    const fetchArtistAlbums = () => {
+        axios.get(`https://project-spotify-1.onrender.com/authors/withAlbums/${props.selectedArtist.id}`, {
+            headers: {
+                "Authorization": `Bearer ${token}`,
+            },
+        })
+        .then((res) => {
+            setselectedArtistsInfo(res.data);
+        })
+        .catch((err) => {
+            console.log(err);
+        },);
+    };
+
+    useEffect(() => {
+        fetchArtistAlbums(); 
+    }, [props.selectedArtist.id, token]);
+
     const onSubmit = (data: FormData) => {
         setIsEditable(false);
     };
@@ -46,28 +70,33 @@ export const ArtistInfoPopUp = (props: Props) => {
         }, 0);
     };
 
-    const handlePopupClick = (event: React.MouseEvent<HTMLDivElement>) => {
-        event.stopPropagation();
-    };
-
     const openNewAlbumPopup = () => {
         setIsNewAlbumPopupOpen(true);
     };
 
+    const closeNewAlbumPopup = () => {
+        setIsNewAlbumPopupOpen(false);
+    };
+
     const openManagementCard = (album: any) => {
-        setSelectedAlbum(album);
         setIsManagementCardVisible(true);
+        setCurrentAlbum(album); 
     };
 
-    const closeManagementCard = () => {
-        setIsManagementCardVisible(false);
-    };
+    useEffect(() => {
+        if (currentAlbum) {
+            console.log("Clicked album:", currentAlbum);
+        }
+    }, [currentAlbum]);
 
-    const token = Cookies.get("token");
+    function deleteAlbum(id: any): void {
+        throw new Error("Function not implemented.");
+    }
+
     return (
         <>
             <div className={styles.background} onClick={onClose}>
-                <div className={styles.wrapper} onClick={handlePopupClick}>
+                <div className={styles.wrapper} onClick={e => e.stopPropagation()}>
                     <div className={styles.header}>
                         <div onClick={onClose}>
                             <ReusableIcon imgName={"rightArrow"} />
@@ -92,11 +121,11 @@ export const ArtistInfoPopUp = (props: Props) => {
                             </div>
                             <div>
                                 <h3>Total Albums</h3>
-                                <span>{artist.totalAlbums}</span>
+                                <span>{selectedArtistsInfo?.totalAlbumsOfAuthor ?? '0'}</span>
                             </div>
                             <div>
                                 <h3>Total Songs</h3>
-                                <span>{artist.totalSongs}</span>
+                                <span>{selectedArtistsInfo?.totalSongsOfAuthor ?? '0'}</span>
                             </div>
                         </div>
                     </div>
@@ -117,11 +146,11 @@ export const ArtistInfoPopUp = (props: Props) => {
                                     Biography
                                 </h3>
                             </div>
-                            {activeTab === "Albums" ?
+                            {activeTab === "Albums" ? (
                                 <div onClick={openNewAlbumPopup}>
                                     <ReusableButton icon={"whitePluse"} title={"New Album"} />
                                 </div>
-                                :
+                            ) : (
                                 <div
                                     className={styles.biographyButton}
                                     onClick={activateTextarea}
@@ -134,19 +163,26 @@ export const ArtistInfoPopUp = (props: Props) => {
                                     />
                                     <span>Edit</span>
                                 </div>
-                            }
+                            )}
                         </div>
 
                         {activeTab === "Albums" ? (
                             <div className={styles.artistCards}>
-                                {albumCardsData.map((album, index) => (
+                                {selectedArtistsInfo?.albums?.map((album: any) => (
                                     <SquareCard
-                                        key={index}
-                                        title={album.title}
-                                        img={album.image}
+                                        key={album.id}
+                                        albumId={album.id}
+                                        title={album.title || 'No Title Available'}
+                                        img={album.coverImage || '/icons/whiteTrash.svg'}
                                         onClick={() => openManagementCard(album)}
+                                        deleteAlbum={() => deleteAlbum(album.id)}
+                                        isManagementCardVisible={isManagementCardVisible}
+                                        setIsManagementCardVisible={setIsManagementCardVisible}
+                                        selectedArtistsInfo={selectedArtistsInfo}
+                                        refreshAlbums={fetchArtistAlbums}
                                     />
                                 ))}
+
                             </div>
                         ) : (
                             <form className={styles.artistBiography} onSubmit={handleSubmit(onSubmit)}>
@@ -154,7 +190,7 @@ export const ArtistInfoPopUp = (props: Props) => {
                                     className={styles.textarea}
                                     {...register('biography')}
                                     ref={textareaRef}
-                                    defaultValue={`Biography of ${artist.fullName}`}
+                                    defaultValue={selectedArtistsInfo?.biography}
                                     readOnly={!isEditable}
                                 />
                             </form>
@@ -163,13 +199,12 @@ export const ArtistInfoPopUp = (props: Props) => {
                 </div>
             </div>
 
-            {isNewAlbumPopupOpen && <NewAlbum />}
-
-            {isManagementCardVisible && selectedAlbum && (
-                <ManagmentCard
-                    title={artist.fullName}
-                    img={artist.image}
-                    onClose={closeManagementCard}
+            {isNewAlbumPopupOpen && (
+                <NewAlbum
+                    artistId={props.selectedArtist.id}
+                    setselectedArtistsInfo={setselectedArtistsInfo}
+                    refreshAlbums={fetchArtistAlbums}
+                    closePopup={closeNewAlbumPopup}
                 />
             )}
         </>

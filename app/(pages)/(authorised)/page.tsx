@@ -1,5 +1,4 @@
 'use client'
-
 import { UserManagement } from "@/app/components/UserManagement/UserManagement";
 import UserManagmentTable from "@/app/components/UserManagmentTable/UserManagmentTable";
 

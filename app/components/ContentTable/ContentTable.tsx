@@ -30,7 +30,6 @@ const ContentTable: React.FC = () => {
     const [selectedArtist, setSelectedArtist] = useState<DataType | null>(null);
     const [showNewArtistPopup, setShowNewArtistPopup] = useState(false);
     const [tableData, setTableData] = useState<DataType[]>([]); 
-    console.log(selectedArtist);
     
 
     const token = Cookies.get("token");
@@ -57,7 +56,7 @@ const ContentTable: React.FC = () => {
         setTableData(fetchedData);
       })
       .catch((err) => {
-        console.log("Error fetching users:", err);
+        console.log(err);
       });
     }, [token]);
 
@@ -92,7 +91,7 @@ const ContentTable: React.FC = () => {
                     setCurrentDeleteId(null);
                 })
                 .catch((err) => {
-                    console.log("Error deleting the artist:", err);
+                    console.log(err);
                 });
         }
     };
@@ -215,6 +214,7 @@ const ContentTable: React.FC = () => {
                     <ArtistInfoPopUp
                         artist={selectedArtist}
                         onClose={closeArtistPopup}
+                        selectedArtist={selectedArtist}
                     />
                 )}
                 {showNewArtistPopup && (

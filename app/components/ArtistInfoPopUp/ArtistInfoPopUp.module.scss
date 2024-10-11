@@ -36,6 +36,10 @@
     gap: 40px;
 }
 
+.artistInfo > img {
+    object-fit: contain;
+}
+
 .artistInfoContent {
     display: flex;
     flex-direction: column;

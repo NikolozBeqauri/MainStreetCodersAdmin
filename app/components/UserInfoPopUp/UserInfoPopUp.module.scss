@@ -103,7 +103,9 @@
     display: flex;
     gap: 16px;
 }
-
+.userInfoContent>div>h3 {
+    width: 150px;
+}
 .userInfoContent h3 {
     color: #9E9A9F;
     font-family: var(--font-jakarta-sans);
