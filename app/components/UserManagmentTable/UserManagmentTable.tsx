@@ -8,6 +8,7 @@ import { NewPassword } from "../NewPassword/NewPassword";
 import axios from "axios";
 import Cookies from "js-cookie";
 import dayjs from "dayjs";
+import { BLOCKED_PAGES } from "next/dist/shared/lib/constants";
 
 type User = {
   id: number;
@@ -23,10 +24,83 @@ const UserManagmentTable: React.FC = () => {
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [editUserPassword, setEditUserPassword] = useState<number | null>(null);
-  const [blockUnblockUser, setBlockUnblockUser] = useState<number | null>(null);
+  const [blockUnblockUser, setBlockUnblockUser] = useState<any>(null);
   const [users, setUsers] = useState<User[]>([]);
   const [allBlockedUsers, setAllBlockedUsers] = useState<User[]>([]);
   const token = Cookies.get("token");
+  const [userStatus, setUserStatus] = useState<any>(false);
+  const [userInfo, setUserInfo] = useState<any>([])
+let totalUsers: any[] = []
+
+const toggleStatus = () => {
+  // setUserStatus((prevStatus: any) => !prevStatus);
+  // setUserInfo({blockUnblockUser: userStatus});
+}
+
+useEffect(() => {
+  axios.get(`https://project-spotify-1.onrender.com/users/${blockUnblockUser}`, {headers: {
+    "Content-Type": "multipart/form-data",
+    "Authorization": `Bearer ${token}`
+  },})
+  .then(r => {
+    // setUserInfo(() => {r.data.id, r.data.isBlocked})
+    totalUsers.push(r.data.id, r.data.isBlocked)
+    
+    
+    
+  })
+}, [toggleStatus])
+// console.log(totalUsers)
+
+// console.log(userInfo)
+console.log(totalUsers)
+
+  useEffect(() => {if(totalUsers.length > 0 && totalUsers[1] == false){
+    const formData = new FormData();
+    formData.append("id", blockUnblockUser)
+    axios.patch(`https://project-spotify-1.onrender.com/users/block/${blockUnblockUser}`, formData, {
+      headers: {
+          "Content-Type": "multipart/form-data",
+          "Authorization": `Bearer ${token}`
+      },
+  })
+  .then((r) => {
+    console.log(r)
+  })
+  .catch(res => {
+    console.log(res)
+  })
+  }else if(totalUsers.length > 0 && totalUsers[1]){
+    const formData = new FormData();
+    formData.append("id", blockUnblockUser)
+    axios.patch(`https://project-spotify-1.onrender.com/users/unblock/${blockUnblockUser}`, formData, {
+      headers: {
+          "Content-Type": "multipart/form-data",
+          "Authorization": `Bearer ${token}`
+      },
+  })
+  .then((r) => {
+    console.log(r)
+  })
+  .catch(res => {
+    console.log(res)
+  })
+  }}, [toggleStatus]);
+  console.log(totalUsers)
+  // console.log(userStatus)
+  
+  // if(userStatus){
+  //   axios.post("https://project-spotify-1.onrender.com/authors", "s", {
+  //     headers: {
+  //         "Content-Type": "multipart/form-data",
+  //         "Authorization": `Bearer ${token}`
+  //     },
+  // })
+  // .then((r) => {
+  //   console.log(r)
+  // })
+  // }
+
 
   useEffect(() => {
     axios
@@ -196,11 +270,13 @@ const UserManagmentTable: React.FC = () => {
             onClick={(e) => {
               e.stopPropagation();
               setBlockUnblockUser(record.id);
+              toggleStatus();
             }}
           >
             <Image
               className={styles.curImg}
               src={record.active ? "/icons/block.svg" : "/icons/unBlock.svg"} 
+              // src={!userStatus ? "/icons/block.svg" : "/icons/unBlock.svg"} 
               width={24}
               height={24}
               alt={record.active ? "block" : "unblock"}

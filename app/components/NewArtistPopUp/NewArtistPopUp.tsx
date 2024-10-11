@@ -56,18 +56,7 @@ export const NewArtistPopUp: React.FC<NewArtistPopUpProps> = ({ onClose, addArti
             },
         })
             .then((res) => {
-                const newArtist = {
-                    key: res.data.id.toString(), 
-                    totalStreams: res.data.totalStreams || 0, 
-                    totalAlbums: res.data.totalAlbumsOfAuthor || 0, 
-                    totalSongs: res.data.totalSongsOfAuthor || 0, 
-                    image: res.data.image || '/images/defaultArtist.png',
-                    fullName: res.data.fullName || 'Unknown Artist',
-                    id: res.data.id,
-                    albums: res.data.albums || [],
-                };
-
-                addArtist(newArtist); 
+                console.log(res);
                 reset();
                 onClose();
             })
