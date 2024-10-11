@@ -32,7 +32,7 @@ export const UserInfoPopUp = (props: Props) => {
                         <div onClick={props.onClose}>
                             <ReusableIcon imgName={"rightArrow"} />
                         </div>
-                        <h2>{props.user.email}</h2>
+                        <h2>User</h2>
                         <div onClick={props.onClose}>
                             <ReusableIcon imgName={"deleteCross"} />
                         </div>
