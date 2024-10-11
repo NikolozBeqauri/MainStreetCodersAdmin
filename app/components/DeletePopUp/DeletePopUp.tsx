@@ -21,7 +21,7 @@ export const DeletePopUp = (props: Props) => {
             <div className={styles.wrapper} onClick={(e) => e.stopPropagation()}>
                 <p>Are you sure you want to delete this artist?</p>
                 <div className={styles.actions}>
-                    <button className={styles.cancel} onClick={handleCancel}>Cancel</button>
+                    <button className={styles.cancle} onClick={handleCancel}>Cancel</button>
                     <button className={styles.delete} onClick={handleConfirmDelete}>Delete</button>
                 </div>
             </div>

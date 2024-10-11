@@ -17,3 +17,7 @@ export const currentAlbumState = atom<currentAlbumType>({
     default: undefined,
 });
 
+export const artistDataState = atom({
+    key: 'artistDataState', 
+    default: [],
+  });

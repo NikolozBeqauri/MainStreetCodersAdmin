@@ -5,6 +5,8 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { useRecoilState } from "recoil";
+import { artistDataState } from "@/app/states";
 
 type Props = {
   albumId?: any;
@@ -12,9 +14,8 @@ type Props = {
 };
 
 const PlaylistTable = (props: Props) => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useRecoilState(artistDataState);
   const [musicIdForDelete, setMusicIdForDelete] = useState<string | undefined>(undefined);
-  console.log(musicIdForDelete);
 
 
   const [pagination, setPagination] = useState<{ current: number; pageSize: number }>({
