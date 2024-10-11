@@ -52,22 +52,7 @@ export const ArtistInfoPopUp = (props: Props) => {
         })
         .catch((err) => {
             console.log(err);
-        });
-    };
-
-    const deleteAlbum = (albumId: number) => {
-        axios.delete(`https://project-spotify-1.onrender.com/albums/${albumId}`, {
-            headers: {
-                "Authorization": `Bearer ${token}`,
-            },
-        })
-        .then((res) => {
-            console.log(res);
-            fetchArtistAlbums(); 
-        })
-        .catch((err) => {
-            console.log(err);
-        });
+        },);
     };
 
     useEffect(() => {
@@ -104,6 +89,10 @@ export const ArtistInfoPopUp = (props: Props) => {
         }
     }, [currentAlbum]);
 
+    function deleteAlbum(id: any): void {
+        throw new Error("Function not implemented.");
+    }
+
     return (
         <>
             <div className={styles.background} onClick={onClose}>
@@ -132,11 +121,11 @@ export const ArtistInfoPopUp = (props: Props) => {
                             </div>
                             <div>
                                 <h3>Total Albums</h3>
-                                <span>{selectedArtistsInfo?.totalAlbumsOfAuthor ?? 'Loading...'}</span>
+                                <span>{selectedArtistsInfo?.totalAlbumsOfAuthor ?? '0'}</span>
                             </div>
                             <div>
                                 <h3>Total Songs</h3>
-                                <span>{selectedArtistsInfo?.totalSongsOfAuthor ?? 'Loading...'}</span>
+                                <span>{selectedArtistsInfo?.totalSongsOfAuthor ?? '0'}</span>
                             </div>
                         </div>
                     </div>

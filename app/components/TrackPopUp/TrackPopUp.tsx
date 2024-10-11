@@ -4,18 +4,19 @@ import ReusableButton from "../ReusableButton/ReusableButton";
 import styles from "./TrackPopUp.module.scss";
 import axios from "axios";
 import { useRecoilState } from "recoil";
-import { currentAlbumState } from "@/app/states";
+import { artistDataState, currentAlbumState } from "@/app/states";
 import Cookies from 'js-cookie';
 
 type FormValues = {
     trackTitle: string;
     file: FileList;
+    albumId: any;
 };
 
-const TrackPopUp = ({ onClose }: { onClose: () => void }) => {
+const TrackPopUp = ({ onClose, albumId }: { onClose: () => void; albumId: any }) => {
     const { register, handleSubmit, formState: { errors }, reset } = useForm<FormValues>();
     const [currentAlbum,] = useRecoilState(currentAlbumState);
-    
+    const [, setData] = useRecoilState(artistDataState);
     const token = Cookies.get("token");
 
     const onSubmit = (data: FormValues) => {
@@ -33,8 +34,21 @@ const TrackPopUp = ({ onClose }: { onClose: () => void }) => {
         })
             .then((res) => {
                 console.log(res);
-                reset();  
-                onClose(); 
+                axios
+                    .get(`https://project-spotify-1.onrender.com/albums/${albumId}`, {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    })
+                    .then((res) => {
+                        console.log(res.data.musics);
+                        setData(res.data.musics);
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+                reset();
+                onClose();
             })
             .catch((err) => {
                 console.log(err);
@@ -56,7 +70,7 @@ const TrackPopUp = ({ onClose }: { onClose: () => void }) => {
                         />
                     </div>
                     {errors.trackTitle && <span className={styles.error}>{errors.trackTitle.message}</span>}
-                    
+
                     <div className={styles.addingMiniBox}>
                         <label htmlFor="upload">Add music file</label>
                         <input
