@@ -74,7 +74,7 @@ export const ManagmentCard: React.FC<Props> = ({ title, img, onClose }) => {
                 <PlaylistTable img={img} albumId={currentAlbum.id} />
 
                 {isTrackPopUpVisible && (
-                    <TrackPopUp onClose={closeTrackPopUp} />
+                    <TrackPopUp onClose={closeTrackPopUp} albumId={currentAlbum.id}/>
                 )}
             </div>
         </div>
