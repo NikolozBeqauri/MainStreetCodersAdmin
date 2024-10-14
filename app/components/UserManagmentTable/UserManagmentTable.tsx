@@ -28,79 +28,102 @@ const UserManagmentTable: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [allBlockedUsers, setAllBlockedUsers] = useState<User[]>([]);
   const token = Cookies.get("token");
-  const [userStatus, setUserStatus] = useState<any>(false);
-  const [userInfo, setUserInfo] = useState<any>([])
-let totalUsers: any[] = []
+  const [blockedUsers, setBlockedUsers] = useState<any>(null);
+  const [userInfo, setUserInfo] = useState<any>(null);
+  const [state, setState] = useState<any>(false);
+let totalUsers: any[] = [];
 
 const toggleStatus = () => {
-  // setUserStatus((prevStatus: any) => !prevStatus);
-  // setUserInfo({blockUnblockUser: userStatus});
+  setState((prevState: any) => prevState = !prevState)
 }
-
 useEffect(() => {
-  axios.get(`https://project-spotify-1.onrender.com/users/${blockUnblockUser}`, {headers: {
-    "Content-Type": "multipart/form-data",
-    "Authorization": `Bearer ${token}`
-  },})
-  .then(r => {
-    // setUserInfo(() => {r.data.id, r.data.isBlocked})
-    totalUsers.push(r.data.id, r.data.isBlocked)
-    
-    
-    
-  })
-}, [toggleStatus])
-// console.log(totalUsers)
+    if(blockUnblockUser !== null) {
+      axios.get(`https://project-spotify-1.onrender.com/users/${blockUnblockUser}`, {headers: {
+        "Content-Type": "multipart/form-data",
+        "Authorization": `Bearer ${token}`
+      },})
+      .then(async (r) => {
+        setBlockedUsers(r.data.id);
+        
+        setUserInfo(r.data.isBlocked);
 
-// console.log(userInfo)
-console.log(totalUsers)
+        if((!r.data.isBlocked) && (blockUnblockUser == blockUnblockUser)){
+          const formData = new FormData();
+          formData.append("id", blockUnblockUser)
+          await axios.patch(`https://project-spotify-1.onrender.com/users/block/${blockUnblockUser}`, formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+                "Authorization": `Bearer ${token}`
+            },
+        })
+        .then((r) => {
+          console.log(r)
 
-  useEffect(() => {if(totalUsers.length > 0 && totalUsers[1] == false){
-    const formData = new FormData();
-    formData.append("id", blockUnblockUser)
-    axios.patch(`https://project-spotify-1.onrender.com/users/block/${blockUnblockUser}`, formData, {
-      headers: {
-          "Content-Type": "multipart/form-data",
-          "Authorization": `Bearer ${token}`
-      },
-  })
-  .then((r) => {
-    console.log(r)
-  })
-  .catch(res => {
-    console.log(res)
-  })
-  }else if(totalUsers.length > 0 && totalUsers[1]){
-    const formData = new FormData();
-    formData.append("id", blockUnblockUser)
-    axios.patch(`https://project-spotify-1.onrender.com/users/unblock/${blockUnblockUser}`, formData, {
-      headers: {
-          "Content-Type": "multipart/form-data",
-          "Authorization": `Bearer ${token}`
-      },
-  })
-  .then((r) => {
-    console.log(r)
-  })
-  .catch(res => {
-    console.log(res)
-  })
-  }}, [toggleStatus]);
-  console.log(totalUsers)
-  // console.log(userStatus)
+        })
+        .catch(res => {
+          console.log(res)
+        })
+        }
+        if((r.data.isBlocked) && (blockUnblockUser == blockUnblockUser)){
+          const formData = new FormData();
+          formData.append("id", blockUnblockUser)
+          await axios.patch(`https://project-spotify-1.onrender.com/users/unblock/${blockUnblockUser}`, formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+                "Authorization": `Bearer ${token}`
+            },
+        })
+        .then((r) => {
+          console.log(r)
+          
+        })
+        .catch(res => {
+          console.log(res)
+        })
+        }})
+      .catch((res) => {
+        console.log(res)
+      })
+    }
+    
+}, [state])
+
+// useEffect(() => {if(userInfo != null && !userInfo){
   
-  // if(userStatus){
-  //   axios.post("https://project-spotify-1.onrender.com/authors", "s", {
-  //     headers: {
-  //         "Content-Type": "multipart/form-data",
-  //         "Authorization": `Bearer ${token}`
-  //     },
-  // })
-  // .then((r) => {
-  //   console.log(r)
-  // })
-  // }
-
+//     const formData = new FormData();
+//     formData.append("id", blockUnblockUser)
+//     axios.patch(`https://project-spotify-1.onrender.com/users/block/${blockUnblockUser}`, formData, {
+//       headers: {
+//           "Content-Type": "multipart/form-data",
+//           "Authorization": `Bearer ${token}`
+//       },
+//   })
+//   .then((r) => {
+//     console.log(r)
+    
+//   })
+//   .catch(res => {
+//     console.log(res)
+//   })
+//   }
+//   if(userInfo != null && userInfo){
+//     const formData = new FormData();
+//     formData.append("id", blockUnblockUser)
+//     axios.patch(`https://project-spotify-1.onrender.com/users/unblock/${blockUnblockUser}`, formData, {
+//       headers: {
+//           "Content-Type": "multipart/form-data",
+//           "Authorization": `Bearer ${token}`
+//       },
+//   })
+//   .then((r) => {
+//     console.log(r)
+    
+//   })
+//   .catch(res => {
+//     console.log(res)
+//   })
+//   }}, [state]);
+  
 
   useEffect(() => {
     axios
@@ -274,12 +297,20 @@ console.log(totalUsers)
             }}
           >
             <Image
-              className={styles.curImg}
-              src={record.active ? "/icons/block.svg" : "/icons/unBlock.svg"} 
-              // src={!userStatus ? "/icons/block.svg" : "/icons/unBlock.svg"} 
-              width={24}
-              height={24}
-              alt={record.active ? "block" : "unblock"}
+            
+            className={styles.curImg}
+            src={record.active ? "/icons/block.svg" : "/icons/unBlock.svg"}
+            width={24}
+            height={24}
+            alt={record.active ? "block" : "unblock"}
+          
+              // className={styles.curImg}
+              
+              // src={record.active ? "/icons/block.svg" : "/icons/unBlock.svg"} 
+            
+              // width={24}
+              // height={24}
+              // alt={record.active ? "block" : "unblock"}
             />
           </button>
         </div>
