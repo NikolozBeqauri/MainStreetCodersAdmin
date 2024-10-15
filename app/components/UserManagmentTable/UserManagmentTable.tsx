@@ -8,7 +8,8 @@ import { NewPassword } from "../NewPassword/NewPassword";
 import axios from "axios";
 import Cookies from "js-cookie";
 import dayjs from "dayjs";
-import { BLOCKED_PAGES } from "next/dist/shared/lib/constants";
+import { useRecoilState } from "recoil";
+import { userCounterState } from "@/app/states";
 
 type User = {
   id: number;
@@ -18,136 +19,29 @@ type User = {
   active: boolean;
 };
 
+
 const UserManagmentTable: React.FC = () => {
   const [activePasswordId, setActivePasswordId] = useState<number | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [editUserPassword, setEditUserPassword] = useState<number | null>(null);
-  const [blockUnblockUser, setBlockUnblockUser] = useState<any>(null);
   const [users, setUsers] = useState<User[]>([]);
   const [allBlockedUsers, setAllBlockedUsers] = useState<User[]>([]);
+  const [, setUserCounter] = useRecoilState(userCounterState);
+  useEffect(()=>{
+    setUserCounter(users.length)
+  },[users])
   const token = Cookies.get("token");
-  const [blockedUsers, setBlockedUsers] = useState<any>(null);
-  const [userInfo, setUserInfo] = useState<any>(null);
-  const [state, setState] = useState<any>(false);
-let totalUsers: any[] = [];
+  const [, setState] = useState<any>(false);
+  useEffect(()=>{
 
-const toggleStatus = () => {
-  setState((prevState: any) => prevState = !prevState)
-}
-useEffect(() => {
-    if(blockUnblockUser !== null) {
-      axios.get(`https://project-spotify-1.onrender.com/users/${blockUnblockUser}`, {headers: {
-        "Content-Type": "multipart/form-data",
-        "Authorization": `Bearer ${token}`
-      },})
-      .then(async (r) => {
-        setBlockedUsers(r.data.id);
-        
-        setUserInfo(r.data.isBlocked);
+  })
+  const toggleStatus = () => {
+    setState((prevState: any) => !prevState);
+  };
 
-        if((!r.data.isBlocked) && (blockUnblockUser == blockUnblockUser)){
-          const formData = new FormData();
-          formData.append("id", blockUnblockUser)
-          await axios.patch(`https://project-spotify-1.onrender.com/users/block/${blockUnblockUser}`, formData, {
-            headers: {
-                "Content-Type": "multipart/form-data",
-                "Authorization": `Bearer ${token}`
-            },
-        })
-        .then((r) => {
-          console.log(r)
-
-        })
-        .catch(res => {
-          console.log(res)
-        })
-        }
-        if((r.data.isBlocked) && (blockUnblockUser == blockUnblockUser)){
-          const formData = new FormData();
-          formData.append("id", blockUnblockUser)
-          await axios.patch(`https://project-spotify-1.onrender.com/users/unblock/${blockUnblockUser}`, formData, {
-            headers: {
-                "Content-Type": "multipart/form-data",
-                "Authorization": `Bearer ${token}`
-            },
-        })
-        .then((r) => {
-          console.log(r)
-          
-        })
-        .catch(res => {
-          console.log(res)
-        })
-        }})
-      .catch((res) => {
-        console.log(res)
-      })
-    }
-    
-}, [state])
-
-// useEffect(() => {if(userInfo != null && !userInfo){
-  
-//     const formData = new FormData();
-//     formData.append("id", blockUnblockUser)
-//     axios.patch(`https://project-spotify-1.onrender.com/users/block/${blockUnblockUser}`, formData, {
-//       headers: {
-//           "Content-Type": "multipart/form-data",
-//           "Authorization": `Bearer ${token}`
-//       },
-//   })
-//   .then((r) => {
-//     console.log(r)
-    
-//   })
-//   .catch(res => {
-//     console.log(res)
-//   })
-//   }
-//   if(userInfo != null && userInfo){
-//     const formData = new FormData();
-//     formData.append("id", blockUnblockUser)
-//     axios.patch(`https://project-spotify-1.onrender.com/users/unblock/${blockUnblockUser}`, formData, {
-//       headers: {
-//           "Content-Type": "multipart/form-data",
-//           "Authorization": `Bearer ${token}`
-//       },
-//   })
-//   .then((r) => {
-//     console.log(r)
-    
-//   })
-//   .catch(res => {
-//     console.log(res)
-//   })
-//   }}, [state]);
-  
-
-  useEffect(() => {
-    axios
-      .get("https://project-spotify-1.onrender.com/users/blocked", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        const blockedUsers = res.data.map((user: any) => ({
-          id: user.id,
-          email: user.email,
-          password: user.password,
-          createdAt: dayjs(user.createAt).format("MMMM D, YYYY, h:mm A"),
-          active: user.isBlocked ? false : true, 
-        }));
-        setAllBlockedUsers(blockedUsers);
-      })
-      .catch((err) => {
-        console.log("Error fetching blocked users:", err);
-      });
-  }, [token]);
-
-  useEffect(() => {
+  const fetchUsers = () => {
     axios
       .get("https://project-spotify-1.onrender.com/users", {
         headers: {
@@ -160,23 +54,87 @@ useEffect(() => {
           email: user.email,
           password: user.password,
           createdAt: dayjs(user.createAt).format("MMMM D, YYYY, h:mm A"),
-          active: user.isBlocked ? false : true, 
+          active: user.isBlocked ? false : true,
         }));
         setUsers(fetchedUsers);
       })
       .catch((err) => {
         console.log("Error fetching users:", err);
       });
+
+    axios
+      .get("https://project-spotify-1.onrender.com/users/blocked", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        const blockedUsers = res.data.map((user: any) => ({
+          id: user.id,
+          email: user.email,
+          password: user.password,
+          createdAt: dayjs(user.createAt).format("MMMM D, YYYY, h:mm A"),
+          active: user.isBlocked ? false : true,
+        }));
+        setAllBlockedUsers(blockedUsers);
+      })
+      .catch((err) => {
+        console.log("Error fetching blocked users:", err);
+      });
+  };
+
+  useEffect(() => {
+    fetchUsers();
   }, [token]);
 
+  const handleBlockUnblock = (id: number) => {
+    axios
+      .get(`https://project-spotify-1.onrender.com/users/${id}`, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(async (response) => {
+        const isBlocked = response.data.isBlocked;
+        const formData = new FormData();
+        formData.append("id", id.toString());
+
+        if (!isBlocked) {
+          await axios.patch(`https://project-spotify-1.onrender.com/users/block/${id}`, formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${token}`,
+            },
+          });
+        } else {
+          await axios.patch(`https://project-spotify-1.onrender.com/users/unblock/${id}`, formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${token}`,
+            },
+          });
+        }
+
+        fetchUsers();
+      })
+      .catch((err) => {
+        console.log("Error during block/unblock:", err);
+      });
+  };
+
   const handleDeleteUser = (id: number) => {
-    axios.delete(`https://project-spotify-1.onrender.com/users/${id}`, {
+    axios
+      .delete(`https://project-spotify-1.onrender.com/users/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
       .then(() => {
         setUsers((prevUsers) => prevUsers.filter((user) => user.id !== id));
+        setAllBlockedUsers((prevBlockedUsers) =>
+          prevBlockedUsers.filter((user) => user.id !== id)
+        );
       })
       .catch((err) => {
         console.log("Error deleting user:", err);
@@ -185,18 +143,14 @@ useEffect(() => {
 
   const memoizedUsers = useMemo(() => {
     return users
-      .filter((user) => user.active) 
-      .filter((user) =>
-        user.email.toLowerCase().includes(searchQuery.toLowerCase())
-      )
+      .filter((user) => user.active)
+      .filter((user) => user.email.toLowerCase().includes(searchQuery.toLowerCase()))
       .map((user) => ({ ...user, key: user.id }));
   }, [users, searchQuery]);
 
   const memoizedBlockedUsers = useMemo(() => {
     return allBlockedUsers
-      ?.filter((user) =>
-        user.email.toLowerCase().includes(searchQuery.toLowerCase())
-      )
+      ?.filter((user) => user.email.toLowerCase().includes(searchQuery.toLowerCase()))
       .map((user) => ({ ...user, key: user.id })) || [];
   }, [allBlockedUsers, searchQuery]);
 
@@ -219,7 +173,9 @@ useEffect(() => {
       title: "Registration Date",
       key: "createdAt",
       render: (_, record) => (
-        <div className={styles.artistCell}>{record.createdAt}</div>
+        <div className={record.active ? styles.artistCell : styles.blockedCell}>
+          {record.createdAt}
+        </div>
       ),
       width: "20%",
     },
@@ -227,19 +183,25 @@ useEffect(() => {
       title: "Email",
       key: "email",
       width: "30%",
-      render: (_, record) => <div>{record.email}</div>,
+      render: (_, record) => {
+        return (
+          <div className={record.active ? '' : styles.blockedCell} onClick={() => handleRowClick(record)}>
+            {record.email}
+          </div>
+        );
+      },
     },
     {
       title: "Password",
       key: "password",
       width: "15%",
       render: (_, record) => (
-        <div className={styles.Password}>
+        <div className={record.active ? styles.Password : `${styles.Password} ${styles.blockedCell}`}>
           <input
             type={activePasswordId === record.id ? "text" : "password"}
             value={record.password}
             readOnly
-            className={styles.inputPassword}
+            className={record.active ? styles.inputPassword : styles.blockedPassword}
           />
           <div onClick={(e) => handlePasswordToggle(record.id, e)}>
             <Image
@@ -277,7 +239,7 @@ useEffect(() => {
             className={styles.unBorder}
             onClick={(e) => {
               e.stopPropagation();
-              handleDeleteUser(record.id);
+              handleDeleteUser(record.id); 
             }}
           >
             <Image
@@ -292,25 +254,15 @@ useEffect(() => {
             className={styles.unBorder}
             onClick={(e) => {
               e.stopPropagation();
-              setBlockUnblockUser(record.id);
-              toggleStatus();
+              handleBlockUnblock(record.id);  
             }}
           >
             <Image
-            
-            className={styles.curImg}
-            src={record.active ? "/icons/block.svg" : "/icons/unBlock.svg"}
-            width={24}
-            height={24}
-            alt={record.active ? "block" : "unblock"}
-          
-              // className={styles.curImg}
-              
-              // src={record.active ? "/icons/block.svg" : "/icons/unBlock.svg"} 
-            
-              // width={24}
-              // height={24}
-              // alt={record.active ? "block" : "unblock"}
+              className={styles.curImg}
+              src={record.active ? "/icons/block.svg" : "/icons/unBlock.svg"}
+              width={24}
+              height={24}
+              alt={record.active ? "block" : "unblock"}
             />
           </button>
         </div>
@@ -417,15 +369,6 @@ useEffect(() => {
           userId={editUserPassword}
           onClose={() => setEditUserPassword(null)}
         />
-      )}
-      {blockUnblockUser && (
-        <div>
-          <p>
-            {blockUnblockUser
-              ? `Blocking User: ${blockUnblockUser}`
-              : `Unblocking User: ${blockUnblockUser}`}
-          </p>
-        </div>
       )}
     </div>
   );

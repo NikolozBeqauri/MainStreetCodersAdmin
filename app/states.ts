@@ -21,3 +21,8 @@ export const artistDataState = atom({
     key: 'artistDataState', 
     default: [],
   });
+
+export const userCounterState = atom<number>({
+  key: 'userCounterState',
+    default: 0,
+});
