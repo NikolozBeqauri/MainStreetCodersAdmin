@@ -3,7 +3,7 @@ import Style from "./UserManagement.module.scss";
 
 type Props = {
     content: string;
-    count: number;
+    count: number | undefined;
 }
 
 export const UserManagement = (props: Props) => {
