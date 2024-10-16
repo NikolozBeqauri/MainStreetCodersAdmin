@@ -43,7 +43,7 @@ const UserManagmentTable: React.FC = () => {
 
   const fetchUsers = () => {
     axios
-      .get("https://project-spotify-1.onrender.com/users", {
+      .get("https://project-spotify-1.onrender.com/user", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -63,7 +63,7 @@ const UserManagmentTable: React.FC = () => {
       });
 
     axios
-      .get("https://project-spotify-1.onrender.com/users/blocked", {
+      .get("https://project-spotify-1.onrender.com/user/blocked", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -89,7 +89,7 @@ const UserManagmentTable: React.FC = () => {
 
   const handleBlockUnblock = (id: number) => {
     axios
-      .get(`https://project-spotify-1.onrender.com/users/${id}`, {
+      .get(`https://project-spotify-1.onrender.com/user/${id}`, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
@@ -101,14 +101,14 @@ const UserManagmentTable: React.FC = () => {
         formData.append("id", id.toString());
 
         if (!isBlocked) {
-          await axios.patch(`https://project-spotify-1.onrender.com/users/block/${id}`, formData, {
+          await axios.patch(`https://project-spotify-1.onrender.com/user/block/${id}`, formData, {
             headers: {
               "Content-Type": "multipart/form-data",
               Authorization: `Bearer ${token}`,
             },
           });
         } else {
-          await axios.patch(`https://project-spotify-1.onrender.com/users/unblock/${id}`, formData, {
+          await axios.patch(`https://project-spotify-1.onrender.com/user/unblock/${id}`, formData, {
             headers: {
               "Content-Type": "multipart/form-data",
               Authorization: `Bearer ${token}`,
@@ -125,7 +125,7 @@ const UserManagmentTable: React.FC = () => {
 
   const handleDeleteUser = (id: number) => {
     axios
-      .delete(`https://project-spotify-1.onrender.com/users/${id}`, {
+      .delete(`https://project-spotify-1.onrender.com/user/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
