@@ -3,7 +3,7 @@
 import styles from './page.module.scss';
 import { SignIn } from '@/app/components/SignIn/SignIn';
 
-export const SignPage = () => {
+const SignPage = () => {
 
     return (
         <div className={styles.startedComponentWrapper}>

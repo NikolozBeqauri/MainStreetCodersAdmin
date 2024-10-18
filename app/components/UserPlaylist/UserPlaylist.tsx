@@ -5,7 +5,7 @@ type Props = {
     count?: number;
 }
 
-export const UserPlaylist = (props: Props) => {
+const UserPlaylist = (props: Props) => {
     return(
         <div className={Styles.container}>
             <img src={`/icons/${props.image}.svg`} alt="Playlist icon" width={234} height={251} />
@@ -13,3 +13,4 @@ export const UserPlaylist = (props: Props) => {
         </div>
     )
 }
+export default UserPlaylist;
