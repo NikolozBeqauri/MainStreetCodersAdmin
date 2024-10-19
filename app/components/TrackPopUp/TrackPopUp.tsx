@@ -21,12 +21,14 @@ const TrackPopUp = ({ onClose, albumId }: { onClose: () => void; albumId: any })
 
     const onSubmit = (data: FormValues) => {
         const formData = new FormData();
+        console.log(data,'music sub');
+        
         if (data.file.length > 0) {
             formData.append("trackTitle", data.trackTitle);
             formData.append("file", data.file[0]);
         }
 
-        axios.post(`https://project-spotify-1.onrender.com/musics/${currentAlbum.id}`, formData, {
+        axios.post(`https://project-spotify-1.onrender.com/music/${currentAlbum.id}`, formData, {
             headers: {
                 "Content-Type": "multipart/form-data",
                 "Authorization": `Bearer ${token}`,
@@ -35,7 +37,7 @@ const TrackPopUp = ({ onClose, albumId }: { onClose: () => void; albumId: any })
             .then((res) => {
                 console.log(res);
                 axios
-                    .get(`https://project-spotify-1.onrender.com/albums/${albumId}`, {
+                    .get(`https://project-spotify-1.onrender.com/album/${albumId}`, {
                         headers: {
                             Authorization: `Bearer ${token}`,
                         },

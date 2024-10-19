@@ -3,7 +3,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import Image from 'next/image';
-import styles from './contentTable.module.scss';
+import styles from './ContentTable.module.scss';
 import { DeletePopUp } from '../DeletePopUp/DeletePopUp';
 import ReusableButton from '../ReusableButton/ReusableButton';
 import { ArtistInfoPopUp } from '../ArtistInfoPopUp/ArtistInfoPopUp';
@@ -34,30 +34,34 @@ const ContentTable: React.FC = () => {
 
     const token = Cookies.get("token");
 
-    useEffect(() => {
-      axios.get("https://project-spotify-1.onrender.com/authors", {
-        headers: {
-          "Authorization": `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        const fetchedData = res.data.map((author: any, index: number) => ({
-            key: index.toString(),
-            totalStreams: author.totalStreams || 0, 
-            totalAlbums: author.totalAlbumsOfAuthor || 0, 
-            totalSongs: author.totalSongsOfAuthor || 0, 
-            image: author.image || '/images/defaultArtist.png', 
-            files: [{ url: author.image || '/images/defaultArtist.png' }], 
-            fullName: author.fullName || 'Unknown Artist', 
-            id: author.id || null,
-            albums: author.albums || [],
-        }));
+    function getAuthors () {
+        axios.get("https://project-spotify-1.onrender.com/author", {
+            headers: {
+              "Authorization": `Bearer ${token}`,
+            },
+          })
+          .then((res) => {
+            const fetchedData = res.data.map((author: any, index: number) => ({
+                key: index.toString(),
+                totalStreams: author.totalStreams || 0, 
+                totalAlbums: author.totalAlbumsOfAuthor || 0, 
+                totalSongs: author.totalSongsOfAuthor || 0, 
+                image: author.image || '/images/defaultArtist.png', 
+                files: [{ url: author.image || '/images/defaultArtist.png' }], 
+                fullName: author.fullName || 'Unknown Artist', 
+                id: author.id || null,
+                albums: author.albums || [],
+            }));
+    
+            setTableData(fetchedData);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+    }
 
-        setTableData(fetchedData);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    useEffect(() => {
+        getAuthors();
     }, [token]);
 
     const addArtist = (newArtist: DataType) => {
@@ -80,7 +84,7 @@ const ContentTable: React.FC = () => {
     const handleDeleteConfirm = () => {
         if (currentDeleteId) {
             axios
-                .delete(`https://project-spotify-1.onrender.com/authors/${currentDeleteId}`, {
+                .delete(`https://project-spotify-1.onrender.com/author/${currentDeleteId}`, {
                     headers: {
                         Authorization: `Bearer ${token}`, 
                     },
@@ -215,13 +219,14 @@ const ContentTable: React.FC = () => {
                         artist={selectedArtist}
                         onClose={closeArtistPopup}
                         selectedArtist={selectedArtist}
+                        getAuthors={getAuthors} 
                     />
                 )}
                 {showNewArtistPopup && (
                     <NewArtistPopUp
                         onClose={closeNewArtistPopup}
                         addArtist={addArtist} 
-                    />
+                   />
                 )}
             </div>
         </>

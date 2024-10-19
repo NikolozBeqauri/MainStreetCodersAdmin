@@ -7,11 +7,11 @@ import styles from './ArtistInfoPopUp.module.scss';
 import Image from 'next/image';
 import { SquareCard } from "../SquareCard/SquareCard";
 import { useForm } from 'react-hook-form';
-import { NewAlbum } from '../NewAlbum/NewAlbum';
 import Cookies from 'js-cookie';
 import axios from "axios";
 import { useRecoilState } from "recoil";
 import { currentAlbumState } from "@/app/states";
+import NewAlbum from "../NewAlbum/NewAlbum";
 
 interface FormData {
     biography: string;
@@ -27,6 +27,7 @@ interface Props {
     };
     onClose: () => void;
     selectedArtist: any;
+    getAuthors: () => void
 }
 
 export const ArtistInfoPopUp = (props: Props) => {
@@ -42,13 +43,14 @@ export const ArtistInfoPopUp = (props: Props) => {
     const token = Cookies.get("token");
 
     const fetchArtistAlbums = () => {
-        axios.get(`https://project-spotify-1.onrender.com/authors/withAlbums/${props.selectedArtist.id}`, {
+        axios.get(`https://project-spotify-1.onrender.com/author/withAlbums/${props.selectedArtist.id}`, {
             headers: {
                 "Authorization": `Bearer ${token}`,
             },
         })
         .then((res) => {
             setselectedArtistsInfo(res.data);
+            props.getAuthors();
         })
         .catch((err) => {
             console.log(err);
@@ -90,7 +92,20 @@ export const ArtistInfoPopUp = (props: Props) => {
     }, [currentAlbum]);
 
     function deleteAlbum(id: any): void {
-        throw new Error("Function not implemented.");
+        axios
+            .delete(`https://project-spotify-1.onrender.com/album/${id}`, {
+                headers: {
+                Authorization: `Bearer ${token}`,
+                },
+            })
+            .then((res) => {
+                console.log(res);
+                fetchArtistAlbums(); 
+                props.getAuthors();
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     }
 
     return (
