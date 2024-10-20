@@ -1,8 +1,11 @@
 'use client'; 
+import axios from 'axios';
 import { ManagmentCard } from '../ManagmentCard/ManagmentCard';
 import { ReusableIcon } from '../ReusableIcon/ReusableIcon';
 import styles from './SquareCard.module.scss';
 import Image from 'next/image';
+import Cookies from 'js-cookie';
+import { message } from 'antd';
 
 type Props = {
     albumId?: number;
@@ -14,13 +17,15 @@ type Props = {
     setIsManagementCardVisible?: Function | undefined;
     selectedArtistsInfo?: any;
     refreshAlbums?: () => void;
+    userPlaylist?: boolean;
+    fetchPlaylists?: () => void; 
 };
 
 export const SquareCard = (props: Props) => {
     const stylesClass = [styles.cardIconsBackground];
     const cardImageStyle = [styles.defaultCardStyles];
+    const token = Cookies.get("token");
 
-    
     
     const closeManagementCard = () => {
         if (props.setIsManagementCardVisible) {
@@ -28,14 +33,34 @@ export const SquareCard = (props: Props) => {
         }
     };
 
-    const handleDeleteClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    const handleDeleteClick = async (event: React.MouseEvent<HTMLDivElement>) => {
         event.stopPropagation();
-        if (props.refreshAlbums) {
-            props.refreshAlbums();
-        }        
+
+        if(props.userPlaylist){
+            if(props.fetchPlaylists){
+                try {
+                    await axios.delete(`https://project-spotify-1.onrender.com/playlist/${props?.albumId}`, {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
+                    console.log('Playlist deleted successfully');
+                    message.success('Playlist deleted successfully'); 
+                    props.fetchPlaylists();
+                } catch (err) {
+                    console.error('Error deleting playlist:', err);
+                    message.error('Failed to delete playlist'); 
+
+                }
+            }
+        }
+             
         if (props.deleteAlbum) {
             props.deleteAlbum();
         }
+        if (props.refreshAlbums) {
+            props.refreshAlbums();
+        }   
     };
         
     return (

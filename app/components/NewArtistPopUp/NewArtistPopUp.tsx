@@ -27,9 +27,10 @@ interface DataType {
 interface NewArtistPopUpProps {
     onClose: () => void;
     addArtist: (newArtist: DataType) => void; 
+    getAuthors: () => void;
 }
 
-export const NewArtistPopUp: React.FC<NewArtistPopUpProps> = ({ onClose, addArtist }) => {
+export const NewArtistPopUp: React.FC<NewArtistPopUpProps> = ({ onClose, getAuthors }) => {
     const { register, handleSubmit, formState: { errors }, reset } = useForm<FormValues>();
     const [isPopupOpen, setIsPopupOpen] = useState(true);
 
@@ -57,6 +58,7 @@ export const NewArtistPopUp: React.FC<NewArtistPopUpProps> = ({ onClose, addArti
         })
             .then((res) => {
                 console.log(res);
+                getAuthors();
                 reset();
                 onClose();
             })

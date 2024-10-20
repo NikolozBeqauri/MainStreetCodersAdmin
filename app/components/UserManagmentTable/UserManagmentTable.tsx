@@ -29,6 +29,7 @@ const UserManagmentTable: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [allBlockedUsers, setAllBlockedUsers] = useState<User[]>([]);
   const [, setUserCounter] = useRecoilState(userCounterState);
+  
   useEffect(()=>{
     setUserCounter(users.length)
   },[users])
