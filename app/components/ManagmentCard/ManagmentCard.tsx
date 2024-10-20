@@ -7,6 +7,8 @@ import { currentAlbumState } from "@/app/states";
 import ReusableButton from "../ReusableButton/ReusableButton";
 import TrackPopUp from "../TrackPopUp/TrackPopUp"; 
 import { useState } from "react";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 type Props = {
     title: string;
@@ -17,6 +19,21 @@ type Props = {
 export const ManagmentCard: React.FC<Props> = ({ title, img, onClose }) => {
     const [currentAlbum,] = useRecoilState(currentAlbumState);
     const [isTrackPopUpVisible, setTrackPopUpVisible] = useState(false); 
+    const token = Cookies.get("token");
+    const [numberOfMusics, setNumberOfMusics] = useState(0)
+
+    axios.get(`https://project-spotify-1.onrender.com/album/${currentAlbum.id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        setNumberOfMusics(res.data.musics.length);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    
     
     const openTrackPopUp = () => {
         setTrackPopUpVisible(true);
@@ -57,7 +74,7 @@ export const ManagmentCard: React.FC<Props> = ({ title, img, onClose }) => {
                         </div>
                         <div className={styles.titles}>
                             <h3>Number of Tracks:</h3>
-                            <span>5</span>
+                            <span>{numberOfMusics}</span>
                         </div>
                     </div>
                 </div>

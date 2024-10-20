@@ -226,6 +226,7 @@ const ContentTable: React.FC = () => {
                     <NewArtistPopUp
                         onClose={closeNewArtistPopup}
                         addArtist={addArtist} 
+                        getAuthors={getAuthors} 
                    />
                 )}
             </div>

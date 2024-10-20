@@ -1,7 +1,6 @@
 import React from 'react';
 import { Table } from 'antd';
 import styles from './ReusubleTable.module.scss';
-import { HeartIcon } from '../HeartIcon/HeartIcon';
 
 export const ReusableTable = () => {
     const columns = [

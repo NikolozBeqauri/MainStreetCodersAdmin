@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ReusableIcon } from "../ReusableIcon/ReusableIcon";
 import styles from './UserInfoPopUp.module.scss';
 import Image from 'next/image';
+import axios from 'axios';
+import Cookies from "js-cookie";
+import { SquareCard } from '../SquareCard/SquareCard';
+import { ReusableTable } from '../ReusableTable/Reusable';
 
 type User = {
+    id: number;
     email: string;
+    password: string;
     createdAt: string;
     active: boolean;
 };
@@ -15,17 +21,37 @@ type Props = {
 };
 
 export const UserInfoPopUp = (props: Props) => {
-    
+    const token = Cookies.get("token");
+    const [userPlaylists, setUserPlaylists] = useState([]);
+
+    const fetchUserPlaylists = (userId: number) => {
+        axios.get(`https://project-spotify-1.onrender.com/user/${userId}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })
+        .then((res) => {
+            setUserPlaylists(res.data.playlists);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+    };
+
+    useEffect(() => {
+        if (props.user) {
+            fetchUserPlaylists(props.user.id);
+        }
+    }, [props.user]); 
+
     if (!props.user) {
         return null;
     }
 
-    console.log(props.user);
     
-
+      
     return (
         <>  
-        
             <div className={styles.background} onClick={props.onClose}>
                 <div className={styles.wrapper} onClick={(e) => e.stopPropagation()}>
                     <div className={styles.header}>
@@ -59,6 +85,18 @@ export const UserInfoPopUp = (props: Props) => {
                                 <span>{props.user.active ? "Active":"Blocked"}</span>
                             </div>
                         </div>
+                    </div>
+                    <div className={styles.artistCards}>
+                            {userPlaylists?.map((album: any) => (
+                                <SquareCard
+                                    key={album.id}
+                                    albumId={album.id}
+                                    title={album.name || 'No Title Available'}
+                                    img={album.image || '/icons/whiteTrash.svg'}
+                                    userPlaylist
+                                    fetchPlaylists={() => fetchUserPlaylists(props.user!.id)} 
+                                />
+                            ))}
                     </div>
                 </div>
             </div>

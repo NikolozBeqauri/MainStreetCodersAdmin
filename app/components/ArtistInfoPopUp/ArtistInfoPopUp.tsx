@@ -12,6 +12,7 @@ import axios from "axios";
 import { useRecoilState } from "recoil";
 import { currentAlbumState } from "@/app/states";
 import NewAlbum from "../NewAlbum/NewAlbum";
+import { message } from 'antd';
 
 interface FormData {
     biography: string;
@@ -102,8 +103,10 @@ export const ArtistInfoPopUp = (props: Props) => {
                 console.log(res);
                 fetchArtistAlbums(); 
                 props.getAuthors();
+                message.success('Album deleted successfully'); 
             })
             .catch((err) => {
+                message.error('Failed to delete Album'); 
                 console.log(err);
             });
     }
