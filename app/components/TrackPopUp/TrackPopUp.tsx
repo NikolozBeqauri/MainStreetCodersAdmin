@@ -18,11 +18,9 @@ const TrackPopUp = ({ onClose, albumId }: { onClose: () => void; albumId: any })
     const [currentAlbum,] = useRecoilState(currentAlbumState);
     const [, setData] = useRecoilState(artistDataState);
     const token = Cookies.get("token");
-
+    
     const onSubmit = (data: FormValues) => {
-        const formData = new FormData();
-        console.log(data,'music sub');
-        
+        const formData = new FormData();        
         if (data.file.length > 0) {
             formData.append("trackTitle", data.trackTitle);
             formData.append("file", data.file[0]);
