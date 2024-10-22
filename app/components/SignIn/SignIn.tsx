@@ -83,7 +83,7 @@ export const SignIn = () => {
                             height={24}
                         />:<Image
                             onClick={() => setPasswordHide(!passwordHide)}
-                            src={`/images/passwordshow.png`}
+                            src={`/images/passwordShow.png`}
                             alt="password Icon"
                             width={24}
                             height={24}
