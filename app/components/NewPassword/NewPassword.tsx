@@ -45,9 +45,18 @@ export const NewPassword = (props: Props) => {
           <input
             type="text"
             id="newPassword"
-            {...register('newPassword', {
-              required: 'New password is required',
-            })}
+            {...register("newPassword", { 
+              required: "New Pawword is required",
+              minLength: {
+                  value: 8,
+                  message: "New Pawword must be at least 8 characters"
+              },
+              validate: {
+                  hasUpperCase: value => /[A-Z]/.test(value) || "New Pawword must contain at least one uppercase letter",
+                  hasNumber: value => /\d/.test(value) || "New Pawword must contain at least one number",
+                  hasSpecialChar: value => /[!@#$%^&*(),.?":{}|<>]/.test(value) || "password must contain at least one special character (!, @, #)"
+              }
+          })}
           />
           {errors.newPassword && <p className={styles.error}>{errors.newPassword.message}</p>}
 
