@@ -35,7 +35,7 @@ const ContentTable: React.FC = () => {
     const token = Cookies.get("token");
 
     function getAuthors () {
-        axios.get("https://project-spotify-1.onrender.com/author", {
+        axios.get("https://project-spotify-83tj.onrender.com/author", {
             headers: {
               "Authorization": `Bearer ${token}`,
             },
@@ -84,7 +84,7 @@ const ContentTable: React.FC = () => {
     const handleDeleteConfirm = () => {
         if (currentDeleteId) {
             axios
-                .delete(`https://project-spotify-1.onrender.com/author/${currentDeleteId}`, {
+                .delete(`https://project-spotify-83tj.onrender.com/author/${currentDeleteId}`, {
                     headers: {
                         Authorization: `Bearer ${token}`, 
                     },

@@ -39,7 +39,7 @@ export const SquareCard = (props: Props) => {
         if(props.userPlaylist){
             if(props.fetchPlaylists){
                 try {
-                    await axios.delete(`https://project-spotify-1.onrender.com/playlist/${props?.albumId}`, {
+                    await axios.delete(`https://project-spotify-83tj.onrender.com/playlist/${props?.albumId}`, {
                         headers: {
                             Authorization: `Bearer ${token}`,
                         },

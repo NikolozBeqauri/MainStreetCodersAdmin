@@ -9,7 +9,7 @@ const ContentManagement = () => {
     const [counter, setCounter] = useState<number>(0)
     const token = Cookies.get("token");
 
-    axios.get("https://project-spotify-1.onrender.com/author", {
+    axios.get("https://project-spotify-83tj.onrender.com/author", {
         headers: {
           "Authorization": `Bearer ${token}`,
         },
