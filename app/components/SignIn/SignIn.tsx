@@ -24,7 +24,7 @@ export const SignIn = () => {
     const onSubmit = (data: FormValues) => {
         setServerError(null);
         setLoading(true);
-        axios.post(`https://project-spotify-1.onrender.com/auth/admin/login`, data)
+        axios.post(`https://project-spotify-83tj.onrender.com/auth/admin/login`, data)
             .then(response => {
                 const dataString = response.config.data;
                 const parsedData = JSON.parse(dataString);

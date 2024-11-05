@@ -27,7 +27,7 @@ const PlaylistTable = (props: Props) => {
 
   const fetchMusics = () => {
     axios
-      .get(`https://project-spotify-1.onrender.com/album/${props.albumId}`, {
+      .get(`https://project-spotify-83tj.onrender.com/album/${props.albumId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -43,7 +43,7 @@ const PlaylistTable = (props: Props) => {
 
   useEffect(() => {
     axios
-      .delete(`https://project-spotify-1.onrender.com/music/${musicIdForDelete}`, {
+      .delete(`https://project-spotify-83tj.onrender.com/music/${musicIdForDelete}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

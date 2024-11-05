@@ -22,7 +22,7 @@ export const NewPassword = (props: Props) => {
     console.log(`Password changed for user with ID: ${props.userId}`);
     console.log(data);
 
-    axios.patch(`https://project-spotify-1.onrender.com/user/change-password/${props.userId}`, data, {
+    axios.patch(`https://project-spotify-83tj.onrender.com/user/change-password/${props.userId}`, data, {
       headers: {
         "Authorization": `Bearer ${token}`,  
       },

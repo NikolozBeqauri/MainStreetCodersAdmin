@@ -22,7 +22,7 @@ export const ManagmentCard: React.FC<Props> = ({ title, img, onClose }) => {
     const token = Cookies.get("token");
     const [numberOfMusics, setNumberOfMusics] = useState(0)
 
-    axios.get(`https://project-spotify-1.onrender.com/album/${currentAlbum.id}`, {
+    axios.get(`https://project-spotify-83tj.onrender.com/album/${currentAlbum.id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

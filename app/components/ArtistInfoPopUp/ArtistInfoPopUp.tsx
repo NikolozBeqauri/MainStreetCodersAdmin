@@ -44,7 +44,7 @@ export const ArtistInfoPopUp = (props: Props) => {
     const token = Cookies.get("token");
 
     const fetchArtistAlbums = () => {
-        axios.get(`https://project-spotify-1.onrender.com/author/withAlbums/${props.selectedArtist.id}`, {
+        axios.get(`https://project-spotify-83tj.onrender.com/author/withAlbums/${props.selectedArtist.id}`, {
             headers: {
                 "Authorization": `Bearer ${token}`,
             },
@@ -94,7 +94,7 @@ export const ArtistInfoPopUp = (props: Props) => {
 
     function deleteAlbum(id: any): void {
         axios
-            .delete(`https://project-spotify-1.onrender.com/album/${id}`, {
+            .delete(`https://project-spotify-83tj.onrender.com/album/${id}`, {
                 headers: {
                 Authorization: `Bearer ${token}`,
                 },

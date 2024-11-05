@@ -30,7 +30,7 @@ const NewAlbum = (props: Props) => {
         newData.append("releaseDate", data.releaseDate);
         newData.append("file", data.file[0]);
 
-        axios.post(`https://project-spotify-1.onrender.com/album/${props.artistId}`, newData, {
+        axios.post(`https://project-spotify-83tj.onrender.com/album/${props.artistId}`, newData, {
             headers: {
                 "Content-Type": "multipart/form-data",
                 "Authorization": `Bearer ${token}`,

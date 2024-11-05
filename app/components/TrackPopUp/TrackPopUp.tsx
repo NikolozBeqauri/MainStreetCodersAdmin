@@ -26,7 +26,7 @@ const TrackPopUp = ({ onClose, albumId }: { onClose: () => void; albumId: any })
             formData.append("file", data.file[0]);
         }
 
-        axios.post(`https://project-spotify-1.onrender.com/music/${currentAlbum.id}`, formData, {
+        axios.post(`https://project-spotify-83tj.onrender.com/music/${currentAlbum.id}`, formData, {
             headers: {
                 "Content-Type": "multipart/form-data",
                 "Authorization": `Bearer ${token}`,
@@ -35,7 +35,7 @@ const TrackPopUp = ({ onClose, albumId }: { onClose: () => void; albumId: any })
             .then((res) => {
                 console.log(res);
                 axios
-                    .get(`https://project-spotify-1.onrender.com/album/${albumId}`, {
+                    .get(`https://project-spotify-83tj.onrender.com/album/${albumId}`, {
                         headers: {
                             Authorization: `Bearer ${token}`,
                         },

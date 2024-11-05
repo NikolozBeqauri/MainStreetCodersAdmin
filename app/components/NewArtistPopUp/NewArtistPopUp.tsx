@@ -50,7 +50,7 @@ export const NewArtistPopUp: React.FC<NewArtistPopUpProps> = ({ onClose, getAuth
             formData.append('file', data.file[0]);
         }
 
-        axios.post("https://project-spotify-1.onrender.com/author", formData, {
+        axios.post("https://project-spotify-83tj.onrender.com/author", formData, {
             headers: {
                 "Content-Type": "multipart/form-data",
                 "Authorization": `Bearer ${token}`

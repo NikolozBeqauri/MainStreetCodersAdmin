@@ -25,7 +25,7 @@ export const UserInfoPopUp = (props: Props) => {
     const [userPlaylists, setUserPlaylists] = useState([]);
 
     const fetchUserPlaylists = (userId: number) => {
-        axios.get(`https://project-spotify-1.onrender.com/user/${userId}`, {
+        axios.get(`https://project-spotify-83tj.onrender.com/user/${userId}`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
